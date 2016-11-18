@@ -1,19 +1,32 @@
-package src;
-
-// Superclass for Graphical use
-import java.awt.Frame;
+// The Graphics module
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
 
 /*
 The main App class.
 This is the main class which runs the program
 */
-class App {
+public class App extends Frame {
 
 	/*
 	Returns a new App
-	Currently does nothing really
+	Sets up window and game
 	*/
 	public App() {
+
+		// sets the title
+		super("The Legend of Zelda: Hamlet");
+
+		// sets the size
+		setSize(400, 400);
+
+		// exits when the close button is pressed
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent windowEvent){
+				System.exit(0);
+			}        
+		});
 
 	}
 
@@ -23,6 +36,19 @@ class App {
 	public static void main(String[] args) {
 
 		App app = new App();
+		app.setVisible(true);
+
+		System.out.println("Hello World!");
+	}
+
+	/*
+	Renders components on the window
+	*/
+	@Override
+	public void paint (Graphics g) {
+
+		g.setColor(Color.RED);
+		g.drawRect(0, 0, 200, 200);
 
 	}
 

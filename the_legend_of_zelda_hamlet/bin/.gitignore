@@ -1,0 +1,5 @@
+# Ignore all compiled Java
+*
+
+# but include this file
+!.gitignore

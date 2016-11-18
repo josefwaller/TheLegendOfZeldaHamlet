@@ -3,11 +3,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 
+// The player Entity
+import entities.Player;
+
 /*
 The main App class.
 This is the main class which runs the program
 */
 public class App extends Frame {
+
+	Player player;
 
 	/*
 	Returns a new App
@@ -28,6 +33,8 @@ public class App extends Frame {
 			}        
 		});
 
+		// creates a new player
+		this.player = new Player();
 	}
 
 	/*

@@ -59,6 +59,12 @@ public class Game extends BasicGame {
 	public void update(GameContainer container, int delta)
 	{
 		
+		// gets input
+		Input input = container.getInput();
+		
+		// updates the player
+		this.player.update(input, delta);
+		
 	}
 	
 	/*

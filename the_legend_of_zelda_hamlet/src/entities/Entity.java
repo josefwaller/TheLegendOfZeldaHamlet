@@ -9,8 +9,8 @@ public abstract class Entity
 {
 
 	// the position
-	protected int x;
-	protected int y;
+	protected float x;
+	protected float y;
 	protected int w;
 	protected int h;
 	
@@ -22,8 +22,8 @@ public abstract class Entity
 	public Entity (int x, int y, int w, int h)
 	{
 		
-		this.x = x;
-		this.y = y;
+		this.x = (float)x;
+		this.y = (float)y;
 		this.w = w;
 		this.h = h;
 	}
@@ -35,8 +35,8 @@ public abstract class Entity
 	public Entity (int x, int y, int s)
 	{
 	
-		this.x = x;
-		this.y = y;
+		this.x = (float)x;
+		this.y = (float)y;
 		this.w = s;
 		this.h = s;
 		

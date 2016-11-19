@@ -13,14 +13,22 @@ public class SpriteSheet {
 	// The sprite sheet image
 	private Image sheet;
 	
+	// the width and height of an individual sprite
+	private int w;
+	private int h;
+	
 	/*
 	 * Constructor
 	 * 
 	 * Loads the sprite sheet and sets the width and height of each sprite in pixel
+	 * per_row and per_column are how many sprites per row and per column
 	 */
-	public SpriteSheet(Image sheet, int w, int h)
+	public SpriteSheet(Image sheet, int per_row, int per_column)
 	{
+		this.sheet = sheet;
 		
+		this.w = sheet.getWidth()/ per_row;
+		this.h = sheet.getHeight() / per_column;
 	}
 	
 	/*
@@ -28,11 +36,13 @@ public class SpriteSheet {
 	 * 
 	 * Gets a single sprite at the x and y offset.
 	 */
-	public Image getSprite(int x, int y) throws SlickException
+	public Image getSprite(int x, int y)
 	{
+		// gets the new x and y coordinates		
+		int croppedX = x * this.w;
+		int croppedY = y * this.h;
 		
-		// currently just returns a test image
-		return new Image("assets/test.jpg");
+		return this.sheet.getSubImage(croppedX, croppedY, this.w, this.h);
 	}
 	
 }

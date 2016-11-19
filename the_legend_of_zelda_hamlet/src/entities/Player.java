@@ -4,6 +4,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Color;
 
+import sprites.SpriteSheet;
+import sprites.SpriteStore;
+
 /*
 The main player class.
 */
@@ -11,13 +14,20 @@ public class Player extends Entity{
 
 	int speed = 30;
 	
+	SpriteSheet sprites;
+	
 	/*
 	Creates a new player
 	*/
 	public Player(int x, int y)
-{
+	{
 		
 		super(x, y, 30, 50);
+		
+		this.sprites = SpriteStore.get().loadSpriteSheet(
+			"assets/images/testspritesheet.png", 
+			8, 
+			4);
 		
 	}
 	
@@ -54,8 +64,8 @@ public class Player extends Entity{
 	public void render(Graphics g)
 	{
 		
-		g.setColor(Color.red);
-		g.fillRect((int)this.x, (int)this.y, this.w, this.h);
+		
+		this.sprites.getSprite(2, 0).draw((int)this.x, (int)this.y);
 		
 	}
 }

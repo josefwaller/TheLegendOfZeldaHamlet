@@ -29,8 +29,6 @@ public class Game extends BasicGame {
 	
 	// the player entity
 	private Player player;
-	
-	private Image testImage;
 
 	/*
 	Returns a new Game
@@ -54,9 +52,6 @@ public class Game extends BasicGame {
 		
 		// creates a new player at 0, 0
 		this.player = new Player(0, 0);
-		
-		// loads the test image in the sprite store
-		this.testImage = SpriteStore.get().loadSprite("assets/images/test.png");
 		
 	}
 	
@@ -112,8 +107,6 @@ public class Game extends BasicGame {
 	public void render (GameContainer container, Graphics g) {
 
 		this.player.render(g);
-		
-		this.testImage.draw(0, 0, 0.1f);
 
 	}
 

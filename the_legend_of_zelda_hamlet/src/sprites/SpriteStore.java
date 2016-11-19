@@ -71,18 +71,25 @@ public class SpriteStore {
 	 */
 	public SpriteSheet loadSpriteSheet(String url, int w, int h)
 	{
-		try {
-			// currently returns a SpriteSheet with a test image
-			return new SpriteSheet(new Image("assets/images/test.jpg"), 0, 0);
-		} catch (SlickException e) {
+		
+		// checks it hasn't already loaded the spritesheet
+		
+		if (!this.spriteSheets.containsKey(url)) {
 
-			// prints that the image does not exist
-			e.printStackTrace();
-			System.err.format("The Image %d does not exist", url);
-			System.exit(0);
-			
-			return null;
+			try {
+				// currently returns a SpriteSheet with a test image
+				this.spriteSheets.put(url, new SpriteSheet(new Image(url), w, h));
+				
+			} catch (SlickException e) {
+
+				// prints that the image does not exist
+				e.printStackTrace();
+				System.err.format("The Image %d does not exist", url);
+				System.exit(0);
+			}
 		}
+		
+		return this.spriteSheets.get(url);
 	}
 	
 	/*

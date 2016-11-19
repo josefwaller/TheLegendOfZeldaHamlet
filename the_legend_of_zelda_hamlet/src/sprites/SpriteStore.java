@@ -27,30 +27,62 @@ public class SpriteStore {
 	 * 
 	 * Sets up a new SpriteStore
 	 */
-	public SpriteStore() {
+	public SpriteStore()
+	{
+		
+		// initializes both HashMaps
+		this.images = new HashMap<String, Image>();
+		this.spriteSheets = new HashMap<String, SpriteSheet>();
 		
 	}
 	
 	/*
 	 * loadImage(String url)
 	 * 
-	 * Loads a new image and saves it to the Hashmap
+	 * Loads a new image and saves it to the HashMap
 	 */
-	public Image loadSprite(String url) throws SlickException
+	public Image loadSprite(String url)
 	{
 		
-		// currently returns a test image
-		return new Image("assets/images/test.jpg");
+		// checks if the SpriteStore has not loaded this image before
+		if (!this.images.containsKey(url))
+		{
+			try {
+
+				// loads the sprite
+				this.images.put(url, new Image(url));
+			} catch (SlickException e) {
+				
+				// prints error message
+				e.printStackTrace();
+				System.err.format("The image at %d could not be found", url);
+				System.exit(0);
+				
+				return null;
+			}
+		}
+		
+		return this.images.get(url);
 	}
 	/*
 	 * loadSpriteSheet(String url, int w, int h)
 	 * 
 	 * Loads a new image and creates a SpriteSheet object with it
 	 */
-	public SpriteSheet loadSpriteSheet(String url, int w, int h) throws SlickException
+	public SpriteSheet loadSpriteSheet(String url, int w, int h)
 	{
-		// currently returns a SpriteSheet with a test image
-		return new SpriteSheet(new Image("assets/images/test.jpg"), 0, 0);
+		try {
+			// currently returns a SpriteSheet with a test image
+			return new SpriteSheet(new Image("assets/images/test.jpg"), 0, 0);
+		} catch (SlickException e) {
+
+			// prints that the image does not exist
+			e.printStackTrace();
+			System.err.format("The Image %d does not exist", url);
+			System.exit(0);
+			
+			return null;
+		}
 	}
 	
 	/*

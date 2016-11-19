@@ -39,9 +39,6 @@ public class Game extends BasicGame {
 		// records width and height
 		this.w = w;
 		this.h = h;
-
-		// creates a new player
-		this.player = new Player();
 	}
 
 	/*
@@ -49,6 +46,9 @@ public class Game extends BasicGame {
 	 */
 	public void init(GameContainer container)
 	{
+		
+		// creates a new player at 0, 0
+		this.player = new Player(0, 0);
 		
 	}
 	
@@ -80,6 +80,9 @@ public class Game extends BasicGame {
             // sets the window dimensions
             app.setDisplayMode(width, height, false);
             
+            // hides FPS
+            app.setShowFPS(false);
+            
             // starts the game
             app.start();
         }
@@ -94,6 +97,7 @@ public class Game extends BasicGame {
 	*/
 	public void render (GameContainer container, Graphics g) {
 
+		this.player.render(g);
 
 	}
 

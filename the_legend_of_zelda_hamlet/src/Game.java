@@ -14,6 +14,9 @@ import org.newdawn.slick.Image;
 // The player Entity
 import entities.Player;
 
+// the sprite store object
+import sprites.SpriteStore;
+
 /*
 The main Game class.
 This is the main class which runs the program
@@ -26,6 +29,9 @@ public class Game extends BasicGame {
 	
 	// the player entity
 	private Player player;
+	
+	// the sprite store to load and store all sprites
+	private SpriteStore spriteStore;
 
 	/*
 	Returns a new Game
@@ -49,6 +55,9 @@ public class Game extends BasicGame {
 		
 		// creates a new player at 0, 0
 		this.player = new Player(0, 0);
+		
+		// creates a new sprite store
+		this.spriteStore = new SpriteStore();
 		
 	}
 	

@@ -1,0 +1,7 @@
+# This directory contains the OS 
+# specific files for Slick2D
+# so it ignores everything in the directory
+*
+
+# except this file, so that it has the directory
+!.gitignore

@@ -27,6 +27,12 @@ public class Game extends BasicGame {
 	private int w;
 	private int h;
 	
+	// how many TiledMap tiles in a row are on one screen at once
+	// used to tell how wide the TiledMap should be
+	private int widthInTiles = 10;
+	
+	private TiledMap map;
+	
 	// the player entity
 	private Player player;
 
@@ -51,7 +57,18 @@ public class Game extends BasicGame {
 	{
 		
 		// creates a new player at 0, 0
-		this.player = new Player(0, 0);
+		this.player = new Player(50, 50);
+		
+		// loads the test map
+		try {
+			this.map = new TiledMap("assets/maps/test.tmx");
+			
+		} catch (SlickException e) {
+			// prints error message
+			e.printStackTrace();
+			System.err.println("Couild not load test map");
+			System.exit(0);
+		}
 		
 	}
 	
@@ -80,14 +97,13 @@ public class Game extends BasicGame {
         try
         {
         	// sets width and height
-        	int width = 400;
-        	int height = 400;
+        	int size = 800;
         	
         	// creates the window
-            AppGameContainer app = new AppGameContainer(new Game(width, height));
+            AppGameContainer app = new AppGameContainer(new Game(size, size));
             
             // sets the window dimensions
-            app.setDisplayMode(width, height, false);
+            app.setDisplayMode(size, size, false);
             
             // hides FPS
             app.setShowFPS(false);
@@ -105,7 +121,15 @@ public class Game extends BasicGame {
 	Renders components on the window
 	*/
 	public void render (GameContainer container, Graphics g) {
+		
+		// scales the map to the proper size
+		int factor = (this.w / this.widthInTiles * this.map.getWidth()) / (this.map.getWidth() * this.map.getTileWidth());
+		g.scale(factor, factor);
+		
+		// draws the map
+		this.map.render(0, 0);
 
+		// renders the player
 		this.player.render(g);
 
 	}

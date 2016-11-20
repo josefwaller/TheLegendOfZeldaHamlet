@@ -47,7 +47,7 @@ public class Player extends Entity{
 	public Player(int x, int y)
 	{
 		// sets position
-		super(x, y, 30, 30);
+		super(x, y, 16, 1);
 		
 		isRunning = false;
 		

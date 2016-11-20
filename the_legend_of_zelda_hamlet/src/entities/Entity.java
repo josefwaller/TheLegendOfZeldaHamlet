@@ -14,6 +14,15 @@ public abstract class Entity
 	protected int w;
 	protected int h;
 	
+	// the direction the entity is facing
+	protected int direction;
+	
+	// the possible directions
+	static final int DIR_UP = 0;
+	static final int DIR_DOWN = 1;
+	static final int DIR_LEFT = 2;
+	static final int DIR_RIGHT = 3;
+	
 	
 	/*
 	 * Constructor
@@ -26,6 +35,8 @@ public abstract class Entity
 		this.y = (float)y;
 		this.w = w;
 		this.h = h;
+		
+		this.direction = Entity.DIR_DOWN;
 	}
 	
 	/*

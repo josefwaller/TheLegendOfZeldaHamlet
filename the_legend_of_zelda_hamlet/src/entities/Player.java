@@ -144,7 +144,7 @@ public class Player extends Entity{
 			this.isRunning = true;
 		}
 		
-		if (!this.game.isBlocked(newX, newY)) {
+		if (!this.game.isBlocked(newX, newY, this.w, this.h)) {
 			this.x = newX;
 			this.y = newY;
 		}

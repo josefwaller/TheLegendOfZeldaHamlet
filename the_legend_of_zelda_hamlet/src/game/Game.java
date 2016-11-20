@@ -170,17 +170,45 @@ public class Game extends BasicGame {
 	 * Checks whether a position is blocked based on a 2D array
 	 * 
 	 */
-	public boolean isBlocked(float x, float y)
+	public boolean isBlocked(float x, float y, int w, int h)
 	{
-		int xIndex = (int) Math.floor(x / this.map.getTileWidth());
-		int yIndex = (int) Math.floor(y / this.map.getTileWidth());
+		// converts to integers, because pixel-specific is good enough
+		int intX = Math.round(x);
+		int intY = Math.round(y);
 		
-		if (this.blocked[xIndex][yIndex] || this.blocked[xIndex + 1][yIndex]) {
-			if (this.blocked[xIndex][yIndex] || this.blocked[xIndex][yIndex + 1]) {
+		// the x, y coordinates of the corners of the entity
+		int[][] corners = {
+			{
+				intX,
+				intY
+			},
+			{
+				intX + w,
+				intY
+			},
+			{
+				intX + w,
+				intY + h
+			},
+			{
+				intX,
+				intY + h
+			}
+		};
+		
+		// checks if each corner is not hitting anything
+		for (int i = 0; i < corners.length; i++) {
+			
+			// gets the index in the 2D array where the point would be
+			int indexX = (int) Math.floor(corners[i][0] / (double)(this.map.getTileWidth()));
+			int indexY = (int) Math.floor(corners[i][1] / (double)(this.map.getTileHeight()));
+			
+			// checks if it hits anything
+			if (this.blocked[indexX][indexY]) {
 				return true;
 			}
+			
 		}
-		
 		return false;
 	}
 

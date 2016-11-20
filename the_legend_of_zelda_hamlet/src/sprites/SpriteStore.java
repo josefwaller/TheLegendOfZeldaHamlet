@@ -69,7 +69,7 @@ public class SpriteStore {
 	 * 
 	 * Loads a new image and creates a SpriteSheet object with it
 	 */
-	public SpriteSheet loadSpriteSheet(String url, int w, int h)
+	public SpriteSheet loadSpriteSheet(String url, int per_row, int per_column)
 	{
 		
 		// checks it hasn't already loaded the spritesheet
@@ -77,8 +77,11 @@ public class SpriteStore {
 		if (!this.spriteSheets.containsKey(url)) {
 
 			try {
-				// currently returns a SpriteSheet with a test image
-				this.spriteSheets.put(url, new SpriteSheet(new Image(url), w, h));
+				// loads the image
+				Image sheetImage = new Image(url, false, Image.FILTER_NEAREST);				
+				
+				// adds it to the spritesheet
+				this.spriteSheets.put(url, new SpriteSheet(sheetImage, per_row, per_column));
 				
 			} catch (SlickException e) {
 

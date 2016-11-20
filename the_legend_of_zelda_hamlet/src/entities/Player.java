@@ -15,7 +15,19 @@ The main player class.
 public class Player extends Entity{
 
 	// the speed at which the player runs
-	int speed = 30;
+	int speed = 90;
+	
+	// whether to play the running animation or not
+	boolean isRunning;
+	
+	// the standing sprites
+	Image standUp;
+	Image standDown;
+	Image standLeft;
+	Image standRight;
+	
+	// sprite used if no animation is being used
+	Image currentSprite;
 	
 	// the running animations
 	Animation runUp;
@@ -23,6 +35,10 @@ public class Player extends Entity{
 	Animation runLeft;
 	Animation runRight;
 	
+	// the time inbetween sprite changes while running
+	int runInterval = 150;
+	
+	// the current animation being used
 	Animation currentAnim;
 	
 	/*
@@ -31,7 +47,9 @@ public class Player extends Entity{
 	public Player(int x, int y)
 	{
 		// sets position
-		super(x, y, 30, 50);
+		super(x, y, 30, 30);
+		
+		isRunning = false;
 		
 		// loads sprites
 		SpriteSheet sheet = SpriteStore.get().loadSpriteSheet(
@@ -39,6 +57,14 @@ public class Player extends Entity{
 			8, 
 			4
 		);
+		
+		// loads standing sprites
+		this.standUp = sheet.getSprite(0,  3);
+		this.standDown = sheet.getSprite(0, 0);
+		this.standLeft = sheet.getSprite(0, 1);
+		this.standRight = sheet.getSprite(0, 2);
+		
+		this.currentSprite = standDown;
 		
 		// loads running sprites
 		Image[] runDownImages = new Image[8];
@@ -58,12 +84,15 @@ public class Player extends Entity{
 			}
 		}
 		
-		this.runDown = new Animation(runDownImages, 300, false);
-		this.runLeft = new Animation(runLeftImages, 300, false);
-		this.runUp = new Animation(runUpImages, 300, false);
-		this.runRight = new Animation(runRightImages, 300, false);
+		this.runDown = new Animation(runDownImages, this.runInterval, false);
+		this.runLeft = new Animation(runLeftImages, this.runInterval, false);
+		this.runUp = new Animation(runUpImages, this.runInterval, false);
+		this.runRight = new Animation(runRightImages, this.runInterval, false);
 		
 		this.currentAnim = this.runDown;
+		
+		// resizes its dimensions based on sprite size
+		this.h = (int)(this.w * (this.standUp.getHeight() / (double)this.standUp.getWidth()));
 		
 	}
 	
@@ -74,48 +103,54 @@ public class Player extends Entity{
 	public void update(Input input, int delta)
 	{
 		
-		boolean isRunning = false;
+		this.isRunning = false;
 		
 		// checks if the player needs to move
 		if (input.isKeyDown(Input.KEY_UP))
 		{
 			this.y -= this.speed * delta / 1000f;
 			
+			this.direction = Entity.DIR_UP;
 			this.currentAnim  = this.runUp;
-			isRunning = true;
+			this.isRunning = true;
 		}
 		else if (input.isKeyDown(Input.KEY_DOWN))
 		{
 			this.y += this.speed * delta / 1000f;
 			
+			this.direction = Entity.DIR_DOWN;
 			this.currentAnim = this.runDown;
-			isRunning = true;
+			this.isRunning = true;
 		}
 		if (input.isKeyDown(Input.KEY_LEFT))
 		{
 			this.x -= this.speed * delta / 1000f;
 			
+			this.direction = Entity.DIR_LEFT;
 			this.currentAnim = this.runLeft;
-			isRunning = true;
+			this.isRunning = true;
 		}
 		else if (input.isKeyDown(Input.KEY_RIGHT))
 		{
 			this.x += this.speed * delta / 1000f;
-			
+
+			this.direction = Entity.DIR_RIGHT;
 			this.currentAnim = this.runRight;
-			isRunning = true;
+			this.isRunning = true;
 		}
 		
-		if (isRunning) {
+		if (this.isRunning) {
 			
 			this.currentAnim.update(delta);
 			
+			this.currentSprite = this.currentAnim.getCurrentFrame();
+			
 		} else {
 			switch (this.direction) {
-				case Entity.DIR_UP: 
-				case Entity.DIR_DOWN: 
-				case Entity.DIR_LEFT: 
-				case Entity.DIR_RIGHT: 
+				case Entity.DIR_UP: this.currentSprite = this.standUp; break;
+				case Entity.DIR_DOWN: this.currentSprite = this.standDown; break;
+				case Entity.DIR_LEFT: this.currentSprite = this.standLeft; break;
+				case Entity.DIR_RIGHT: this.currentSprite = this.standRight; break;
 			}
 		}
 	}
@@ -126,9 +161,7 @@ public class Player extends Entity{
 	 */
 	public void render(Graphics g)
 	{
-		
-		
-		 this.currentAnim.draw((int)this.x, (int)this.y);
-		
+		// draws the current sprite
+		this.currentSprite.draw((int)this.x, (int)this.y, (int)this.w, (int)this.h);		
 	}
 }

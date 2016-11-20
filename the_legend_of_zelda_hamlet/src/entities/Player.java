@@ -9,6 +9,8 @@ import org.newdawn.slick.Image;
 import sprites.SpriteSheet;
 import sprites.SpriteStore;
 
+import game.Game;
+
 /*
 The main player class.
 */
@@ -36,7 +38,7 @@ public class Player extends Entity{
 	Animation runRight;
 	
 	// the time inbetween sprite changes while running
-	int runInterval = 150;
+	int runInterval = 100;
 	
 	// the current animation being used
 	Animation currentAnim;
@@ -44,10 +46,10 @@ public class Player extends Entity{
 	/*
 	Creates a new player
 	*/
-	public Player(int x, int y)
+	public Player(int x, int y, Game g)
 	{
-		// sets position
-		super(x, y, 16, 1);
+		// sets position and game
+		super(x, y, 16, g);
 		
 		isRunning = false;
 		
@@ -100,15 +102,18 @@ public class Player extends Entity{
 	 * Updates the player position
 	 * Moves, takes/deals damage, etc
 	 */
-	public void update(Input input, int delta)
+	public void update(Input input, int delta, boolean[][] blocked)
 	{
 		
 		this.isRunning = false;
 		
+		float newX = this.x;
+		float newY = this.y;
+		
 		// checks if the player needs to move
 		if (input.isKeyDown(Input.KEY_UP))
 		{
-			this.y -= this.speed * delta / 1000f;
+			newY -= this.speed * delta / 1000f;
 			
 			this.direction = Entity.DIR_UP;
 			this.currentAnim  = this.runUp;
@@ -116,7 +121,7 @@ public class Player extends Entity{
 		}
 		else if (input.isKeyDown(Input.KEY_DOWN))
 		{
-			this.y += this.speed * delta / 1000f;
+			newY += this.speed * delta / 1000f;
 			
 			this.direction = Entity.DIR_DOWN;
 			this.currentAnim = this.runDown;
@@ -124,7 +129,7 @@ public class Player extends Entity{
 		}
 		if (input.isKeyDown(Input.KEY_LEFT))
 		{
-			this.x -= this.speed * delta / 1000f;
+			newX -= this.speed * delta / 1000f;
 			
 			this.direction = Entity.DIR_LEFT;
 			this.currentAnim = this.runLeft;
@@ -132,11 +137,16 @@ public class Player extends Entity{
 		}
 		else if (input.isKeyDown(Input.KEY_RIGHT))
 		{
-			this.x += this.speed * delta / 1000f;
+			newX += this.speed * delta / 1000f;
 
 			this.direction = Entity.DIR_RIGHT;
 			this.currentAnim = this.runRight;
 			this.isRunning = true;
+		}
+		
+		if (!this.game.isBlocked(newX, newY)) {
+			this.x = newX;
+			this.y = newY;
 		}
 		
 		if (this.isRunning) {

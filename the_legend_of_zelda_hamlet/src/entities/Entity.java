@@ -1,5 +1,6 @@
 package entities;
 
+import game.Game;
 /*
 An abstract entity class
 All entities inheirit from this 
@@ -7,6 +8,9 @@ class
 */
 public abstract class Entity
 {
+	
+	// The game in which the Entity exists
+	protected Game game;
 
 	// the position
 	protected float x;
@@ -28,13 +32,13 @@ public abstract class Entity
 	 * Constructor
 	 * Sets position
 	 */
-	public Entity (int x, int y, int w, int h)
+	public Entity (int x, int y, int w, Game g)
 	{
 		
 		this.x = (float)x;
 		this.y = (float)y;
 		this.w = w;
-		this.h = h;
+		this.game = g;
 		
 		this.direction = Entity.DIR_DOWN;
 	}

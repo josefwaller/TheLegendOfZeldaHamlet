@@ -1,3 +1,4 @@
+package game;
 // The Graphics module
 // Uses Slick2D
 import org.newdawn.slick.Animation;
@@ -11,6 +12,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.Image;
 
 
+
 // The player Entity
 import entities.Player;
 
@@ -22,7 +24,16 @@ The main Game class.
 This is the main class which runs the program
 */
 public class Game extends BasicGame {
+	
+	/*    Static variables    */
+	
+	// the different values in the map array
+	static final int MAP_EMPTY = 0;
+	static final int MAP_BLOCKED = 1;
 
+	
+	/*    Non-static variables    */
+	
 	// The dimensions of the window
 	private int w;
 	private int h;
@@ -31,7 +42,11 @@ public class Game extends BasicGame {
 	// used to tell how wide the TiledMap should be
 	private int widthInTiles = 10;
 	
+	// The map
 	private TiledMap map;
+	
+	// A 2D array of whether an entity can walk on these tiles
+	private boolean[][] blocked;
 	
 	// the player entity
 	private Player player;
@@ -57,17 +72,34 @@ public class Game extends BasicGame {
 	{
 		
 		// creates a new player at 0, 0
-		this.player = new Player(50, 50);
+		this.player = new Player(50, 50, this);
 		
-		// loads the test map
 		try {
-			this.map = new TiledMap("assets/maps/test.tmx");
+			// loads the test map
+			this.map = new TiledMap("assets/maps/test.tmx", "assets/maps");
 			
 		} catch (SlickException e) {
 			// prints error message
 			e.printStackTrace();
 			System.err.println("Couild not load test map");
 			System.exit(0);
+		}
+		
+		blocked = new boolean[this.map.getWidth()][this.map.getHeight()];
+		
+		for (int x = 0; x < blocked.length; x++) {
+			for (int y = 0; y < blocked[x].length; y++) {
+				
+				int tileID = this.map.getTileId(x, y, this.map.getLayerIndex("Tile Layer"));
+				
+				String value = this.map.getTileProperty(tileID, "blocked", "false");
+				
+				if (value.equals("true")) {
+					
+					blocked[x][y] = true;
+				}
+				
+			}
 		}
 		
 	}
@@ -83,7 +115,7 @@ public class Game extends BasicGame {
 		Input input = container.getInput();
 		
 		// updates the player
-		this.player.update(input, delta);
+		this.player.update(input, delta, this.blocked);
 		
 	}
 	
@@ -132,6 +164,24 @@ public class Game extends BasicGame {
 		// renders the player
 		this.player.render(g);
 
+	}
+	
+	/*
+	 * Checks whether a position is blocked based on a 2D array
+	 * 
+	 */
+	public boolean isBlocked(float x, float y)
+	{
+		int xIndex = (int) Math.floor(x / this.map.getTileWidth());
+		int yIndex = (int) Math.floor(y / this.map.getTileWidth());
+		
+		if (this.blocked[xIndex][yIndex] || this.blocked[xIndex + 1][yIndex]) {
+			if (this.blocked[xIndex][yIndex] || this.blocked[xIndex][yIndex + 1]) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 }

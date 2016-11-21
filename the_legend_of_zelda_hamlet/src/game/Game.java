@@ -1,6 +1,8 @@
 package game;
 // The Graphics module
 // Uses Slick2D
+import java.util.ArrayList;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -13,6 +15,11 @@ import org.newdawn.slick.Image;
 
 
 
+
+
+
+import entities.Button;
+import entities.Entity;
 // The player Entity
 import entities.Player;
 
@@ -51,6 +58,9 @@ public class Game extends BasicGame {
 	// the player entity
 	private Player player;
 
+	// all objects/entities on the current map
+	private ArrayList<Entity> objects;
+	
 	/*
 	Returns a new Game
 	Sets up window and game
@@ -71,12 +81,24 @@ public class Game extends BasicGame {
 	public void init(GameContainer container)
 	{
 		
-		// creates a new player at 0, 0
-		this.player = new Player(50, 50, this);
+		// loads the map
+		loadMap("assets/maps/test.tmx");
 		
+		// loads the objects
+		loadObjects();
+	}
+	
+	/*
+	 * Loads the .tmx file into a slick.TiledMap Object
+	 * and sets up Game's blocked value, which is used
+	 * for collision detection
+	 */
+	private void loadMap(String mapUrl) {
+		
+		// creates the TiledMap
 		try {
 			// loads the test map
-			this.map = new TiledMap("assets/maps/test.tmx", "assets/maps");
+			this.map = new TiledMap(mapUrl);
 			
 		} catch (SlickException e) {
 			// prints error message
@@ -102,6 +124,37 @@ public class Game extends BasicGame {
 			}
 		}
 		
+	}
+
+	/*
+	 * Loads all the objects in the map
+	 * 
+	 */
+	private void loadObjects() {
+
+		// creates a new player at 0, 0
+		this.player = new Player(50, 50, this);
+		
+		// initializes objects
+		this.objects = new ArrayList<Entity>();
+		
+		for (int gi = 0; gi < this.map.getObjectGroupCount(); gi++) {
+			
+			for (int oi = 0; oi < this.map.getObjectCount(gi); oi++) {
+				
+				// gets the x and y for the object
+				int objX = this.map.getObjectX(gi,  oi);
+				int objY = this.map.getObjectY(gi, oi);
+				System.out.println(objY);
+				
+				// creates a new object
+				switch (this.map.getObjectType(gi, oi)) {
+					case "button": this.objects.add(new Button(objX, objY));
+				
+				}
+			}
+			
+		}
 	}
 	
 	/*
@@ -163,6 +216,11 @@ public class Game extends BasicGame {
 
 		// renders the player
 		this.player.render(g);
+		
+		// draws any objects
+		for (int i = 0; i < this.objects.size(); i++) {
+			this.objects.get(i).render(g);
+		}
 
 	}
 	

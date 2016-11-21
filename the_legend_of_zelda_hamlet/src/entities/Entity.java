@@ -1,5 +1,7 @@
 package entities;
 
+import org.newdawn.slick.Graphics;
+
 import game.Game;
 /*
 An abstract entity class
@@ -56,4 +58,6 @@ public abstract class Entity
 		this.h = s;
 		
 	}
+	
+	public abstract void render(Graphics g);
 }

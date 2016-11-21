@@ -63,6 +63,29 @@ public abstract class Entity
 		
 	}
 	
+	/*
+	 * Checks if this entity collides with another entity
+	 */
+	protected boolean collidesWithEntity(Entity e) {
+		
+		float otherX = e.getX();
+		float otherY = e.getY();
+		int otherW = e.getW();
+		int otherH = e.getH();
+		
+		if (this.x < otherX + otherW) {
+			if (this.x + this.w > otherX) {
+				if (this.y < otherY + otherH) {
+					if (this.y + this.h > otherY) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	// Entities must be able to render
 	public abstract void render(Graphics g);
 	

@@ -11,7 +11,7 @@ public class Button extends Entity {
 	Image sprite;
 	
 	public Button(int x, int y) {
-		super(x, y, 16);
+		super(x, y - 16, 16);
 		
 		this.sprite = SpriteStore.get().loadSprite("assets/images/objects/button.png");
 	}

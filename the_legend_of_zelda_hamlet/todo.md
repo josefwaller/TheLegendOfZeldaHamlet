@@ -7,6 +7,7 @@ A list of things to do
 
 * Add button functionality
 * Add enemies
+* Fix player not being able to move along a wall when also trying to run into it
 
 ## Done
 * ~Add Readme.md~

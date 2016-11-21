@@ -107,13 +107,10 @@ public class Player extends Entity{
 		
 		this.isRunning = false;
 		
-		float newX = this.x;
-		float newY = this.y;
-		
 		// checks if the player needs to move
 		if (input.isKeyDown(Input.KEY_UP))
 		{
-			newY -= this.speed * delta / 1000f;
+			this.tryToMove(this.x, this.y - (this.speed * delta / 1000f));
 			
 			this.direction = Entity.DIR_UP;
 			this.currentAnim  = this.runUp;
@@ -121,7 +118,7 @@ public class Player extends Entity{
 		}
 		else if (input.isKeyDown(Input.KEY_DOWN))
 		{
-			newY += this.speed * delta / 1000f;
+			this.tryToMove(this.x, this.y + (this.speed * delta / 1000f));
 			
 			this.direction = Entity.DIR_DOWN;
 			this.currentAnim = this.runDown;
@@ -129,7 +126,7 @@ public class Player extends Entity{
 		}
 		if (input.isKeyDown(Input.KEY_LEFT))
 		{
-			newX -= this.speed * delta / 1000f;
+			this.tryToMove(this.x - (this.speed * delta / 1000f), this.y);
 			
 			this.direction = Entity.DIR_LEFT;
 			this.currentAnim = this.runLeft;
@@ -137,16 +134,11 @@ public class Player extends Entity{
 		}
 		else if (input.isKeyDown(Input.KEY_RIGHT))
 		{
-			newX += this.speed * delta / 1000f;
+			this.tryToMove(this.x + (this.speed * delta / 1000f), this.y);
 
 			this.direction = Entity.DIR_RIGHT;
 			this.currentAnim = this.runRight;
 			this.isRunning = true;
-		}
-		
-		if (!this.game.isBlocked(newX, newY, this.w, this.h)) {
-			this.x = newX;
-			this.y = newY;
 		}
 		
 		if (this.isRunning) {
@@ -163,6 +155,20 @@ public class Player extends Entity{
 				case Entity.DIR_RIGHT: this.currentSprite = this.standRight; break;
 			}
 		}
+	}
+	
+	/*
+	 * Checks if the new position is valid.
+	 * If so, moves the player.
+	 * If not, doesn't move the player
+	 */
+	private void tryToMove(float newX, float newY) {
+		
+		if (!this.game.isBlocked(newX, newY, this.w, this.h)) {
+			this.x = newX;
+			this.y = newY;
+		}
+		
 	}
 	
 	/*

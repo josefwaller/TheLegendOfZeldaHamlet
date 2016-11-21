@@ -50,7 +50,7 @@ public class SpriteStore {
 			try {
 
 				// loads the sprite
-				this.images.put(url, new Image(url));
+				this.images.put(url, new Image(url, false, Image.FILTER_NEAREST));
 			} catch (SlickException e) {
 				
 				// prints error message

@@ -145,7 +145,6 @@ public class Game extends BasicGame {
 				// gets the x and y for the object
 				int objX = this.map.getObjectX(gi,  oi);
 				int objY = this.map.getObjectY(gi, oi);
-				System.out.println(objY);
 				
 				// creates a new object
 				switch (this.map.getObjectType(gi, oi)) {
@@ -213,14 +212,14 @@ public class Game extends BasicGame {
 		
 		// draws the map
 		this.map.render(0, 0);
-
-		// renders the player
-		this.player.render(g);
 		
 		// draws any objects
 		for (int i = 0; i < this.objects.size(); i++) {
 			this.objects.get(i).render(g);
 		}
+
+		// renders the player
+		this.player.render(g);
 
 	}
 	

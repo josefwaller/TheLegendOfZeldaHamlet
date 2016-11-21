@@ -2,11 +2,18 @@ package entities;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+
+import sprites.SpriteStore;
 
 public class Button extends Entity {
 	
+	Image sprite;
+	
 	public Button(int x, int y) {
 		super(x, y, 16);
+		
+		this.sprite = SpriteStore.get().loadSprite("assets/images/objects/button.png");
 	}
 	
 	public void update(int delta) {
@@ -15,8 +22,6 @@ public class Button extends Entity {
 	
 	public void render(Graphics g) {
 	
-		System.out.println(this.y);
-		g.setColor(Color.red);
-		g.fillRect(this.x, this.y, this.w, this.h);
+		this.sprite.draw((int) this.x, (int) this.y, (int)this.w, (int)this.h);
 	}
 }

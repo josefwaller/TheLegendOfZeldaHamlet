@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="11">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="22">
  <tileset firstgid="1" name="Green Dungeon" tilewidth="16" tileheight="16" tilecount="144" columns="12">
   <image source="../images/greendungeon.png" width="192" height="192"/>
   <tile id="17">
@@ -75,7 +75,7 @@
  </tileset>
  <layer name="Tile Layer" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC5NjYGCQpzNWAGItIGaiM9YZpPbqArE5EOvR2V6QPCMNwgRkrhnUT9iwBQ3tZSQC08JeOQbC6d6KzvFLKzxq76i9o/aO2jtq76i9o/aO2jtqL/Xtxdd+phUGtcsBB2MPNhAOAAA=
+   H4sIAAAAAAAAC5NjYGCQpzNWAGItIGYiA+uM6qWL3lAgDhsAexOBOGmIhdVI1GsGxOZkYAskvbZAbEeCXpC9cgyUlz+eQOxFgnpKwooSPGrvqL2j9o7aO2rvqL2j9o4se8ltX1GCQW0zAKjG4UIQDgAA
   </data>
  </layer>
  <objectgroup name="Objects" width="30" height="30">
@@ -85,5 +85,23 @@
    </properties>
   </object>
   <object id="10" name="Test Button 2" type="button" gid="18" x="96" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Interactives" width="30" height="30">
+  <object id="17" name="Door 1" type="door" x="224" y="64" width="16" height="32">
+   <properties>
+    <property name="exit" type="int" value="18"/>
+    <property name="isLocked" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="18" name="Door 2" type="door" x="240" y="64" width="16" height="32">
+   <properties>
+    <property name="exit" type="int" value="17"/>
+    <property name="isLocked" type="bool" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Sections" width="30" height="30">
+  <object id="20" name="Section 1" type="section" x="0" y="0" width="240" height="160"/>
+  <object id="21" name="Section 2" type="section" x="240" y="0" width="240" height="160"/>
  </objectgroup>
 </map>

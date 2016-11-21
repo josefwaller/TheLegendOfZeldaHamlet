@@ -47,13 +47,20 @@ public class Game extends BasicGame {
 	
 	// how many TiledMap tiles in a row are on one screen at once
 	// used to tell how wide the TiledMap should be
-	private int widthInTiles = 15;
+	private int widthInTiles = 9;
 	
 	// The map
 	private TiledMap map;
 	
 	// A 2D array of whether an entity can walk on these tiles
 	private boolean[][] blocked;
+	
+	// An array of the different sections of the map
+	// which the camera does a special transition inbetween
+	private ArrayList<int[]> sections;
+	
+	// the index of the section that the player is currently in
+	private int currentSection = 1;
 	
 	// the player entity
 	private Player player;
@@ -135,6 +142,9 @@ public class Game extends BasicGame {
 		// creates a new player at 0, 0
 		this.player = new Player(50, 50, this);
 		
+		// initializes sections
+		this.sections = new ArrayList<int[]>();
+		
 		// initializes objects
 		this.objects = new ArrayList<Entity>();
 		
@@ -148,12 +158,32 @@ public class Game extends BasicGame {
 				
 				// creates a new object
 				switch (this.map.getObjectType(gi, oi)) {
-					case "button": this.objects.add(new Button(objX, objY));
+					case "button": this.objects.add(new Button(objX, objY)); break;
+					case "section": addSection(gi, oi); break;
+					
+					default : System.out.println(this.map.getObjectType(gi, oi)); break;
 				
 				}
 			}
 			
 		}
+	}
+	
+	/*
+	 * Adds a section to the sections ArrayList
+	 */
+	private void addSection(int gi, int oi)
+	{
+		
+		int[] section = {
+			this.map.getObjectX(gi, oi),
+			this.map.getObjectY(gi, oi),
+			this.map.getObjectWidth(gi, oi),
+			this.map.getObjectHeight(gi, oi)
+		};
+		
+		this.sections.add(section);
+		
 	}
 	
 	/*
@@ -214,27 +244,33 @@ public class Game extends BasicGame {
 		int scaledWidth = (this.w / factor);
 		int scaledHeight = (this.h / factor);
 		
-		// the width and height of the map
-		int mapWidth = this.map.getWidth() * this.map.getTileWidth();
-		int mapHeight = this.map.getHeight() * this.map.getTileHeight();
+		
+		// the current section
+		int[] section = this.sections.get(this.currentSection);
+		
+		// the x, y, w, and h or the section
+		int sectionX = section[0];
+		int sectionY = section[1];
+		int sectionW = section[2];
+		int sectionH = section[3];
 		
 		// gets the amount to move the screen over to center on the player
 		int cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (scaledWidth / 2));
 		int cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (scaledWidth / 2));
 		
 		// checks that the camera has not gone too far left/right
-		if (cameraX < 0) {
-			cameraX = 0;
+		if (cameraX < sectionX) {
+			cameraX = sectionX;
 			
-		} else if (cameraX + scaledWidth > mapWidth) {
-			cameraX = mapWidth - scaledWidth;
+		} else if (cameraX - sectionX + scaledWidth > sectionW) {
+			cameraX = sectionX + (sectionW - scaledWidth);
 		}
 		
 		// checks the camera has not gone too far up/down
-		if (cameraY < 0) {
-			cameraY = 0;
-		} else if (cameraY + scaledHeight > mapHeight) {
-			cameraY = mapHeight - scaledHeight;
+		if (cameraY < sectionY) {
+			cameraY = sectionY;
+		} else if (cameraY + scaledHeight - sectionY > sectionH) {
+			cameraY = sectionY + sectionH - scaledHeight;
 		}
 		
 		// moves the camera over to center the player

@@ -47,7 +47,7 @@ public class Game extends BasicGame {
 	
 	// how many TiledMap tiles in a row are on one screen at once
 	// used to tell how wide the TiledMap should be
-	private int widthInTiles = 10;
+	private int widthInTiles = 15;
 	
 	// The map
 	private TiledMap map;
@@ -209,6 +209,39 @@ public class Game extends BasicGame {
 		// scales the map to the proper size
 		int factor = (this.w / this.widthInTiles * this.map.getWidth()) / (this.map.getWidth() * this.map.getTileWidth());
 		g.scale(factor, factor);
+		
+		// this is the new width/height of the window after scaling after scaling
+		int scaledWidth = (this.w / factor);
+		int scaledHeight = (this.h / factor);
+		
+		// the width and height of the map
+		int mapWidth = this.map.getWidth() * this.map.getTileWidth();
+		int mapHeight = this.map.getHeight() * this.map.getTileHeight();
+		
+		// gets the amount to move the screen over to center on the player
+		int cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (scaledWidth / 2));
+		int cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (scaledWidth / 2));
+		
+		// checks that the camera has not gone too far left/right
+		if (cameraX < 0) {
+			cameraX = 0;
+			
+		} else if (cameraX + scaledWidth > mapWidth) {
+			cameraX = mapWidth - scaledWidth;
+		}
+		
+		// checks the camera has not gone too far up/down
+		if (cameraY < 0) {
+			cameraY = 0;
+		} else if (cameraY + scaledHeight > mapHeight) {
+			cameraY = mapHeight - scaledHeight;
+		}
+		
+		// moves the camera over to center the player
+		g.translate(
+			- cameraX, 
+			- cameraY
+		);
 		
 		// draws the map
 		this.map.render(0, 0);

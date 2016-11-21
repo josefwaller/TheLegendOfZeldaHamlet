@@ -59,5 +59,22 @@ public abstract class Entity
 		
 	}
 	
+	// Entities must be able to render
 	public abstract void render(Graphics g);
+	
+	/*
+	 * Get and set methods for Entity
+	 */
+	public float getX() {
+		return this.x;
+	}
+	public float getY() {
+		return this.y;
+	}
+	public int getW() {
+		return this.w;
+	}
+	public int getH() {
+		return this.h;
+	}
 }

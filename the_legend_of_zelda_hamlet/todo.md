@@ -7,9 +7,13 @@ A list of things to do
 
 * Add button functionality
 * Add enemies
-* Fix player not being able to move along a wall when also trying to run into it
+* Add doors
+* Add screen transitions
+* Add pots/picking up things
 
 ## Done
+* ~Fix player not being able to move along a wall when also trying to run into it~
 * ~Add Readme.md~
 * ~Fix Button position~
 * ~Fix some corners not having proper collisions~
+* ~Make the camera follow the player~

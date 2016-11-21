@@ -200,13 +200,13 @@ public class Game extends BasicGame {
 			for (int oi = 0; oi < this.map.getObjectCount(gi); oi++) {
 				
 				// gets the x and y for the object
-				int objX = this.map.getObjectX(gi,  oi);
+				int objX = this.map.getObjectX(gi, oi);
 				int objY = this.map.getObjectY(gi, oi);
 				
 				// creates a new object
 				switch (this.map.getObjectType(gi, oi)) {
 					case "button": this.objects.add(new Button(objX, objY, this)); break;
-					case "door": this.objects.add(new Door(objX, objY, false, this)); break;
+					case "door": this.objects.add(new Door(objX, objY, Integer.parseInt(this.map.getObjectProperty(gi, oi, "pathId", null)), false, this)); break;
 					case "section": addSection(gi, oi); break;
 					
 					default : System.out.println(this.map.getObjectType(gi, oi)); break;
@@ -255,6 +255,9 @@ public class Game extends BasicGame {
 		
 	}
 
+	/*
+	 * Start 
+	 */
 	/*
 	 * Adds a section to the sections ArrayList
 	 */

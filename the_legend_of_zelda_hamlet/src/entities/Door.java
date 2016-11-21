@@ -7,7 +7,9 @@ import game.Game;
 
 public class Door extends StaticEntity {
 	
-	public Door(int x, int y, boolean isHorizontal, Game g)
+	private int pathId;
+	
+	public Door(int x, int y, int pathId, boolean isHorizontal, Game g)
 	{
 		// sets position
 		super(x, y, 16, g);
@@ -19,12 +21,22 @@ public class Door extends StaticEntity {
 			this.h = 32;
 		}
 		
+		// sets path Id
+		// determines which door the player will come out of after going through this door
+		// ex: two doors with pathId = 1 will connect to each other
+		this.pathId = pathId;
+		
 		// sets image
 		this.sprite = SpriteStore.get().loadSprite("assets/images/objects/door.png");
 	}
 	
 	public void update()
 	{
+		Player p = this.game.getPlayer();
 		
+		if (this.collidesWithEntity(p)) {
+			
+			// transition to next room
+		}
 	}
 }

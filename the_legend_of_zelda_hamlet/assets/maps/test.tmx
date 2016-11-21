@@ -89,18 +89,18 @@
  <objectgroup name="Interactives" width="30" height="30">
   <object id="17" name="Door 1" type="door" x="224" y="64" width="16" height="32">
    <properties>
-    <property name="exit" type="int" value="18"/>
     <property name="isLocked" type="bool" value="false"/>
+    <property name="pathId" type="int" value="0"/>
    </properties>
   </object>
   <object id="18" name="Door 2" type="door" x="240" y="64" width="16" height="32">
    <properties>
-    <property name="exit" type="int" value="17"/>
     <property name="isLocked" type="bool" value="false"/>
+    <property name="pathId" type="int" value="0"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Sections" width="30" height="30">
+ <objectgroup name="Sections" visible="0" width="30" height="30">
   <object id="20" name="Section 1" type="section" x="0" y="0" width="240" height="160"/>
   <object id="21" name="Section 2" type="section" x="240" y="0" width="240" height="160"/>
  </objectgroup>

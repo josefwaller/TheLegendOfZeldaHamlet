@@ -34,12 +34,13 @@ public abstract class Entity
 	 * Constructor
 	 * Sets position
 	 */
-	public Entity (int x, int y, int w, Game g)
+	public Entity (int x, int y, int w, int h, Game g)
 	{
 		
 		this.x = (float)x;
 		this.y = (float)y;
 		this.w = w;
+		this.h = h;
 		this.game = g;
 		
 		this.direction = Entity.DIR_DOWN;
@@ -49,13 +50,16 @@ public abstract class Entity
 	 * Another Constructor
 	 * Sets position if width and height are the same
 	 */
-	public Entity (int x, int y, int s)
+	public Entity (int x, int y, int s, Game g)
 	{
 	
 		this.x = (float)x;
 		this.y = (float)y;
 		this.w = s;
 		this.h = s;
+		this.game = g;
+		
+		this.direction = Entity.DIR_DOWN;
 		
 	}
 	

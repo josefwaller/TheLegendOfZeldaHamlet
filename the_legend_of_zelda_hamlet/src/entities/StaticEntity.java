@@ -12,7 +12,7 @@ import game.Game;
 public abstract class StaticEntity extends Entity {
 
 	// the one sprite
-	private Image sprite;
+	protected Image sprite;
 	
 	/*
 	 * Sets up position and dimensions
@@ -29,6 +29,9 @@ public abstract class StaticEntity extends Entity {
 	{
 		super(x, y, s, g);
 	}
+	
+	// Static entities don't need anything to update
+	public abstract void update();
 	
 	/*
 	 * Default rendering method

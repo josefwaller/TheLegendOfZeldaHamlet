@@ -5,9 +5,10 @@ A list of things to do
 
 ## Not done
 
-* Fix Button position
 * Add button functionality
 * Add enemies
 
 ## Done
 * ~Add Readme.md~
+* ~Fix Button position~
+* ~Fix some corners not having proper collisions~

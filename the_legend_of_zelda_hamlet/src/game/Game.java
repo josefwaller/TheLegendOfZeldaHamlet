@@ -13,13 +13,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.Image;
 
-
-
-
-
-
-
-
 import entities.Button;
 import entities.Door;
 import entities.Entity;
@@ -56,12 +49,35 @@ public class Game extends BasicGame {
 	// The map
 	private TiledMap map;
 	
+	// the x and y offset to draw everything with
+	// so that the player is centered
+	private int cameraX;
+	private int cameraY;
+	
 	// A 2D array of whether an entity can walk on these tiles
 	private boolean[][] blocked;
 	
 	// An array of the different sections of the map
 	// which the camera does a special transition inbetween
 	private ArrayList<int[]> sections;
+	
+	// whether the player has walked off screen or through a door and the screen is panning towards the new area
+	private boolean isPlayingTransition = false;
+	
+	// the time the transition started and how long it takes
+	private long transStartTime;
+	private long transDuration = 1000;
+	
+	// the starting position of the camera during the transition
+	private int camStartX = 0;
+	private int camStartY = 0;
+	
+	// the final position of the camera during the transition
+	private int camEndX = 0;
+	private int camEndY = 0;
+	
+	// the section that the transition is moving towards
+	private int newSection;
 	
 	// the index of the section that the player is currently in
 	private int currentSection = 0;
@@ -105,16 +121,25 @@ public class Game extends BasicGame {
 	 */
 	public void update(GameContainer container, int delta)
 	{
-		
-		// gets input
-		Input input = container.getInput();
-		
-		// updates the player
-		this.player.update(input, delta, this.blocked);
-		
-		// updates objects
-		for (int o = 0; o < this.objects.size(); o++) {
-			this.objects.get(o).update();
+		if (!isPlayingTransition) {
+
+			// gets input
+			Input input = container.getInput();
+			
+			// updates the player
+			this.player.update(input, delta, this.blocked);
+			
+			// updates objects
+			for (int o = 0; o < this.objects.size(); o++) {
+				this.objects.get(o).update();
+			}
+		} else {
+			
+			if (System.currentTimeMillis() - this.transStartTime > this.transDuration) {
+				this.isPlayingTransition = false;
+				this.currentSection = this.newSection;
+			}
+			
 		}
 		
 	}
@@ -132,51 +157,69 @@ public class Game extends BasicGame {
 		int scaledWidth = (this.w / factor);
 		int scaledHeight = (this.h / factor);
 		
-		
-		// the current section
-		int[] section = this.sections.get(this.currentSection);
-		
-		// the x, y, w, and h or the section
-		int sectionX = section[0];
-		int sectionY = section[1];
-		int sectionW = section[2];
-		int sectionH = section[3];
-		
-		// gets the amount to move the screen over to center on the player
-		int cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (scaledWidth / 2));
-		int cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (scaledWidth / 2));
-		
-		// checks that the camera has not gone too far left/right
-		if (cameraX < sectionX) {
-			cameraX = sectionX;
+		if (!isPlayingTransition) {
 			
-		} else if (cameraX - sectionX + scaledWidth > sectionW) {
-			cameraX = sectionX + (sectionW - scaledWidth);
+			// the current section
+			int[] section = this.sections.get(this.currentSection);
+			
+			// the x, y, w, and h or the section
+			int sectionX = section[0];
+			int sectionY = section[1];
+			int sectionW = section[2];
+			int sectionH = section[3];
+			
+			// gets the amount to move the screen over to center on the player
+			this.cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (scaledWidth / 2));
+			this.cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (scaledWidth / 2));
+			
+			// checks that the camera has not gone too far left/right
+			if (this.cameraX < sectionX) {
+				this.cameraX = sectionX;
+				
+			} else if (this.cameraX - sectionX + scaledWidth > sectionW) {
+				this.cameraX = sectionX + (sectionW - scaledWidth);
+			}
+			
+			// checks the camera has not gone too far up/down
+			if (this.cameraY < sectionY) {
+				this.cameraY = sectionY;
+			} else if (this.cameraY + scaledHeight - sectionY > sectionH) {
+				this.cameraY = sectionY + sectionH - scaledHeight;
+			}
+			
+			// moves the camera over to center the player
+			g.translate(
+				- this.cameraX, 
+				- this.cameraY
+			);
+			
+		} else {
+			
+			// the percentage of the transition that is done
+			double percent = (System.currentTimeMillis() - this.transStartTime) / (double)this.transDuration;
+			
+			// gets the camera position
+			int camX = (int) (this.camStartX + (this.camEndX - this.camStartX) * percent);
+			int camY = (int) (this.camStartY + (this.camEndY - this.camStartY) * percent);
+			
+			// moves the camera
+			g.translate(-camX, -camY);
+			
 		}
-		
-		// checks the camera has not gone too far up/down
-		if (cameraY < sectionY) {
-			cameraY = sectionY;
-		} else if (cameraY + scaledHeight - sectionY > sectionH) {
-			cameraY = sectionY + sectionH - scaledHeight;
-		}
-		
-		// moves the camera over to center the player
-		g.translate(
-			- cameraX, 
-			- cameraY
-		);
 		
 		// draws the map
 		this.map.render(0, 0);
 		
-		// draws any objects
-		for (int i = 0; i < this.objects.size(); i++) {
-			this.objects.get(i).render(g);
-		}
+		if (!this.isPlayingTransition) {
 
-		// renders the player
-		this.player.render(g);
+			// draws any objects
+			for (int i = 0; i < this.objects.size(); i++) {
+				this.objects.get(i).render(g);
+			}
+
+			// renders the player
+			this.player.render(g);
+		}
 
 	}
 
@@ -289,9 +332,18 @@ public class Game extends BasicGame {
 					this.player.setY(pos[1]);
 					
 					// changes the section to match the player's new coordinates
-					changeSection();
+					this.newSection = getNewSection();
 					
+					// saves the new coordinates
+					this.camStartX = this.cameraX;
+					this.camStartY = this.cameraY;
 					
+					// finds the coordinates needed to focus the Camera on the door
+					setCameraPositionForDoor(door);
+					
+					// sets to play the transition
+					this.isPlayingTransition = true;
+					this.transStartTime = System.currentTimeMillis();
 					break;
 					
 				}
@@ -302,9 +354,50 @@ public class Game extends BasicGame {
 	}
 	
 	/*
+	 * Used in the transition animation
+	 * Sets camEndX and camEndY (the ending camera position) to where the player will come out of the door
+	 */
+	private void setCameraPositionForDoor(Door d) {
+		
+		// Basically sets up the camera so that the door is exactly on the edge facing in
+		
+		switch (d.getDirection()) {
+			
+			case Entity.DIR_UP:
+				
+				// the door is facing up, so it is at the bottom of the screen
+				this.camEndY = (int) (d.getY() - ((this.h / (this.w / this.widthInTiles) - d.getH())));
+				this.camEndX = this.camStartX;
+				break;
+				
+			case Entity.DIR_DOWN:
+				
+				// the door is facing down, so it is at the top of the screen
+				this.camEndY = (int) d.getY();
+				this.camEndX = this.camStartX;
+				break;
+				
+			case Entity.DIR_LEFT:
+				
+				// the door is facing left, so it needs to be at the right
+				this.camEndX = (int) ((d.getX() - (16 * this.widthInTiles)));
+				this.camEndY = this.camStartY;
+				break;
+				
+			case Entity.DIR_RIGHT:
+				
+				// the door is facing right, so it needs to be on the left
+				this.camEndX = (int) (d.getX());
+				this.camEndY = this.camStartY;
+				break;
+		}
+		
+	}
+	
+	/*
 	 * Changes the active section to match the player's coordinates
 	 */
-	public void changeSection() {
+	private int getNewSection() {
 		
 		// finds the section the player is in
 		for (int i = 0; i < this.sections.size(); i++) {
@@ -313,13 +406,14 @@ public class Game extends BasicGame {
 				if (player.getX() + player.getW() > s[0]) {
 					if (player.getY() < s[1] + s[3]) {
 						if (player.getY() + player.getH() > s[1]) {
-							currentSection = i;
-							break;
+							return i;
 						}
 					}
 				}
 			}
 		}
+		
+		return -1;
 		
 	}
 	

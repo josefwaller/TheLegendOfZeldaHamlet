@@ -24,10 +24,10 @@ public abstract class Entity
 	protected int direction;
 	
 	// the possible directions
-	static final int DIR_UP = 0;
-	static final int DIR_DOWN = 1;
-	static final int DIR_LEFT = 2;
-	static final int DIR_RIGHT = 3;
+	static public final int DIR_UP = 0;
+	static public final int DIR_DOWN = 1;
+	static public final int DIR_LEFT = 2;
+	static public final int DIR_RIGHT = 3;
 	
 	
 	/*
@@ -103,6 +103,9 @@ public abstract class Entity
 	}
 	public int getH() {
 		return this.h;
+	}
+	public int getDirection() {
+		return this.direction;
 	}
 	public void setX(float x) {
 		this.x = x;

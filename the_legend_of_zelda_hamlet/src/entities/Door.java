@@ -67,6 +67,31 @@ public class Door extends StaticEntity {
 		this.sprite.rotate(- this.degrees);
 	}
 	
+	/*
+	 * Returns a 2D array of where the player should appear after coming out the door
+	 */
+	public int[] getExitPos(int playerW, int playerH) {
+		
+		// the position to return
+		int[] toReturn = new int[2];
+		
+		// sets the return position by default to the door's position
+		toReturn[0] = (int) this.x + (this.w - playerW) / 2;
+		toReturn[1] = (int) this.y + (this.h - playerH) / 2;
+		
+		switch (this.direction) {
+			case Entity.DIR_DOWN: toReturn[1] = (int) (this.y + this.h); break;
+			case Entity.DIR_UP: toReturn[1] = (int) (this.y - this.h); break;
+			case Entity.DIR_LEFT: toReturn[0] = (int) (this.x - this.w); break;
+			case Entity.DIR_RIGHT: toReturn[0] = (int) (this.x + this.w); break;
+		}
+		
+		return toReturn;
+	}
+	
+	/*
+	 * Get/Set variables
+	 */
 	public int getPathID() {
 		return this.pathId;
 	}

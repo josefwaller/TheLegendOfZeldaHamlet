@@ -284,8 +284,9 @@ public class Game extends BasicGame {
 				if (door.getPathID() == pathId && door != startingDoor) {
 					
 					// moves the player to the door's position
-					this.player.setX(door.getX() + door.getW());
-					this.player.setY(door.getY() + 10);
+					int[] pos = door.getExitPos(this.player.getW(), this.player.getH());
+					this.player.setX(pos[0]);
+					this.player.setY(pos[1]);
 					
 					// changes the section to match the player's new coordinates
 					changeSection();

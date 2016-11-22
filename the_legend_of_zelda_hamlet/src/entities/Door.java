@@ -56,12 +56,14 @@ public class Door extends StaticEntity {
 	
 	public void render(Graphics g) {
 		
+		// sets the center of rotation to he center of the sprite
+		this.sprite.setCenterOfRotation(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
+		
 		// rotates the sprite the correct number of degrees
-		this.sprite.setCenterOfRotation(this.w / 2, this.h / 2);
 		this.sprite.rotate(this.degrees);
 		
 		// draws the sprite
-		this.sprite.draw((int) this.x, (int) this.y, this.w, this.h);
+		this.sprite.drawCentered((int) this.x + this.w / 2, (int) this.y + this.h / 2);
 		
 		// rotates the sprite back
 		this.sprite.rotate(- this.degrees);
@@ -81,8 +83,8 @@ public class Door extends StaticEntity {
 		
 		switch (this.direction) {
 			case Entity.DIR_DOWN: toReturn[1] = (int) (this.y + this.h); break;
-			case Entity.DIR_UP: toReturn[1] = (int) (this.y - this.h); break;
-			case Entity.DIR_LEFT: toReturn[0] = (int) (this.x - this.w); break;
+			case Entity.DIR_UP: toReturn[1] = (int) (this.y - playerH); break;
+			case Entity.DIR_LEFT: toReturn[0] = (int) (this.x - playerW); break;
 			case Entity.DIR_RIGHT: toReturn[0] = (int) (this.x + this.w); break;
 		}
 		

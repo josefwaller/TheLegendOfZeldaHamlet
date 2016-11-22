@@ -206,7 +206,18 @@ public class Game extends BasicGame {
 				// creates a new object
 				switch (this.map.getObjectType(gi, oi)) {
 					case "button": this.objects.add(new Button(objX, objY, this)); break;
-					case "door": this.objects.add(new Door(objX, objY, Integer.parseInt(this.map.getObjectProperty(gi, oi, "pathId", null)), false, this)); break;
+					case "door": {
+						this.objects.add(
+							new Door(
+									objX, 
+									objY, 
+									Integer.parseInt(this.map.getObjectProperty(gi, oi, "pathId", null)), 
+									Integer.parseInt(this.map.getObjectProperty(gi, oi, "direction", null)), 
+									this
+							)
+						); 
+						break;
+					}
 					case "section": addSection(gi, oi); break;
 					
 					default : System.out.println(this.map.getObjectType(gi, oi)); break;
@@ -256,8 +267,61 @@ public class Game extends BasicGame {
 	}
 
 	/*
-	 * Start 
+	 * Starts a transition to the next section
 	 */
+	public void startTransition(int pathId, Door startingDoor) {
+		
+		// searches through objects and find the doors
+		for (int i = 0; i < this.objects.size(); i++) {
+			Entity o = this.objects.get(i);
+			
+			if (o instanceof Door) {
+				
+				// casts to door
+				Door door = (Door)o;
+				
+				// checks if it is the other door
+				if (door.getPathID() == pathId && door != startingDoor) {
+					
+					// moves the player to the door's position
+					this.player.setX(door.getX() + door.getW());
+					this.player.setY(door.getY() + 10);
+					
+					// changes the section to match the player's new coordinates
+					changeSection();
+					
+					
+					break;
+					
+				}
+				
+			}
+		}
+		
+	}
+	
+	/*
+	 * Changes the active section to match the player's coordinates
+	 */
+	public void changeSection() {
+		
+		// finds the section the player is in
+		for (int i = 0; i < this.sections.size(); i++) {
+			int[] s = sections.get(i);
+			if (player.getX() < s[0] + s[2]) {
+				if (player.getX() + player.getW() > s[0]) {
+					if (player.getY() < s[1] + s[3]) {
+						if (player.getY() + player.getH() > s[1]) {
+							currentSection = i;
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
 	/*
 	 * Adds a section to the sections ArrayList
 	 */

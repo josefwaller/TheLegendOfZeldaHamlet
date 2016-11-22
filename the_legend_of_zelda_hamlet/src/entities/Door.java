@@ -7,15 +7,21 @@ import game.Game;
 
 public class Door extends StaticEntity {
 	
+	// the path ID for the door
+	// connects two doors with the same path ID
 	private int pathId;
 	
-	public Door(int x, int y, int pathId, boolean isHorizontal, Game g)
+	// the number of degrees to rotate the image
+	private int degrees;
+	
+	public Door(int x, int y, int pathId, int direction, Game g)
 	{
 		// sets position
 		super(x, y, 16, g);
 		
 		// changes width or height, depending on orientation
-		if (isHorizontal) {
+		this.direction = direction;
+		if (this.direction == Entity.DIR_DOWN || this.direction == Entity.DIR_UP) {
 			this.w = 32;
 		} else {
 			this.h = 32;
@@ -28,6 +34,13 @@ public class Door extends StaticEntity {
 		
 		// sets image
 		this.sprite = SpriteStore.get().loadSprite("assets/images/objects/door.png");
+		
+		switch(this.direction) {
+			case Entity.DIR_LEFT: this.degrees = 0; break;
+			case Entity.DIR_UP: this.degrees = 90; break;
+			case Entity.DIR_RIGHT: this.degrees = 180; break;
+			case Entity.DIR_DOWN: this.degrees = 270; break;
+		}
 	}
 	
 	public void update()
@@ -37,6 +50,24 @@ public class Door extends StaticEntity {
 		if (this.collidesWithEntity(p)) {
 			
 			// transition to next room
+			this.game.startTransition(this.pathId, this);
 		}
+	}
+	
+	public void render(Graphics g) {
+		
+		// rotates the sprite the correct number of degrees
+		this.sprite.setCenterOfRotation(this.w / 2, this.h / 2);
+		this.sprite.rotate(this.degrees);
+		
+		// draws the sprite
+		this.sprite.draw((int) this.x, (int) this.y, this.w, this.h);
+		
+		// rotates the sprite back
+		this.sprite.rotate(- this.degrees);
+	}
+	
+	public int getPathID() {
+		return this.pathId;
 	}
 }

@@ -78,7 +78,7 @@
    H4sIAAAAAAAAC5NjYGCQpzNWAGItIGYiA+uM6qWL3lAgDhsAexOBOGmIhdVI1GsGxOZkYAskvbZAbEeCXpC9cgyUlz+eQOxFgnpKwooSPGrvqL2j9o7aO2rvqL2j9o4se8ltX1GCQW0zAKjG4UIQDgAA
   </data>
  </layer>
- <objectgroup name="Objects" width="30" height="30">
+ <objectgroup name="Objects" visible="0" width="30" height="30">
   <object id="7" name="Test Button" type="button" gid="18" x="80" y="64" width="16" height="16">
    <properties>
     <property name="onclick" value="nothing"/>
@@ -89,12 +89,14 @@
  <objectgroup name="Interactives" width="30" height="30">
   <object id="17" name="Door 1" type="door" x="224" y="64" width="16" height="32">
    <properties>
+    <property name="direction" type="int" value="2"/>
     <property name="isLocked" type="bool" value="false"/>
     <property name="pathId" type="int" value="0"/>
    </properties>
   </object>
   <object id="18" name="Door 2" type="door" x="240" y="64" width="16" height="32">
    <properties>
+    <property name="direction" type="int" value="3"/>
     <property name="isLocked" type="bool" value="false"/>
     <property name="pathId" type="int" value="0"/>
    </properties>

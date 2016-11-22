@@ -104,4 +104,10 @@ public abstract class Entity
 	public int getH() {
 		return this.h;
 	}
+	public void setX(float x) {
+		this.x = x;
+	}
+	public void setY(float y) {
+		this.y = y;
+	}
 }

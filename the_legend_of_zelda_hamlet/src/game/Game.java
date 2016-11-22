@@ -366,7 +366,7 @@ public class Game extends BasicGame {
 			case Entity.DIR_UP:
 				
 				// the door is facing up, so it is at the bottom of the screen
-				this.camEndY = (int) (d.getY() - ((this.h / (this.w / this.widthInTiles) - d.getH())));
+				this.camEndY = (int) (d.getY() - (16 * (this.h / (this.w / this.widthInTiles))));
 				this.camEndX = this.camStartX;
 				break;
 				

@@ -145,13 +145,46 @@ public class Player extends Entity{
 		}
 		
 		// checks if it is interacting with anything
-		if (input.isKeyDown(Input.KEY_SPACE)) {
+		if (input.isKeyPressed(Input.KEY_SPACE)) {
+			
+			// the position it should check for the interactive
+			int x = (int) this.x + this.w / 2;
+			int y = (int) this.y + this.h / 2;
+			
+			// changes depending on direction
+			switch (this.direction) {
+				case Entity.DIR_UP:
+					y = (int) (this.y - this.h / 2);
+					break;
+				case Entity.DIR_DOWN:
+					y = (int) (this.y + this.h * 3 / 2);
+					break;
+				case Entity.DIR_LEFT:
+					x = (int) (this.x - this.w / 2);
+					break;
+				case Entity.DIR_RIGHT:
+					x = (int) (this.x + this.h * 3 / 2);
+					break;
+			}
 			
 			// gets all the interactive objects
 			ArrayList<InteractiveEntity> objs = this.game.getInteractiveObjects();
 			
 			for (int i = 0; i < objs.size(); i++) {
 				InteractiveEntity obj = objs.get(i);
+				
+				// checks if they are within range to interact with
+				if (obj.getX() < x && obj.getX() + obj.getW() > x) {
+					if (obj.getY() < y && obj.getY() + obj.getH() > y) {
+						
+						// interacts with it
+						obj.onPlayerInteract();
+						
+						break;
+						
+					}
+				}
+				
 			}
 			
 		}

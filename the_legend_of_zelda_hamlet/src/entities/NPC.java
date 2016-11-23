@@ -19,7 +19,7 @@ public class NPC extends InteractiveEntity {
 	}
 	
 	public void onPlayerInteract() {
-		
+		System.out.println("Interacting!");
 	}
 	
 }

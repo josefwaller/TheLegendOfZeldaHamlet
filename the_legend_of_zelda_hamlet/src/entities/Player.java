@@ -6,9 +6,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
+import entities.abstracts.Entity;
 import sprites.SpriteSheet;
 import sprites.SpriteStore;
-
 import game.Game;
 
 /*

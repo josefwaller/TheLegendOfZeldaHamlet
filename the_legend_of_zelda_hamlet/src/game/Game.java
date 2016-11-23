@@ -13,11 +13,11 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import entities.Button;
 import entities.Door;
-import entities.Entity;
 import entities.NPC;
 // The player Entity
 import entities.Player;
-import entities.StaticEntity;
+import entities.abstracts.Entity;
+import entities.abstracts.StaticEntity;
 
 /*
 The main Game class.

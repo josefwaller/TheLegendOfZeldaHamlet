@@ -1,5 +1,6 @@
 package entities;
 
+import entities.abstracts.InteractiveEntity;
 import game.Game;
 
 public class NPC extends InteractiveEntity {

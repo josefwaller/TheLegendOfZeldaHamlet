@@ -1,5 +1,6 @@
 package entities;
 
+import entities.abstracts.CollisionEntity;
 import game.Game;
 
 import org.newdawn.slick.Color;

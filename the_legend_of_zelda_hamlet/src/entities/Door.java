@@ -2,6 +2,8 @@ package entities;
 
 import org.newdawn.slick.Graphics;
 
+import entities.abstracts.CollisionEntity;
+import entities.abstracts.Entity;
 import sprites.SpriteStore;
 import game.Game;
 

@@ -1,5 +1,6 @@
-package entities;
+package entities.abstracts;
 
+import entities.Player;
 import game.Game;
 
 /*

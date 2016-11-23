@@ -1,7 +1,10 @@
 package game;
 // The Graphics module
 // Uses Slick2D
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -466,6 +469,29 @@ public class Game extends BasicGame {
 		
 	}
 	
+	/*
+	 * Returns the contents of a file
+	 */
+	public static String readFile(String filename) {
+		String toReturn = "";
+		Scanner s;
+		try {
+			s = new Scanner(new File(
+				String.format("assets/dialog/%s.txt", filename)
+			));
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.exit(0);
+			return "";
+		}
+		
+		while (s.hasNextLine()) {
+			toReturn += s.nextLine();
+		}
+		
+		return toReturn;
+	}
 	/*
 	 * Checks whether a position is blocked based on a 2D array
 	 * 

@@ -13,11 +13,11 @@ public class NPC extends InteractiveEntity {
 		this.loadImageWithDimensions(String.format("assets/images/%s.png", spriteSheet));
 	}
 	
-	public void onPlayerInteract() {
+	public void update() {
 		
 	}
 	
-	public void onPlayerCollide() {
+	public void onPlayerInteract() {
 		
 	}
 	

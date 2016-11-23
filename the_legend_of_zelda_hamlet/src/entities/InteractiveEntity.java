@@ -3,9 +3,10 @@ package entities;
 import game.Game;
 
 /*
- * An entity that does not move and interacts with the player when they either move 
- * onto it or interact with it using space
- * Ex: Doors, buttons, NPCs, etc
+ * An entity that does not move and performs a
+ * special action when the player interacts 
+ * with it.
+ * Ex: NPCs, signs, chests
  */
 public abstract class InteractiveEntity extends StaticEntity {
 
@@ -20,24 +21,6 @@ public abstract class InteractiveEntity extends StaticEntity {
 	public InteractiveEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
 	}
-
-	/*
-	 * Checks if the player is on the entity. If so, calls the onPlayerCollide method
-	 */
-	public void update() {
-		
-		Player p = this.game.getPlayer();
-		
-		if (this.collidesWithEntity(p)) {
-			this.onPlayerCollide();
-		}
-		
-	}
-	
-	/*
-	 * The method to invoke when the player hits the entity
-	 */
-	protected abstract void onPlayerCollide();
 	
 	/*
 	 * The method to invoke when the player interacts with the entity

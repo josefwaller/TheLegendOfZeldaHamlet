@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import sprites.SpriteStore;
 import game.Game;
 
-public class Door extends InteractiveEntity {
+public class Door extends CollisionEntity {
 	
 	// the path ID for the door
 	// connects two doors with the same path ID
@@ -45,11 +45,6 @@ public class Door extends InteractiveEntity {
 	
 	public void onPlayerCollide() {
 		this.game.startTransition(this.pathId, this);
-	}
-	
-	public void onPlayerInteract() {
-		// still puts the player through the door
-		this.onPlayerCollide();
 	}
 	
 	public void render(Graphics g) {

@@ -6,9 +6,12 @@ A list of things to do
 ## Not done
 
 * Add NPCs
-* Add button functionality
+* Extend InteractiveEntity to entities that need it
+* Add button functionality (Is it needed?)
 * Add enemies
-* Add pots/picking up things
+* Add pots/picking up things (Quick/Easy/Helps game a lot)
+* Add health/Death/Respawn
+* Add Attacking
 
 ## Done
 * ~Add doors~

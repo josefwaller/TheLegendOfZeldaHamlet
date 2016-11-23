@@ -3,6 +3,7 @@ package entities;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import sprites.SpriteStore;
 import game.Game;
 
 /*
@@ -32,6 +33,20 @@ public abstract class StaticEntity extends Entity {
 	
 	// Static entities don't need anything to update
 	public abstract void update();
+	
+	/*
+	 * Loads an image, and sets width and height relative to the image
+	 */
+	public void loadImageWithDimensions(String url) {
+		
+		// loads the image
+		this.sprite = SpriteStore.get().loadSprite(url);
+		
+		// sets width and height relative
+		this.w = this.sprite.getWidth();
+		this.h = this.sprite.getHeight();
+		
+	}
 	
 	/*
 	 * Default rendering method

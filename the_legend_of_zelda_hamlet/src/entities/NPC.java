@@ -2,7 +2,7 @@ package entities;
 
 import game.Game;
 
-public class NPC extends StaticEntity {
+public class NPC extends InteractiveEntity {
 
 	public NPC (int x, int y, String spriteSheet, String dialog, Game g) {
 		
@@ -13,7 +13,11 @@ public class NPC extends StaticEntity {
 		this.loadImageWithDimensions(String.format("assets/images/%s.png", spriteSheet));
 	}
 	
-	public void update() {
+	public void onPlayerInteract() {
+		
+	}
+	
+	public void onPlayerCollide() {
 		
 	}
 	

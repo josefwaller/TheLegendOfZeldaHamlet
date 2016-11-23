@@ -8,7 +8,7 @@ import org.newdawn.slick.Image;
 
 import sprites.SpriteStore;
 
-public class Button extends StaticEntity {
+public class Button extends InteractiveEntity {
 	
 	Image sprite;
 	
@@ -19,6 +19,14 @@ public class Button extends StaticEntity {
 	}
 	
 	public void update() {
+		
+	}
+	
+	protected void onPlayerCollide() {
+		
+	}
+	
+	public void onPlayerInteract() {
 		
 	}
 	

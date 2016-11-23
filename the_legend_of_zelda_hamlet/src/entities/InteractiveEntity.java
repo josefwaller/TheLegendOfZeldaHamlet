@@ -24,7 +24,7 @@ public abstract class InteractiveEntity extends StaticEntity {
 	/*
 	 * Checks if the player is on the entity. If so, calls the onPlayerCollide method
 	 */
-	protected void checkForPlayerCollision() {
+	public void update() {
 		
 		Player p = this.game.getPlayer();
 		

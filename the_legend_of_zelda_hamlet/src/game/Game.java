@@ -1,6 +1,7 @@
 package game;
 // The Graphics module
 // Uses Slick2D
+import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.tiled.TiledMap;
 
 import entities.Button;
@@ -94,10 +96,20 @@ public class Game extends BasicGame {
 	private ArrayList<StaticEntity> objects;
 	
 	// the lines of dialog currently being drawn on the screen
-	private String[] dialogLines;
+	private ArrayList<String> dialogLines;
+	
+	// the index of the current dialog line being shown at the top of the box
+	private int dialogLineIndex = 0;
 	
 	// whether or not dialog is currently being shown on screen
 	private boolean showingDialog;
+	
+	// the dimensions of the dialog box
+	private int dialogW;
+	private int dialogH;
+	
+	// the dialog font
+	private TrueTypeFont dialogFont;
 	
 	/*
 	Returns a new Game
@@ -132,6 +144,13 @@ public class Game extends BasicGame {
 		this.w = (int) (this.windowW * conversion);
 		this.h = (int) (this.windowH * conversion);
 		
+		// the dimensions of the dialog box 
+		this.dialogW = this.w * 3/4;
+		this.dialogH = this.dialogW * 1/4;
+		
+		Font f = new Font("Times new Roman", Font.BOLD, 10);
+		this.dialogFont = new TrueTypeFont(f, false);
+		
 		// loads the objects
 		loadObjects();
 	}
@@ -142,7 +161,7 @@ public class Game extends BasicGame {
 	 */
 	public void update(GameContainer container, int delta)
 	{
-		if (!isPlayingTransition) {
+		if (!isPlayingTransition && !this.showingDialog) {
 
 			// gets input
 			Input input = container.getInput();
@@ -384,9 +403,46 @@ public class Game extends BasicGame {
 	/*
 	 * Starts a dialog with the dialog lines provided
 	 */
-	public void startDialog(String[] lines) {
+	public void startDialog(String dialog) {
+		
+		// sets to pause and show dialog
 		this.showingDialog = true;
-		this.dialogLines = lines;
+		
+		// resets dialog lines
+		this.dialogLines = new ArrayList<String>();
+		
+		// breaks the dialog up into lines
+		String[] words = dialog.split(" ");
+		
+		// adds the first word
+		this.dialogLines.add(words[0]);
+		
+		for (int i = 1; i < words.length; i++){
+			
+			// gets the current line of dialog
+			int lastLine = this.dialogLines.size() - 1;
+			String currentLine = this.dialogLines.get(lastLine);
+			
+			// makes a new line of dialog
+			String newLine = currentLine + " " + words[i];
+			
+			// checks if it will fit
+			if (this.dialogFont.getWidth(newLine) < this.dialogW) {
+				
+				// adds it to the line
+				this.dialogLines.set(lastLine, newLine);
+				
+			} else {
+				
+				// creates a new line for the next word
+				this.dialogLines.add(words[i]);
+			}
+		}
+		
+		for (int i = 0; i < this.dialogLines.size(); i++){
+			System.out.println(this.dialogLines.get(i));
+		}
+		
 	}
 	/*
 	 * Used in the transition animation
@@ -489,6 +545,8 @@ public class Game extends BasicGame {
 		while (s.hasNextLine()) {
 			toReturn += s.nextLine();
 		}
+		
+		s.close();
 		
 		return toReturn;
 	}

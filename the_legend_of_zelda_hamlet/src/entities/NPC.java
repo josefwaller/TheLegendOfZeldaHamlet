@@ -22,8 +22,7 @@ public class NPC extends InteractiveEntity {
 		
 		// loads dialog
 		this.dialog = Game.readFile(dialog);
-		
-		System.out.println(this.dialog);
+
 	}
 	
 	public void update() {
@@ -31,7 +30,7 @@ public class NPC extends InteractiveEntity {
 	}
 	
 	public void onPlayerInteract() {
-		System.out.println("Interacting!");
+		this.game.startDialog(this.dialog);
 	}
 	
 }

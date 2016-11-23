@@ -38,7 +38,7 @@ public class Game extends BasicGame {
 	private int windowW;
 	private int windowH;
 	
-	// the final widtrh and height of the screen
+	// the final width and height of the screen
 	// used for positioning elements
 	private int w;
 	private int h;
@@ -88,6 +88,12 @@ public class Game extends BasicGame {
 
 	// all objects/entities on the current map
 	private ArrayList<StaticEntity> objects;
+	
+	// the lines of dialog currently being drawn on the screen
+	private String[] dialogLines;
+	
+	// whether or not dialog is currently being shown on screen
+	private boolean showingDialog;
 	
 	/*
 	Returns a new Game
@@ -371,6 +377,13 @@ public class Game extends BasicGame {
 		
 	}
 	
+	/*
+	 * Starts a dialog with the dialog lines provided
+	 */
+	public void startDialog(String[] lines) {
+		this.showingDialog = true;
+		this.dialogLines = lines;
+	}
 	/*
 	 * Used in the transition animation
 	 * Sets camEndX and camEndY (the ending camera position) to where the player will come out of the door

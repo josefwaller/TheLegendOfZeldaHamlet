@@ -39,12 +39,17 @@ public class Game extends BasicGame {
 	/*    Non-static variables    */
 	
 	// The dimensions of the window
+	private int windowW;
+	private int windowH;
+	
+	// the final widtrh and height of the screen
+	// used for positioning elements
 	private int w;
 	private int h;
 	
 	// how many TiledMap tiles in a row are on one screen at once
 	// used to tell how wide the TiledMap should be
-	private int widthInTiles = 9;
+	private int widthInTiles = 10;
 	
 	// The map
 	private TiledMap map;
@@ -98,18 +103,28 @@ public class Game extends BasicGame {
 		super("The Legend of Zelda: Hamlet");
 		
 		// records width and height
-		this.w = w;
-		this.h = h;
+		this.windowW = w;
+		this.windowH = h;
 	}
 
 	/*
-	 * Initializes all conponents of the game
+	 * Initializes all components of the game
 	 */
 	public void init(GameContainer container)
 	{
 		
 		// loads the map
 		loadMap("assets/maps/test.tmx");
+		
+		// the width one tile should be
+		int finalTileWidth = (this.windowW / this.widthInTiles);
+		
+		// the conversion factor between the tiledmap tile width (16) and the final width
+		double conversion = this.map.getTileWidth() / (double)finalTileWidth;
+		
+		// the width and height used for positioning
+		this.w = (int) (this.windowW * conversion);
+		this.h = (int) (this.windowH * conversion);
 		
 		// loads the objects
 		loadObjects();
@@ -149,13 +164,13 @@ public class Game extends BasicGame {
 	*/
 	public void render (GameContainer container, Graphics g) {
 		
-		// scales the map to the proper size
-		int factor = (this.w / this.widthInTiles * this.map.getWidth()) / (this.map.getWidth() * this.map.getTileWidth());
+		// the factor to scale the map to
+		int factor = (int) (this.windowW / (double)this.w);
 		g.scale(factor, factor);
 		
-		// this is the new width/height of the window after scaling after scaling
-		int scaledWidth = (this.w / factor);
-		int scaledHeight = (this.h / factor);
+		// this is the new width/height of the window after scaling
+		int scaledWidth = this.w;
+		int scaledHeight = this.h;
 		
 		if (!isPlayingTransition) {
 			
@@ -210,7 +225,7 @@ public class Game extends BasicGame {
 		// draws the map
 		this.map.render(0, 0);
 		
-		if (!this.isPlayingTransition) {
+//		if (!this.isPlayingTransition) {
 
 			// draws any objects
 			for (int i = 0; i < this.objects.size(); i++) {
@@ -219,7 +234,7 @@ public class Game extends BasicGame {
 
 			// renders the player
 			this.player.render(g);
-		}
+//		}
 
 	}
 
@@ -366,8 +381,8 @@ public class Game extends BasicGame {
 			case Entity.DIR_UP:
 				
 				// the door is facing up, so it is at the bottom of the screen
-				this.camEndY = (int) (d.getY() - (16 * (this.h / (this.w / this.widthInTiles))));
-				this.camEndX = this.camStartX;
+				this.camEndY = (int) (d.getY() + d.getH() - this.h);
+				this.camEndX = (int) ((d.getX() + d.getW() / 2) - this.w / 2);
 				break;
 				
 			case Entity.DIR_DOWN:

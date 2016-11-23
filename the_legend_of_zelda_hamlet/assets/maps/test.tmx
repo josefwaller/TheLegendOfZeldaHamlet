@@ -75,7 +75,7 @@
  </tileset>
  <layer name="Tile Layer" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC5NjYGCQJwMrALEcBXq1gJiJDKwzqpcuekOBOGwA7E0E4qQhFlYjUa8ZEJuTgS2Q9NoCsR2Jesktc5CxJxB7kaBegYKwogRTEkej9o7aO2rvqL2j9o7aO2rv0LOX3PYVJRjUvgIA17F+/BAOAAA=
+   H4sIAAAAAAAAC5NjYGCQJwMrALEcBXq1gJiJDKwzqpcuekOBOGwA7E0E4qQhFlYjUa8ZEJuTgS2I0GsLxHY49JJb5hCDPYHYC4u4AgVhRQmmJI5G7R21d9TeUXtH7R21d9TeoWcvue0rSjCofQUAhryOSxAOAAA=
   </data>
  </layer>
  <objectgroup name="Objects" width="30" height="30">
@@ -101,14 +101,14 @@
     <property name="pathId" type="int" value="0"/>
    </properties>
   </object>
-  <object id="23" name="Door 3" type="door" x="272" y="144" width="32" height="16">
+  <object id="23" name="Door 3" type="door" x="368" y="144" width="32" height="16">
    <properties>
     <property name="direction" type="int" value="0"/>
     <property name="isLocked" type="bool" value="false"/>
     <property name="pathId" type="int" value="1"/>
    </properties>
   </object>
-  <object id="24" name="Door 4" type="door" x="272" y="160" width="32" height="16">
+  <object id="24" name="Door 4" type="door" x="368" y="160" width="32" height="16">
    <properties>
     <property name="direction" type="int" value="1"/>
     <property name="isLocked" type="bool" value="false"/>

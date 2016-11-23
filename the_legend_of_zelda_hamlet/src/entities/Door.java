@@ -65,8 +65,6 @@ public class Door extends StaticEntity {
 		// draws the sprite
 		this.sprite.drawCentered((int) this.x + this.w / 2, (int) this.y + this.h / 2);
 		
-		g.drawRect(this.x, this.y, this.w / 2, this.h);
-		
 		// rotates the sprite back
 		this.sprite.rotate(- this.degrees);
 	}

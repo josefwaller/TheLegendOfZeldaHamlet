@@ -3,7 +3,6 @@ package game;
 // Uses Slick2D
 import java.util.ArrayList;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -11,7 +10,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
-import org.newdawn.slick.Image;
 
 import entities.Button;
 import entities.Door;
@@ -20,8 +18,6 @@ import entities.Entity;
 import entities.Player;
 
 import entities.StaticEntity;
-// the sprite store object
-import sprites.SpriteStore;
 
 /*
 The main Game class.
@@ -376,34 +372,34 @@ public class Game extends BasicGame {
 		
 		// Basically sets up the camera so that the door is exactly on the edge facing in
 		
+		// initially sets the camera to end centered on the door
+		this.camEndX = (int) ((d.getX() + d.getW() / 2) - this.w / 2);
+		this.camEndY = (int) ((d.getY() + d.getH() / 2) - this.h / 2);
+		
 		switch (d.getDirection()) {
 			
 			case Entity.DIR_UP:
 				
 				// the door is facing up, so it is at the bottom of the screen
 				this.camEndY = (int) (d.getY() + d.getH() - this.h);
-				this.camEndX = (int) ((d.getX() + d.getW() / 2) - this.w / 2);
 				break;
 				
 			case Entity.DIR_DOWN:
 				
 				// the door is facing down, so it is at the top of the screen
 				this.camEndY = (int) d.getY();
-				this.camEndX = this.camStartX;
 				break;
 				
 			case Entity.DIR_LEFT:
 				
 				// the door is facing left, so it needs to be at the right
-				this.camEndX = (int) ((d.getX() - (16 * this.widthInTiles)));
-				this.camEndY = this.camStartY;
+				this.camEndX = (int) (d.getX() - this.w);
 				break;
 				
 			case Entity.DIR_RIGHT:
 				
 				// the door is facing right, so it needs to be on the left
-				this.camEndX = (int) (d.getX());
-				this.camEndY = this.camStartY;
+				this.camEndX = (int) d.getX();
 				break;
 		}
 		

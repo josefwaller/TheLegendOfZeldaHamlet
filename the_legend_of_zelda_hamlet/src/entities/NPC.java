@@ -2,23 +2,21 @@ package entities;
 
 import game.Game;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
+import sprites.SpriteStore;
 
 public class NPC extends StaticEntity {
 
-	public NPC (int x, int y, Game g) {
+	public NPC (int x, int y, String spriteSheet, String dialog, Game g) {
+		
+		// sets position
 		super(x, y, 16, g);
+		
+		// loads sprite
+		this.sprite = SpriteStore.get().loadSprite(String.format("assets/images/%s.png", spriteSheet));
 	}
 	
 	public void update() {
 		
-	}
-	
-	public void render(Graphics g) {
-		
-		g.setColor(Color.red);
-		g.drawRect(this.x, this.y, this.w, this.h);
 	}
 	
 }

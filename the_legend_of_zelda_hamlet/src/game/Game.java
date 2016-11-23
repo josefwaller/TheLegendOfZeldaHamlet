@@ -276,6 +276,8 @@ public class Game extends BasicGame {
 							new NPC(
 								objX, 
 								objY,
+								this.map.getObjectProperty(gi, oi, "spritesheet", "test"),
+								this.map.getObjectProperty(gi,  oi, "dialog", "test"),
 								this));break;
 					case "section": addSection(gi, oi); break;
 					

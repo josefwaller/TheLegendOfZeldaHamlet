@@ -88,7 +88,7 @@
   <object id="26" name="Test NPC" type="npc" x="176" y="48" width="16" height="16">
    <properties>
     <property name="dialog" value="test"/>
-    <property name="spritesheet" value="zeldaspritesheet"/>
+    <property name="spritesheet" value="zelda"/>
    </properties>
   </object>
  </objectgroup>

@@ -1,0 +1,1 @@
+Hello World! I am testing the dialog system in the Zelda game. Hopefully this is nicely split into lines and is a white pixellated text with a blue border.

@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Color;
@@ -7,6 +9,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import entities.abstracts.Entity;
+import entities.abstracts.InteractiveEntity;
 import sprites.SpriteSheet;
 import sprites.SpriteStore;
 import game.Game;
@@ -139,6 +142,18 @@ public class Player extends Entity{
 			this.direction = Entity.DIR_RIGHT;
 			this.currentAnim = this.runRight;
 			this.isRunning = true;
+		}
+		
+		// checks if it is interacting with anything
+		if (input.isKeyDown(Input.KEY_SPACE)) {
+			
+			// gets all the interactive objects
+			ArrayList<InteractiveEntity> objs = this.game.getInteractiveObjects();
+			
+			for (int i = 0; i < objs.size(); i++) {
+				InteractiveEntity obj = objs.get(i);
+			}
+			
 		}
 		
 		if (this.isRunning) {

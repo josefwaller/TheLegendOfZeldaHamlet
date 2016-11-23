@@ -17,6 +17,7 @@ import entities.NPC;
 // The player Entity
 import entities.Player;
 import entities.abstracts.Entity;
+import entities.abstracts.InteractiveEntity;
 import entities.abstracts.StaticEntity;
 
 /*
@@ -517,7 +518,21 @@ public class Game extends BasicGame {
 	public Player getPlayer() {
 		return this.player;
 	}
-	
+	public ArrayList<InteractiveEntity> getInteractiveObjects() {
+		
+		ArrayList<InteractiveEntity> toReturn = new ArrayList<InteractiveEntity>();
+		
+		for (int i = 0; i < this.objects.size(); i++) {
+			StaticEntity obj = this.objects.get(i);
+			
+			if (obj instanceof InteractiveEntity) {
+				toReturn.add((InteractiveEntity)obj);
+			}
+		}
+		
+		return toReturn;
+		
+	}
 	/*
 	Starts the game
 	*/

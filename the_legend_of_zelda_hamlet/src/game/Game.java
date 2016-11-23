@@ -14,9 +14,9 @@ import org.newdawn.slick.tiled.TiledMap;
 import entities.Button;
 import entities.Door;
 import entities.Entity;
+import entities.NPC;
 // The player Entity
 import entities.Player;
-
 import entities.StaticEntity;
 
 /*
@@ -272,6 +272,11 @@ public class Game extends BasicGame {
 						); 
 						break;
 					}
+					case "npc": this.objects.add(
+							new NPC(
+								objX, 
+								objY,
+								this));break;
 					case "section": addSection(gi, oi); break;
 					
 					default : System.out.println(this.map.getObjectType(gi, oi)); break;

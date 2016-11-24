@@ -1,11 +1,15 @@
 package hud;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class HeadsUpDisplay {
 
@@ -55,8 +59,23 @@ public class HeadsUpDisplay {
 	public static UnicodeFont loadFont(String url) {
 		
 		// loads the font
-		Font f = new Font("Arial", Font.PLAIN, 30);
-		
+		Font f;
+		try {
+			// creates a new input stream to load the font
+			InputStream is = ResourceLoader.getResourceAsStream(
+					String.format("assets/fonts/%s", url));
+			
+			// creates a new font object
+			f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);
+			
+			// sets basic style
+			f = f.deriveFont(java.awt.Font.PLAIN, 50);
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+			return null;
+		}
 		// the font to return
 		UnicodeFont toReturn = new UnicodeFont(f);
 		
@@ -67,8 +86,8 @@ public class HeadsUpDisplay {
 			toReturn.loadGlyphs();
 			
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
 		}
 		
 		// returns the font

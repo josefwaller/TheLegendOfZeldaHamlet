@@ -9,12 +9,15 @@ import java.util.Scanner;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.tiled.TiledMap;
 
 import sprites.SpriteStore;
@@ -124,7 +127,7 @@ public class Game extends BasicGame {
 	
 	
 	// the dialog font
-	private TrueTypeFont dialogFont;
+	private UnicodeFont dialogFont;
 	
 	/*
 	Returns a new Game
@@ -177,9 +180,9 @@ public class Game extends BasicGame {
 		this.dialogLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "left"));
 		this.dialogBottomLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "botleftcorner"));
 		
-		Font f = new Font("Times new Roman", Font.BOLD, 10);
-		this.dialogFont = new TrueTypeFont(f, false);
-		
+		// loads the dialog font
+		this.dialogFont = loadFont("RetGanon.ttf");
+	
 		// loads the objects
 		loadObjects();
 	}
@@ -292,7 +295,7 @@ public class Game extends BasicGame {
 				int borderWidth = 4;
 				
 				// the initial x and y coords for the dialog box
-				// accounding for the screen's movement
+				// accounting for the screen's movement
 				int boxX = this.dialogX + this.cameraX;
 				int boxY = this.dialogY + this.cameraY;
 				
@@ -425,6 +428,31 @@ public class Game extends BasicGame {
 		
 	}
 
+	/*
+	 * Loads a .ttf file into a UnicodeFont Object with
+	 */
+	private UnicodeFont loadFont(String url) {
+		
+		// Currently just returns a test font
+		Font f = new Font("Times new Roman", Font.PLAIN, 30);
+		
+		// the font to return
+		UnicodeFont toReturn = new UnicodeFont(f);
+		
+		// initializes the font
+		try {
+			toReturn.getEffects().add(new ColorEffect(java.awt.Color.white));
+		    toReturn.addAsciiGlyphs();
+			toReturn.loadGlyphs();
+			
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// returns the font
+		return toReturn;
+	}
 	/*
 	 * Starts a transition to the next section
 	 */

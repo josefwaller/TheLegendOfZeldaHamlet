@@ -11,11 +11,13 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.tiled.TiledMap;
 
+import sprites.SpriteStore;
 import entities.Button;
 import entities.Door;
 import entities.NPC;
@@ -105,8 +107,21 @@ public class Game extends BasicGame {
 	private boolean showingDialog;
 	
 	// the dimensions of the dialog box
+	private int dialogX;
+	private int dialogY;
 	private int dialogW;
 	private int dialogH;
+	
+	// the images that make up the dialog box's border
+	private Image dialogBottom;
+	private Image dialogBottomLeft;
+	private Image dialogLeft;
+	private Image dialogTopLeft;
+	private Image dialogTop;
+	private Image dialogTopRight;
+	private Image dialogRight;
+	private Image dialogBottomRight;
+	
 	
 	// the dialog font
 	private TrueTypeFont dialogFont;
@@ -145,8 +160,22 @@ public class Game extends BasicGame {
 		this.h = (int) (this.windowH * conversion);
 		
 		// the dimensions of the dialog box 
-		this.dialogW = this.w * 3/4;
-		this.dialogH = this.dialogW * 1/4;
+		this.dialogX = this.w * 1/8;
+		this.dialogW = this.w - 2 * this.dialogX;
+		this.dialogH = this.h * 1/4;
+		this.dialogY = this.h * 4/7;
+		
+		// loads the dialog iamges
+		String dialogUrl = "assets/images/dialog/%s.png";
+
+		this.dialogBottom = SpriteStore.get().loadSprite(String.format(dialogUrl, "bot"));
+		this.dialogBottomRight = SpriteStore.get().loadSprite(String.format(dialogUrl, "botrightcorner"));
+		this.dialogRight = SpriteStore.get().loadSprite(String.format(dialogUrl, "right"));
+		this.dialogTopRight = SpriteStore.get().loadSprite(String.format(dialogUrl, "toprightcorner"));
+		this.dialogTop = SpriteStore.get().loadSprite(String.format(dialogUrl, "top"));
+		this.dialogTopLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "topleftcorner"));
+		this.dialogLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "left"));
+		this.dialogBottomLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "botleftcorner"));
 		
 		Font f = new Font("Times new Roman", Font.BOLD, 10);
 		this.dialogFont = new TrueTypeFont(f, false);
@@ -193,10 +222,6 @@ public class Game extends BasicGame {
 		int factor = (int) (this.windowW / (double)this.w);
 		g.scale(factor, factor);
 		
-		// this is the new width/height of the window after scaling
-		int scaledWidth = this.w;
-		int scaledHeight = this.h;
-		
 		if (!isPlayingTransition) {
 			
 			// the current section
@@ -209,22 +234,22 @@ public class Game extends BasicGame {
 			int sectionH = section[3];
 			
 			// gets the amount to move the screen over to center on the player
-			this.cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (scaledWidth / 2));
-			this.cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (scaledWidth / 2));
+			this.cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (this.w / 2));
+			this.cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (this.w / 2));
 			
 			// checks that the camera has not gone too far left/right
 			if (this.cameraX < sectionX) {
 				this.cameraX = sectionX;
 				
-			} else if (this.cameraX - sectionX + scaledWidth > sectionW) {
-				this.cameraX = sectionX + (sectionW - scaledWidth);
+			} else if (this.cameraX - sectionX + this.w > sectionW) {
+				this.cameraX = sectionX + (sectionW - this.w);
 			}
 			
 			// checks the camera has not gone too far up/down
 			if (this.cameraY < sectionY) {
 				this.cameraY = sectionY;
-			} else if (this.cameraY + scaledHeight - sectionY > sectionH) {
-				this.cameraY = sectionY + sectionH - scaledHeight;
+			} else if (this.cameraY + this.h - sectionY > sectionH) {
+				this.cameraY = sectionY + sectionH - this.h;
 			}
 			
 			// moves the camera over to center the player
@@ -250,7 +275,7 @@ public class Game extends BasicGame {
 		// draws the map
 		this.map.render(0, 0);
 		
-//		if (!this.isPlayingTransition) {
+		if (!this.isPlayingTransition) {
 
 			// draws any objects
 			for (int i = 0; i < this.objects.size(); i++) {
@@ -259,7 +284,51 @@ public class Game extends BasicGame {
 
 			// renders the player
 			this.player.render(g);
-//		}
+			
+			// draws dialog if any
+			if (this.showingDialog) {
+				
+				// how wide the border should be
+				int borderWidth = 4;
+				
+				// the initial x and y coords for the dialog box
+				// accounding for the screen's movement
+				int boxX = this.dialogX + this.cameraX;
+				int boxY = this.dialogY + this.cameraY;
+				
+				// draws the top and bottom dialog outline
+				for (int i = 1; i <= this.dialogW / borderWidth; i++) {
+					
+					// this coordinates of this tile of the border
+					int borderX = boxX + borderWidth * i;
+					
+					// draws the top border of the box
+					this.dialogTop.draw(borderX, boxY, borderWidth, borderWidth);
+					
+					// draws the bottom
+					this.dialogBottom.draw(borderX, boxY + this.dialogH, borderWidth, borderWidth);
+				}
+				
+				// draws the left and right dialog outline
+				for (int i = 1; i <= this.dialogH / borderWidth; i++) {
+					
+					int borderY = boxY + borderWidth * i;
+					
+					// draws the left side
+					this.dialogLeft.draw(boxX, borderY, borderWidth, borderWidth);
+					
+					// draws the right side
+					this.dialogRight.draw(boxX + this.dialogW, borderY, borderWidth, borderWidth);
+					
+				}
+				
+				// draws the corners
+				this.dialogTopLeft.draw(boxX, boxY, borderWidth, borderWidth);
+				this.dialogTopRight.draw(boxX + this.dialogW, boxY, borderWidth, borderWidth);
+				this.dialogBottomLeft.draw(boxX, boxY + this.dialogH, borderWidth, borderWidth);
+				this.dialogBottomRight.draw(boxX + this.dialogW, boxY + this.dialogH, borderWidth, borderWidth);
+			}
+		}
 
 	}
 

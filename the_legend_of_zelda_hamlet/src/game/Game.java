@@ -115,6 +115,12 @@ public class Game extends BasicGame {
 	private int dialogW;
 	private int dialogH;
 	
+	// the width of the dialog border
+	private int dialogBorderW;
+	
+	// the space in between the dialog border and the text
+	private int dialogPadding;
+	
 	// the images that make up the dialog box's border
 	private Image dialogBottom;
 	private Image dialogBottomLeft;
@@ -163,10 +169,16 @@ public class Game extends BasicGame {
 		this.h = (int) (this.windowH * conversion);
 		
 		// the dimensions of the dialog box 
-		this.dialogX = this.w * 1/8;
-		this.dialogW = this.w - 2 * this.dialogX;
-		this.dialogH = this.h * 1/4;
-		this.dialogY = this.h * 4/7;
+		this.dialogX = this.windowW * 1/8;
+		this.dialogW = this.windowW - 2 * this.dialogX;
+		this.dialogH = this.windowH * 1/4;
+		this.dialogY = this.windowH * 4/7;
+		
+		// the width of the border around the dialog
+		this.dialogBorderW = this.dialogH / 10;
+		
+		// this space inbetween the border and the test
+		this.dialogPadding = this.dialogH / 10;
 		
 		// loads the dialog iamges
 		String dialogUrl = "assets/images/dialog/%s.png";
@@ -291,45 +303,51 @@ public class Game extends BasicGame {
 			// draws dialog if any
 			if (this.showingDialog) {
 				
-				// how wide the border should be
-				int borderWidth = 4;
+				// resets scale to stop the font being blurry
+				g.resetTransform();
 				
-				// the initial x and y coords for the dialog box
-				// accounting for the screen's movement
-				int boxX = this.dialogX + this.cameraX;
-				int boxY = this.dialogY + this.cameraY;
+				// how wide the border should be
+				int borderWidth = this.w / 10;
 				
 				// draws the top and bottom dialog outline
 				for (int i = 1; i <= this.dialogW / borderWidth; i++) {
 					
 					// this coordinates of this tile of the border
-					int borderX = boxX + borderWidth * i;
+					int borderX = this.dialogX + borderWidth * i;
 					
 					// draws the top border of the box
-					this.dialogTop.draw(borderX, boxY, borderWidth, borderWidth);
+					this.dialogTop.draw(borderX, this.dialogY, borderWidth, borderWidth);
 					
 					// draws the bottom
-					this.dialogBottom.draw(borderX, boxY + this.dialogH, borderWidth, borderWidth);
+					this.dialogBottom.draw(borderX, this.dialogY + this.dialogH, borderWidth, borderWidth);
 				}
 				
 				// draws the left and right dialog outline
 				for (int i = 1; i <= this.dialogH / borderWidth; i++) {
 					
-					int borderY = boxY + borderWidth * i;
+					int borderY = this.dialogY + borderWidth * i;
 					
 					// draws the left side
-					this.dialogLeft.draw(boxX, borderY, borderWidth, borderWidth);
+					this.dialogLeft.draw(this.dialogX, borderY, borderWidth, borderWidth);
 					
 					// draws the right side
-					this.dialogRight.draw(boxX + this.dialogW, borderY, borderWidth, borderWidth);
+					this.dialogRight.draw(this.dialogX + this.dialogW, borderY, borderWidth, borderWidth);
 					
 				}
 				
 				// draws the corners
-				this.dialogTopLeft.draw(boxX, boxY, borderWidth, borderWidth);
-				this.dialogTopRight.draw(boxX + this.dialogW, boxY, borderWidth, borderWidth);
-				this.dialogBottomLeft.draw(boxX, boxY + this.dialogH, borderWidth, borderWidth);
-				this.dialogBottomRight.draw(boxX + this.dialogW, boxY + this.dialogH, borderWidth, borderWidth);
+				this.dialogTopLeft.draw(this.dialogX, this.dialogY, borderWidth, borderWidth);
+				this.dialogTopRight.draw(this.dialogX + this.dialogW, this.dialogY, borderWidth, borderWidth);
+				this.dialogBottomLeft.draw(this.dialogX, this.dialogY + this.dialogH, borderWidth, borderWidth);
+				this.dialogBottomRight.draw(this.dialogX + this.dialogW, this.dialogY + this.dialogH, borderWidth, borderWidth);
+				
+				// draws the lines of dialog
+				for (int i = 0; i < this.dialogLines.size(); i++) {
+					this.dialogFont.drawString(
+						this.dialogX + this.dialogPadding, 
+						this.dialogY + this.dialogPadding + i * this.dialogFont.getLineHeight(),
+						this.dialogLines.get(i));
+				}
 			}
 		}
 
@@ -433,8 +451,8 @@ public class Game extends BasicGame {
 	 */
 	private UnicodeFont loadFont(String url) {
 		
-		// Currently just returns a test font
-		Font f = new Font("Times new Roman", Font.PLAIN, 30);
+		// loads the font
+		Font f = new Font("Arial", Font.PLAIN, 30);
 		
 		// the font to return
 		UnicodeFont toReturn = new UnicodeFont(f);
@@ -524,7 +542,7 @@ public class Game extends BasicGame {
 			String newLine = currentLine + " " + words[i];
 			
 			// checks if it will fit
-			if (this.dialogFont.getWidth(newLine) < this.dialogW) {
+			if (this.dialogFont.getWidth(newLine) < this.dialogW - 2 * this.dialogPadding) {
 				
 				// adds it to the line
 				this.dialogLines.set(lastLine, newLine);
@@ -536,7 +554,7 @@ public class Game extends BasicGame {
 			}
 		}
 		
-		for (int i = 0; i < this.dialogLines.size(); i++){
+		for (int i = 0; i < this.dialogLines.size(); i++) {
 			System.out.println(this.dialogLines.get(i));
 		}
 		

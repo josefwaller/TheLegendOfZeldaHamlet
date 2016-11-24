@@ -20,15 +20,24 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.tiled.TiledMap;
 
+// used to load sprites
 import sprites.SpriteStore;
+
+// different entities
 import entities.Button;
 import entities.Door;
 import entities.NPC;
+
 // The player Entity
 import entities.Player;
+
+// superclasses
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
 import entities.abstracts.StaticEntity;
+
+// the heads up display
+import hud.HeadsUpDisplay;
 
 /*
 The main Game class.
@@ -107,33 +116,10 @@ public class Game extends BasicGame {
 	private int dialogLineIndex = 0;
 	
 	// whether or not dialog is currently being shown on screen
-	private boolean showingDialog;
+	private boolean showingDialog;	
 	
-	// the dimensions of the dialog box
-	private int dialogX;
-	private int dialogY;
-	private int dialogW;
-	private int dialogH;
-	
-	// the width of the dialog border
-	private int dialogBorderW;
-	
-	// the space in between the dialog border and the text
-	private int dialogPadding;
-	
-	// the images that make up the dialog box's border
-	private Image dialogBottom;
-	private Image dialogBottomLeft;
-	private Image dialogLeft;
-	private Image dialogTopLeft;
-	private Image dialogTop;
-	private Image dialogTopRight;
-	private Image dialogRight;
-	private Image dialogBottomRight;
-	
-	
-	// the dialog font
-	private UnicodeFont dialogFont;
+	// the Heads Up Display
+	private HeadsUpDisplay hud;
 	
 	/*
 	Returns a new Game
@@ -168,32 +154,8 @@ public class Game extends BasicGame {
 		this.w = (int) (this.windowW * conversion);
 		this.h = (int) (this.windowH * conversion);
 		
-		// the dimensions of the dialog box 
-		this.dialogX = this.windowW * 1/8;
-		this.dialogW = this.windowW - 2 * this.dialogX;
-		this.dialogH = this.windowH * 1/4;
-		this.dialogY = this.windowH * 4/7;
-		
-		// the width of the border around the dialog
-		this.dialogBorderW = this.dialogH / 10;
-		
-		// this space inbetween the border and the test
-		this.dialogPadding = this.dialogH / 10;
-		
-		// loads the dialog iamges
-		String dialogUrl = "assets/images/dialog/%s.png";
-
-		this.dialogBottom = SpriteStore.get().loadSprite(String.format(dialogUrl, "bot"));
-		this.dialogBottomRight = SpriteStore.get().loadSprite(String.format(dialogUrl, "botrightcorner"));
-		this.dialogRight = SpriteStore.get().loadSprite(String.format(dialogUrl, "right"));
-		this.dialogTopRight = SpriteStore.get().loadSprite(String.format(dialogUrl, "toprightcorner"));
-		this.dialogTop = SpriteStore.get().loadSprite(String.format(dialogUrl, "top"));
-		this.dialogTopLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "topleftcorner"));
-		this.dialogLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "left"));
-		this.dialogBottomLeft = SpriteStore.get().loadSprite(String.format(dialogUrl, "botleftcorner"));
-		
-		// loads the dialog font
-		this.dialogFont = loadFont("RetGanon.ttf");
+		// the hud
+		this.hud = new HeadsUpDisplay(this.windowW, this.windowH);
 	
 		// loads the objects
 		loadObjects();
@@ -299,57 +261,10 @@ public class Game extends BasicGame {
 
 			// renders the player
 			this.player.render(g);
-			
-			// draws dialog if any
-			if (this.showingDialog) {
-				
-				// resets scale to stop the font being blurry
-				g.resetTransform();
-				
-				// how wide the border should be
-				int borderWidth = this.w / 10;
-				
-				// draws the top and bottom dialog outline
-				for (int i = 1; i <= this.dialogW / borderWidth; i++) {
-					
-					// this coordinates of this tile of the border
-					int borderX = this.dialogX + borderWidth * i;
-					
-					// draws the top border of the box
-					this.dialogTop.draw(borderX, this.dialogY, borderWidth, borderWidth);
-					
-					// draws the bottom
-					this.dialogBottom.draw(borderX, this.dialogY + this.dialogH, borderWidth, borderWidth);
-				}
-				
-				// draws the left and right dialog outline
-				for (int i = 1; i <= this.dialogH / borderWidth; i++) {
-					
-					int borderY = this.dialogY + borderWidth * i;
-					
-					// draws the left side
-					this.dialogLeft.draw(this.dialogX, borderY, borderWidth, borderWidth);
-					
-					// draws the right side
-					this.dialogRight.draw(this.dialogX + this.dialogW, borderY, borderWidth, borderWidth);
-					
-				}
-				
-				// draws the corners
-				this.dialogTopLeft.draw(this.dialogX, this.dialogY, borderWidth, borderWidth);
-				this.dialogTopRight.draw(this.dialogX + this.dialogW, this.dialogY, borderWidth, borderWidth);
-				this.dialogBottomLeft.draw(this.dialogX, this.dialogY + this.dialogH, borderWidth, borderWidth);
-				this.dialogBottomRight.draw(this.dialogX + this.dialogW, this.dialogY + this.dialogH, borderWidth, borderWidth);
-				
-				// draws the lines of dialog
-				for (int i = 0; i < this.dialogLines.size(); i++) {
-					this.dialogFont.drawString(
-						this.dialogX + this.dialogPadding, 
-						this.dialogY + this.dialogPadding + i * this.dialogFont.getLineHeight(),
-						this.dialogLines.get(i));
-				}
-			}
 		}
+		
+		// draws the hud
+		this.hud.render(g);
 
 	}
 
@@ -447,31 +362,6 @@ public class Game extends BasicGame {
 	}
 
 	/*
-	 * Loads a .ttf file into a UnicodeFont Object with
-	 */
-	private UnicodeFont loadFont(String url) {
-		
-		// loads the font
-		Font f = new Font("Arial", Font.PLAIN, 30);
-		
-		// the font to return
-		UnicodeFont toReturn = new UnicodeFont(f);
-		
-		// initializes the font
-		try {
-			toReturn.getEffects().add(new ColorEffect(java.awt.Color.white));
-		    toReturn.addAsciiGlyphs();
-			toReturn.loadGlyphs();
-			
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		// returns the font
-		return toReturn;
-	}
-	/*
 	 * Starts a transition to the next section
 	 */
 	public void startTransition(int pathId, Door startingDoor) {
@@ -519,45 +409,8 @@ public class Game extends BasicGame {
 	 * Starts a dialog with the dialog lines provided
 	 */
 	public void startDialog(String dialog) {
-		
-		// sets to pause and show dialog
+		this.hud.startDialog(dialog);
 		this.showingDialog = true;
-		
-		// resets dialog lines
-		this.dialogLines = new ArrayList<String>();
-		
-		// breaks the dialog up into lines
-		String[] words = dialog.split(" ");
-		
-		// adds the first word
-		this.dialogLines.add(words[0]);
-		
-		for (int i = 1; i < words.length; i++){
-			
-			// gets the current line of dialog
-			int lastLine = this.dialogLines.size() - 1;
-			String currentLine = this.dialogLines.get(lastLine);
-			
-			// makes a new line of dialog
-			String newLine = currentLine + " " + words[i];
-			
-			// checks if it will fit
-			if (this.dialogFont.getWidth(newLine) < this.dialogW - 2 * this.dialogPadding) {
-				
-				// adds it to the line
-				this.dialogLines.set(lastLine, newLine);
-				
-			} else {
-				
-				// creates a new line for the next word
-				this.dialogLines.add(words[i]);
-			}
-		}
-		
-		for (int i = 0; i < this.dialogLines.size(); i++) {
-			System.out.println(this.dialogLines.get(i));
-		}
-		
 	}
 	/*
 	 * Used in the transition animation

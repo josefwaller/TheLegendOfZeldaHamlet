@@ -93,6 +93,7 @@ public class HeadsUpDisplay {
 	/*
 	 * Loads a .ttf file into a UnicodeFont Object with
 	 */
+	@SuppressWarnings("unchecked")
 	public static UnicodeFont loadFont(String url) {
 		
 		// loads the font

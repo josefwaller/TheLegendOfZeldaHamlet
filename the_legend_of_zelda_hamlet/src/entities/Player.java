@@ -36,8 +36,7 @@ public class Player extends Entity{
 	// the running animations
 	Animation runUp;
 	Animation runDown;
-	Animation runLeft;
-	Animation runRight;
+	Animation runSide;
 	
 	// the time inbetween sprite changes while running
 	int runInterval = 100;
@@ -51,52 +50,46 @@ public class Player extends Entity{
 	public Player(int x, int y, Game g)
 	{
 		// sets position and game
-		super(x, y, 16, g);
+		super(x, y, 32, g);
 		
 		isRunning = false;
 		
 		// loads sprites
 		SpriteSheet sheet = SpriteStore.get().loadSpriteSheet(
-			"assets/images/testspritesheet.png", 
-			8, 
-			4
+			"assets/images/linkspritesheet.png", 
+			9, 
+			9
 		);
 		
 		// loads standing sprites
-		this.standUp = sheet.getSprite(0,  3);
-		this.standDown = sheet.getSprite(0, 0);
-		this.standLeft = sheet.getSprite(0, 1);
-		this.standRight = sheet.getSprite(0, 2);
+		this.standUp = sheet.getSprite(0,  2);
+		this.standDown = sheet.getSprite(0, 1);
+		this.standLeft = sheet.getSprite(0, 3);
+		this.standRight = this.standLeft.getFlippedCopy(true, false);
 		
 		this.currentSprite = standDown;
 		
 		// loads running sprites
 		Image[] runDownImages = new Image[8];
-		Image[] runLeftImages = new Image[7];
 		Image[] runUpImages = new Image[8];
-		Image[] runRightImages = new Image[7];
+		Image[] runSideImages = new Image[6];
 		
 		for (int i = 0; i < 8; i++) {
 			
-			runDownImages[i] = sheet.getSprite(i, 0);
-			runUpImages[i] = sheet.getSprite(i, 3);
+			runDownImages[i] = sheet.getSprite(i, 1);
+			runUpImages[i] = sheet.getSprite(i, 2);
 			
-			if (i < 7) {
+			if (i < 6) {
 
-				runLeftImages[i] = sheet.getSprite(i, 1);
-				runRightImages[i] = sheet.getSprite(i, 2);
+				runSideImages[i] = sheet.getSprite(i, 3);
 			}
 		}
 		
 		this.runDown = new Animation(runDownImages, this.runInterval, false);
-		this.runLeft = new Animation(runLeftImages, this.runInterval, false);
 		this.runUp = new Animation(runUpImages, this.runInterval, false);
-		this.runRight = new Animation(runRightImages, this.runInterval, false);
+		this.runSide = new Animation(runSideImages, this.runInterval, false);
 		
 		this.currentAnim = this.runDown;
-		
-		// resizes its dimensions based on sprite size
-		this.h = (int)(this.w * (this.standUp.getHeight() / (double)this.standUp.getWidth()));
 		
 	}
 	
@@ -131,7 +124,7 @@ public class Player extends Entity{
 			this.tryToMove(this.x - (this.speed * delta / 1000f), this.y);
 			
 			this.direction = Entity.DIR_LEFT;
-			this.currentAnim = this.runLeft;
+			this.currentAnim = this.runSide;
 			this.isRunning = true;
 		}
 		else if (input.isKeyDown(Input.KEY_RIGHT))
@@ -139,7 +132,7 @@ public class Player extends Entity{
 			this.tryToMove(this.x + (this.speed * delta / 1000f), this.y);
 
 			this.direction = Entity.DIR_RIGHT;
-			this.currentAnim = this.runRight;
+			this.currentAnim = this.runSide;
 			this.isRunning = true;
 		}
 		
@@ -194,6 +187,10 @@ public class Player extends Entity{
 			
 			this.currentSprite = this.currentAnim.getCurrentFrame();
 			
+			if (this.direction == Entity.DIR_RIGHT) {
+				this.currentSprite = this.currentSprite.getFlippedCopy(true,  false);
+			}
+			
 		} else {
 			switch (this.direction) {
 				case Entity.DIR_UP: this.currentSprite = this.standUp; break;
@@ -224,7 +221,6 @@ public class Player extends Entity{
 	 */
 	public void render(Graphics g)
 	{
-		// draws the current sprite
 		this.currentSprite.draw((int)this.x, (int)this.y, (int)this.w, (int)this.h);		
 	}
 }

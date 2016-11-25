@@ -162,14 +162,14 @@ public class DialogManager {
 		this.dialogBottomRight.draw(this.dialogX + this.dialogW, this.dialogY + this.dialogH, borderWidth, borderWidth);
 		
 		// draws the lines of dialog
-		for (int i = 0; i < this.dialogLines.size(); i++) {
+		for (int i = 0; i < this.dialogLines.size() && (i + 1) * this.dialogFont.getLineHeight() < this.dialogH; i++) {
 			this.hud.drawBorderedText(
 				this.dialogFont,
 				Color.white,
 				new Color(4, 0, 128),
 				this.dialogX + this.dialogPadding, 
 				this.dialogY + this.dialogPadding + i * this.dialogFont.getLineHeight(),
-				3,
+				2,
 				this.dialogLines.get(i));
 		}
 	}

@@ -5,6 +5,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
@@ -34,7 +35,7 @@ public class HeadsUpDisplay {
 		this.h = h;
 		
 		// initializes components of the hud
-		this.dialog = new DialogManager(this.w, this.h);
+		this.dialog = new DialogManager(this.w, this.h, this);
 		
 	}
 	
@@ -51,6 +52,30 @@ public class HeadsUpDisplay {
 			
 			this.dialog.render(g);
 		}
+	}
+	
+	/*
+	 * Draws text on the screen with a border
+	 */
+	public void drawBorderedText(UnicodeFont f, Color fill, Color border, int x, int y, int w, String text) {
+		
+		// draws 8 copies of the text around the initial position
+		for (int xOff = -1; xOff < 2; xOff++) {
+			for (int yOff = -1; yOff < 2; yOff++) {
+				
+				if (!(xOff == 0 && yOff == 0)) {
+					
+					// draws the text
+					f.drawString(x + w * xOff, y + w * yOff, text, border);
+					
+				}
+				
+			}
+		}
+		
+		// draws the center copy
+		f.drawString(x, y, text, fill);
+		
 	}
 	
 	/*

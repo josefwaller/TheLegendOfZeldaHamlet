@@ -2,6 +2,7 @@ package hud;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.UnicodeFont;
@@ -41,14 +42,18 @@ public class DialogManager {
 	
 	// the dialog font
 	private UnicodeFont dialogFont;
+
+	private HeadsUpDisplay hud;
 	
-	public DialogManager (int w, int h){
+	public DialogManager (int w, int h, HeadsUpDisplay hud){
 		
 		// the dimensions of the dialog box 
 		this.dialogW = w  * 3/4;
 		this.dialogX = (w - this.dialogW) / 2;
 		this.dialogH = h * 1/4;
 		this.dialogY = h * 4/7;
+		
+		this.hud = hud;
 		
 		// the width of the border around the dialog
 		this.dialogBorderW = this.dialogH / 10;
@@ -158,9 +163,13 @@ public class DialogManager {
 		
 		// draws the lines of dialog
 		for (int i = 0; i < this.dialogLines.size(); i++) {
-			this.dialogFont.drawString(
+			this.hud.drawBorderedText(
+				this.dialogFont,
+				Color.white,
+				new Color(4, 0, 128),
 				this.dialogX + this.dialogPadding, 
 				this.dialogY + this.dialogPadding + i * this.dialogFont.getLineHeight(),
+				3,
 				this.dialogLines.get(i));
 		}
 	}

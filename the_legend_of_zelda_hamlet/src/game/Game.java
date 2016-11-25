@@ -116,7 +116,7 @@ public class Game extends BasicGame {
 	private int dialogLineIndex = 0;
 	
 	// whether or not dialog is currently being shown on screen
-	private boolean showingDialog;	
+	private boolean isShowingDialog;	
 	
 	// the Heads Up Display
 	private HeadsUpDisplay hud;
@@ -138,8 +138,7 @@ public class Game extends BasicGame {
 	/*
 	 * Initializes all components of the game
 	 */
-	public void init(GameContainer container)
-	{
+	public void init(GameContainer container) {
 		
 		// loads the map
 		loadMap("assets/maps/test.tmx");
@@ -165,12 +164,11 @@ public class Game extends BasicGame {
 	 * Updates everything
 	 * Position, game logic, etc
 	 */
-	public void update(GameContainer container, int delta)
-	{
-		if (!isPlayingTransition && !this.showingDialog) {
+	public void update(GameContainer container, int delta) {
 
-			// gets input
-			Input input = container.getInput();
+		// gets input
+		Input input = container.getInput();
+		if (!this.isPlayingTransition && !this.isShowingDialog) {
 			
 			// updates the player
 			this.player.update(input, delta, this.blocked);
@@ -179,14 +177,21 @@ public class Game extends BasicGame {
 			for (int o = 0; o < this.objects.size(); o++) {
 				this.objects.get(o).update();
 			}
-		} else {
+		} else if (this.isPlayingTransition){
 			
 			if (System.currentTimeMillis() - this.transStartTime > this.transDuration) {
 				this.isPlayingTransition = false;
 				this.currentSection = this.newSection;
 			}
 			
+		} else if (this.isShowingDialog) {
+			if (this.hud.getDialog().isDone()) {
+				this.isShowingDialog = false;
+				this.hud.stopDialog();
+			}
 		}
+		
+		this.hud.update(input);
 		
 	}
 
@@ -410,7 +415,7 @@ public class Game extends BasicGame {
 	 */
 	public void startDialog(String dialog) {
 		this.hud.startDialog(dialog);
-		this.showingDialog = true;
+		this.isShowingDialog = true;
 	}
 	/*
 	 * Used in the transition animation

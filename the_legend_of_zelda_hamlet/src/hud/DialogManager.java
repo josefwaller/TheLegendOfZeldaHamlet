@@ -18,6 +18,9 @@ public class DialogManager {
 	// the lines of dialog
 	private ArrayList<String> dialogLines;
 	
+	// the index of the current dialog line being shown at the top of the box
+	private int dialogIndex;
+	
 	// the dimensions of the dialog box
 	private int dialogX;
 	private int dialogY;
@@ -81,47 +84,6 @@ public class DialogManager {
 	}
 	
 	/*
-	 * Sets up to show the dialog given
-	 */
-	public void startDialog(String dialog) {
-
-		// resets dialog lines
-		this.dialogLines = new ArrayList<String>();
-		
-		// breaks the dialog up into lines
-		String[] words = dialog.split(" ");
-		
-		// adds the first word
-		this.dialogLines.add(words[0]);
-		
-		for (int i = 1; i < words.length; i++){
-			
-			// gets the current line of dialog
-			int lastLine = this.dialogLines.size() - 1;
-			String currentLine = this.dialogLines.get(lastLine);
-			
-			// makes a new line of dialog
-			String newLine = currentLine + " " + words[i];
-			
-			// checks if it will fit
-			if (this.dialogFont.getWidth(newLine) < this.dialogW - 2 * this.dialogPadding) {
-				
-				// adds it to the line
-				this.dialogLines.set(lastLine, newLine);
-				
-			} else {
-				
-				// creates a new line for the next word
-				this.dialogLines.add(words[i]);
-			}
-		}
-		
-		for (int i = 0; i < this.dialogLines.size(); i++) {
-			System.out.println(this.dialogLines.get(i));
-		}
-	}
-
-	/*
 	 * Draws the dialog box and dialog on the screen
 	 */
 	public void render(Graphics g) {
@@ -162,7 +124,7 @@ public class DialogManager {
 		this.dialogBottomRight.draw(this.dialogX + this.dialogW, this.dialogY + this.dialogH, borderWidth, borderWidth);
 		
 		// draws the lines of dialog
-		for (int i = 0; i < this.dialogLines.size() && (i + 1) * this.dialogFont.getLineHeight() < this.dialogH; i++) {
+		for (int i = 0; (i + this.dialogIndex) < this.dialogLines.size() && (i + 1) * this.dialogFont.getLineHeight() < this.dialogH; i++) {
 			this.hud.drawBorderedText(
 				this.dialogFont,
 				Color.white,
@@ -170,7 +132,66 @@ public class DialogManager {
 				this.dialogX + this.dialogPadding, 
 				this.dialogY + this.dialogPadding + i * this.dialogFont.getLineHeight(),
 				2,
-				this.dialogLines.get(i));
+				this.dialogLines.get(i + this.dialogIndex));
 		}
 	}
+	
+	/*
+	 * Updates the text in the dialog box
+	 */
+	public void updateText() {
+		
+		// adds the number of lines in the dialog box
+		this.dialogIndex += Math.floor(this.dialogH / (double)this.dialogFont.getLineHeight());
+	}
+	
+	/*
+	 * Returns whether the NPC or sign or whatever is done talking
+	 */
+	public boolean isDone() {
+		return (this.dialogIndex > this.dialogLines.size());
+	}
+	
+	/*
+	 * Sets up to show the dialog given
+	 */
+	public void startDialog(String dialog) {
+
+		// resets dialog lines
+		this.dialogLines = new ArrayList<String>();
+		this.dialogIndex = 0;
+		
+		// breaks the dialog up into lines
+		String[] words = dialog.split(" ");
+		
+		// adds the first word
+		this.dialogLines.add(words[0]);
+		
+		for (int i = 1; i < words.length; i++){
+			
+			// gets the current line of dialog
+			int lastLine = this.dialogLines.size() - 1;
+			String currentLine = this.dialogLines.get(lastLine);
+			
+			// makes a new line of dialog
+			String newLine = currentLine + " " + words[i];
+			
+			// checks if it will fit
+			if (this.dialogFont.getWidth(newLine) < this.dialogW - 2 * this.dialogPadding) {
+				
+				// adds it to the line
+				this.dialogLines.set(lastLine, newLine);
+				
+			} else {
+				
+				// creates a new line for the next word
+				this.dialogLines.add(words[i]);
+			}
+		}
+		
+		for (int i = 0; i < this.dialogLines.size(); i++) {
+			System.out.println(this.dialogLines.get(i));
+		}
+	}
+
 }

@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -36,6 +37,19 @@ public class HeadsUpDisplay {
 		
 		// initializes components of the hud
 		this.dialog = new DialogManager(this.w, this.h, this);
+		
+	}
+	
+	/*
+	 * Checks for input that effects the HUD
+	 */
+	public void update(Input input ) {
+		
+		if (input.isKeyPressed(Input.KEY_SPACE)) {
+			
+			this.dialog.updateText();
+			
+		}
 		
 	}
 	
@@ -129,6 +143,20 @@ public class HeadsUpDisplay {
 		
 		// processes dialog
 		this.dialog.startDialog(dialog);
+	}
+	
+	/*
+	 * Stops rendering the dialog box and text
+	 */
+	public void stopDialog() {
+		this.showingDialog = false;
+	}
+	
+	/*
+	 * Get/Set variables
+	 */
+	public DialogManager getDialog() {
+		return this.dialog;
 	}
 	
 }

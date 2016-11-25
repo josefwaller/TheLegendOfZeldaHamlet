@@ -5,15 +5,16 @@ A list of things to do
 
 ## Not done
 
-* Add NPCs
-* Extend InteractiveEntity to entities that need it
-* Add button functionality (Is it needed?)
-* Add enemies
-* Add pots/picking up things (Quick/Easy/Helps game a lot)
-* Add health/Death/Respawn
 * Add Attacking
+* Add enemies
+* Add health/Death/Respawn
+* Add pots/picking up things (Quick/Easy/Helps game a lot)
+* Add certain doors that load a new map when entered
+* Add button functionality (Is it needed?)
 
 ## Done
+* ~Extend InteractiveEntity to entities that need it~
+* ~Add NPCs~
 * ~Add doors~
 * ~Add screen transitions~
 * ~Fix player not being able to move along a wall when also trying to run into it~

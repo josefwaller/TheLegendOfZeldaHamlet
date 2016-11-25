@@ -1,10 +1,5 @@
 package entities;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 import entities.abstracts.InteractiveEntity;
 import game.Game;
 

@@ -1,7 +1,6 @@
 package sprites;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /*
  * SpriteSheet

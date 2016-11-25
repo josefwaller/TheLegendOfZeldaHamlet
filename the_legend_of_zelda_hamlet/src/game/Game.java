@@ -1,7 +1,5 @@
 package game;
-// The Graphics module
-// Uses Slick2D
-import java.awt.Font;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,19 +7,11 @@ import java.util.Scanner;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.tiled.TiledMap;
-
-// used to load sprites
-import sprites.SpriteStore;
 
 // different entities
 import entities.Button;
@@ -110,10 +100,6 @@ public class Game extends BasicGame {
 	private ArrayList<StaticEntity> objects;
 	
 	// the lines of dialog currently being drawn on the screen
-	private ArrayList<String> dialogLines;
-	
-	// the index of the current dialog line being shown at the top of the box
-	private int dialogLineIndex = 0;
 	
 	// whether or not dialog is currently being shown on screen
 	private boolean isShowingDialog;	

@@ -1,8 +1,6 @@
 package hud;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.Color;

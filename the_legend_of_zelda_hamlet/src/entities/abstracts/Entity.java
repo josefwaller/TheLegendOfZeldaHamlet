@@ -79,18 +79,20 @@ public abstract class Entity
 	 */
 	protected boolean collidesWithEntity(Entity e) {
 		
-		float otherX = e.getX();
-		float otherY = e.getY();
-		int otherW = e.getW();
-		int otherH = e.getH();
-		
-		if (this.x < otherX + otherW) {
-			if (this.x + this.w > otherX) {
-				if (this.y < otherY + otherH) {
-					if (this.y + this.h > otherY) {
-						return true;
-					}
+		for (int i = 0; i < this.hitboxes.size(); i++) {
+			
+			// gets this hitbox
+			Hitbox tH = this.hitboxes.get(i);
+			
+			for (int x = 0; x < e.getHitboxes().size(); x++) {
+				
+				// gets the other hitbox
+				Hitbox oH = e.getHitboxes().get(x);
+				
+				if (tH.collidesWith(oH)) {
+					return true;
 				}
+				
 			}
 		}
 		
@@ -148,6 +150,9 @@ public abstract class Entity
 	}
 	public int getDirection() {
 		return this.direction;
+	}
+	public ArrayList<Hitbox> getHitboxes() {
+		return this.hitboxes;
 	}
 	public void setX(float x) {
 		this.x = x;

@@ -6,9 +6,13 @@ package entities.abstracts;
  */
 public class Hitbox {
 
-	// the coordinates of the hitbox relative to the entity
+	// the coordinates of the hitbox relative to the window
 	private int x;
 	private int y;
+	
+	// the coordinates of the hitbox relative to the entity
+	private int offX;
+	private int offY;
 	
 	// the width and height of the hitbox
 	private int w;
@@ -23,11 +27,19 @@ public class Hitbox {
 	public Hitbox(int x, int y, int w, int h, Entity e) {
 		
 		// sets properties
-		this.x = x;
-		this.y = y;
+		this.offX = x;
+		this.offY = y;
 		this.w = w;
 		this.h = h;
 		this.entity = e;
+		
+		// updates x and y
+		update();
+	}
+	
+	public void update() {
+		this.x = (int) (this.offX + this.entity.getX());
+		this.y = (int) (this.offY + this.entity.getY());
 	}
 	
 	/*
@@ -35,21 +47,16 @@ public class Hitbox {
 	 */
 	public boolean collidesWith(Hitbox h) {
 		
-		// gets new values based on the entity's position
-		int x = (int) (this.x + this.entity.getX());
-		int y = (int) (this.y + this.entity.getY());
-		
 		// gets the values of the other hitbox
-		Entity oE = h.getEntity();
-		int oX = (int) (h.getX() + oE.getX());
-		int oY = (int) (h.getY() + oE.getY());
+		int oX = (int) (h.getX());
+		int oY = (int) (h.getY());
 		int oW = h.getW();
 		int oH = h.getH();
 		
-		if (x < oX + oW) {
-			if (x + this.w > oX) {
-				if (y < oY + oH) {
-					if (y + this.h > oY) {
+		if (this.x < oX + oW) {
+			if (this.x + this.w > oX) {
+				if (this.y < oY + oH) {
+					if (this.y + this.h > oY) {
 						return true;
 					}
 				}

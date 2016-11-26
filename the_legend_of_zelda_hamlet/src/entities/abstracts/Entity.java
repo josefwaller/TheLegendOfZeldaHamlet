@@ -97,6 +97,33 @@ public abstract class Entity
 	}
 	
 	/*
+	 * Updates the entity's hitboxes' positions
+	 */
+	protected void updateHitboxes() {
+		for (int i = 0; i < this.hitboxes.size(); i++) {
+			this.hitboxes.get(i).update();
+		}
+	}
+	
+	/*
+	 * Draws the entity's hitboxes
+	 */
+	protected void drawHitboxes(Graphics g) {
+		
+		for (int i = 0; i < this.hitboxes.size(); i++) {
+			
+			Hitbox h = this.hitboxes.get(i);
+			
+			g.drawRect(
+				h.getX(),
+				h.getY(),
+				h.getW(),
+				h.getH()
+			);
+		}
+	}
+	
+	/*
 	 * Adds a hitbox to the entity
 	 */
 	protected void addHitbox(int x, int y, int w, int h) {

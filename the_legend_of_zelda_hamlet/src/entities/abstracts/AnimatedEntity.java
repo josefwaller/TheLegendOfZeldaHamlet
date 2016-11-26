@@ -46,7 +46,10 @@ public abstract class AnimatedEntity extends Entity {
 			(int)this.y + this.imgY, 
 			this.currentSprite.getWidth(), 
 			this.currentSprite.getHeight()
-		);		
+		);	
+		
+		// draws hitboxes
+		this.drawHitboxes(g);
 	}
 	
 }

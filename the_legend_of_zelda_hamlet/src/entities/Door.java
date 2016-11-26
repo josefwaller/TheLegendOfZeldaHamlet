@@ -29,6 +29,9 @@ public class Door extends CollisionEntity {
 			this.h = 32;
 		}
 		
+		// adds hitbox
+		this.addHitbox();
+		
 		// sets path Id
 		// determines which door the player will come out of after going through this door
 		// ex: two doors with pathId = 1 will connect to each other
@@ -62,6 +65,8 @@ public class Door extends CollisionEntity {
 		
 		// rotates the sprite back
 		this.sprite.rotate(- this.degrees);
+		
+		this.drawHitboxes(g);
 	}
 	
 	/*

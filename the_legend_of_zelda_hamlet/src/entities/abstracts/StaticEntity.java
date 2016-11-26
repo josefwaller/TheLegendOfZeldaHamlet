@@ -46,6 +46,9 @@ public abstract class StaticEntity extends Entity {
 		this.w = this.sprite.getWidth();
 		this.h = this.sprite.getHeight();
 		
+		// adds a default hitbox
+		this.addHitbox(0,  0,  this.w,  this.h);
+		
 	}
 	
 	/*
@@ -56,6 +59,16 @@ public abstract class StaticEntity extends Entity {
 	
 		this.sprite.draw((int)this.x, (int)this.y, this.w, this.h);
 		
+		// draws the hitbox
+		this.drawHitboxes(g);
+		
+	}
+	
+	/*
+	 * Adds a default hitbox with the entity's width and height
+	 */
+	protected void addHitbox() {
+		super.addHitbox(0, 0, this.w, this.h);
 	}
 	
 }

@@ -92,7 +92,7 @@ public class Player extends AnimatedEntity{
 		this.imgY = (this.h - 32) / 2;		
 		
 		// adds hitbox
-		this.addHitbox(8, 8, 16, 16);
+		this.addHitbox(2, 2, 14, 20);
 	}
 	
 	/*
@@ -101,6 +101,9 @@ public class Player extends AnimatedEntity{
 	 */
 	public void update(Input input, int delta, boolean[][] blocked)
 	{
+		
+		// updates hitboxes
+		this.updateHitboxes();
 		
 		this.isRunning = false;
 		

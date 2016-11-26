@@ -62,9 +62,9 @@ public class Player extends Entity{
 		);
 		
 		// loads standing sprites
-		this.standUp = sheet.getSprite(0,  2);
-		this.standDown = sheet.getSprite(0, 1);
-		this.standLeft = sheet.getSprite(0, 3);
+		this.standUp = sheet.getSprite(2,  0);
+		this.standDown = sheet.getSprite(1, 0);
+		this.standLeft = sheet.getSprite(3, 0);
 		this.standRight = this.standLeft.getFlippedCopy(true, false);
 		
 		this.currentSprite = standDown;
@@ -91,6 +91,9 @@ public class Player extends Entity{
 		
 		this.currentAnim = this.runDown;
 		
+		
+		// adds hitbox
+		this.addHitbox(8, 8, 16, 16);
 	}
 	
 	/*

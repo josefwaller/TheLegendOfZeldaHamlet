@@ -1,5 +1,7 @@
 package entities.abstracts;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Graphics;
 
 import game.Game;
@@ -29,6 +31,8 @@ public abstract class Entity
 	static public final int DIR_LEFT = 2;
 	static public final int DIR_RIGHT = 3;
 	
+	// the entity's hitboxes
+	private ArrayList<Hitbox> hitboxes;
 	
 	/*
 	 * Constructor
@@ -44,6 +48,8 @@ public abstract class Entity
 		this.game = g;
 		
 		this.direction = Entity.DIR_DOWN;
+		
+		this.hitboxes = new ArrayList<Hitbox>();
 	}
 	
 	/*
@@ -61,7 +67,11 @@ public abstract class Entity
 		
 		this.direction = Entity.DIR_DOWN;
 		
+		this.hitboxes = new ArrayList<Hitbox>();
 	}
+	
+	// Entities must be able to render
+	public abstract void render(Graphics g);
 	
 	/*
 	 * Checks if this entity collides with another entity
@@ -86,8 +96,12 @@ public abstract class Entity
 		return false;
 	}
 	
-	// Entities must be able to render
-	public abstract void render(Graphics g);
+	/*
+	 * Adds a hitbox to the entity
+	 */
+	protected void addHitbox(int x, int y, int w, int h) {
+		this.hitboxes.add(new Hitbox(x, y, w, h, this));
+	}
 	
 	/*
 	 * Get and set methods for Entity

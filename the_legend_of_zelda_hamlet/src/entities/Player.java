@@ -47,7 +47,7 @@ public class Player extends AnimatedEntity{
 	public Player(int x, int y, Game g)
 	{
 		// sets position and game
-		super(x, y, 16, g);
+		super(x, y, 18, 24, g);
 		
 		isRunning = false;
 		

@@ -509,6 +509,7 @@ public class Game extends BasicGame {
 		
 		return toReturn;
 	}
+	
 	/*
 	 * Checks whether a position is blocked based on a 2D array
 	 * 
@@ -555,6 +556,12 @@ public class Game extends BasicGame {
 		return false;
 	}
 
+	/*
+	 * Returns whether to draw hitboxes and such when in debug mode
+	 */
+	public boolean isDebug() {
+		return false;
+	}
 	/*
 	 * Get methods
 	 */

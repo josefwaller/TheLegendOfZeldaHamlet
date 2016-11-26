@@ -49,7 +49,9 @@ public abstract class AnimatedEntity extends Entity {
 		);	
 		
 		// draws hitboxes
-		this.drawHitboxes(g);
+		if (this.game.isDebug()) {
+			this.drawHitboxes(g);
+		}
 	}
 	
 }

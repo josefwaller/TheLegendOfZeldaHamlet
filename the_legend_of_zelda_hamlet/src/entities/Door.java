@@ -66,7 +66,10 @@ public class Door extends CollisionEntity {
 		// rotates the sprite back
 		this.sprite.rotate(- this.degrees);
 		
-		this.drawHitboxes(g);
+		// draws hitboxes
+		if (this.game.isDebug()) {
+			this.drawHitboxes(g);
+		}
 	}
 	
 	/*

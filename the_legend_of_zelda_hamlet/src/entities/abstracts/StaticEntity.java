@@ -60,7 +60,9 @@ public abstract class StaticEntity extends Entity {
 		this.sprite.draw((int)this.x, (int)this.y, this.w, this.h);
 		
 		// draws the hitbox
-		this.drawHitboxes(g);
+		if (this.game.isDebug()){
+			this.drawHitboxes(g);
+		}
 		
 	}
 	

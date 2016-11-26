@@ -2,11 +2,11 @@ package entities;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
+import entities.abstracts.AnimatedEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
 import sprites.SpriteSheet;
@@ -16,7 +16,7 @@ import game.Game;
 /*
 The main player class.
 */
-public class Player extends Entity{
+public class Player extends AnimatedEntity{
 
 	// the speed at which the player runs
 	int speed = 90;
@@ -29,9 +29,6 @@ public class Player extends Entity{
 	Image standDown;
 	Image standLeft;
 	Image standRight;
-	
-	// sprite used if no animation is being used
-	Image currentSprite;
 	
 	// the running animations
 	Animation runUp;
@@ -50,7 +47,7 @@ public class Player extends Entity{
 	public Player(int x, int y, Game g)
 	{
 		// sets position and game
-		super(x, y, 32, g);
+		super(x, y, 16, g);
 		
 		isRunning = false;
 		
@@ -91,6 +88,8 @@ public class Player extends Entity{
 		
 		this.currentAnim = this.runDown;
 		
+		this.imgX = (this.w - 32) / 2;
+		this.imgY = (this.h - 32) / 2;		
 		
 		// adds hitbox
 		this.addHitbox(8, 8, 16, 16);
@@ -218,12 +217,4 @@ public class Player extends Entity{
 		
 	}
 	
-	/*
-	 * Draws the player on the screen
-	 * 
-	 */
-	public void render(Graphics g)
-	{
-		this.currentSprite.draw((int)this.x, (int)this.y, (int)this.w, (int)this.h);		
-	}
 }

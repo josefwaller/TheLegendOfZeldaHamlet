@@ -12,6 +12,10 @@ A list of things to do
 * Add certain doors that load a new map when entered
 * Add button functionality (Is it needed?)
 
+## Bugs
+
+* Walking into a door to the left will not position the camera correctly
+
 ## Done
 * ~Extend InteractiveEntity to entities that need it~
 * ~Add NPCs~

@@ -1,4 +1,6 @@
-package entities.abstracts;
+package util;
+
+import entities.abstracts.Entity;
 
 /*
  * A hitbox in an entity

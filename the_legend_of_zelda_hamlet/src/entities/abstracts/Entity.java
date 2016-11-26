@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 
+import util.Hitbox;
 import game.Game;
 /*
 An abstract entity class

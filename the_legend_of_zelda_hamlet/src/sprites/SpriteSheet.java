@@ -24,9 +24,8 @@ public class SpriteSheet {
 	// The sprite sheet image
 	private Image sheet;
 	
-	// the width and height of an individual sprite
-	private int w;
-	private int h;
+	// the path to the file (without extension)
+	private String path;
 	
 	// the data associated with the sprite sheet
 	private HashMap<String, SpriteData> sheetData;
@@ -36,15 +35,18 @@ public class SpriteSheet {
 	 * 
 	 * Loads the sprites and their data file,
 	 */
-	public SpriteSheet (Image sheet, String fileName) {
+	public SpriteSheet (Image sheet, String path) {
 		
 		// loads the sheet
 		this.sheet = sheet;
 		
-		// loads the data
-		String xmlData = Game.readFile(fileName + ".sprites");
+		// saves the path
+		this.path = path;
 		
-		this.sheetData = SpriteSheet.getSpriteDataFromXML(new File(fileName + ".sprites"));
+		// loads the data
+		String xmlData = Game.readFile(path + ".sprites");
+		
+		this.sheetData = SpriteSheet.getSpriteDataFromXML(new File(path + ".sprites"));
 	}
 	
 	/*
@@ -122,5 +124,12 @@ public class SpriteSheet {
 		
 		// returns the parsed XML
 		return spriteData;
+	}
+	
+	/*
+	 * Get/Set methods
+	 */
+	public String getPath() {
+		return this.path;
 	}
 }

@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import entities.abstracts.AnimatedEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
+import sprites.SpriteAnimation;
 import sprites.SpriteSheet;
 import sprites.SpriteStore;
 import game.Game;
@@ -49,6 +50,8 @@ public class Player extends AnimatedEntity{
 	private Animation attackSide;
 	private Animation attackDown;
 	
+	private SpriteAnimation runningUp;
+	
 	// the time inbetween sprite changes while running
 	private int runInterval = 100;
 	
@@ -77,6 +80,8 @@ public class Player extends AnimatedEntity{
 		this.standDown = sheet.getSprite(1, 0);
 		this.standLeft = sheet.getSprite(3, 0);
 		this.standRight = this.standLeft.getFlippedCopy(true, false);
+		
+		this.runningUp = new SpriteAnimation(sheet);
 		
 		this.currentSprite = standDown;
 		

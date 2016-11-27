@@ -14,7 +14,7 @@ import org.w3c.dom.NodeList;
  * An Animation for several sprites. Works with the 
  * SpriteSheet to draw animations correctly
  */
-public class SpriteAnimation {
+public class SpriteAnimationSet {
 
 	// the spritesheet the animations are for
 	private SpriteSheet sheet;
@@ -22,13 +22,13 @@ public class SpriteAnimation {
 	// the animations
 	private HashMap<String, SpriteAnimationFrame[]> animations;
 	
-	public SpriteAnimation(SpriteSheet sheet) {
+	public SpriteAnimationSet(SpriteSheet sheet) {
 		
 		// saves the sheet
 		this.sheet = sheet;
 		
 		// records the animation from the XML file
-		SpriteAnimation.getAnimationDataFromXML(sheet.getPath() + ".anim");
+		SpriteAnimationSet.getAnimationDataFromXML(sheet.getPath() + ".anim");
 	}
 	
 	public void drawAnimation(String Animation, int index, int x, int y) {

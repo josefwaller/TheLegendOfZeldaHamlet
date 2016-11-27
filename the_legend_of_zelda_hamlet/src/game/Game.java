@@ -510,6 +510,7 @@ public class Game extends BasicGame {
 		return toReturn;
 	}
 	
+	
 	/*
 	 * Checks whether a position is blocked based on a 2D array
 	 * 

@@ -8,4 +8,14 @@ public class SpriteData {
 	public int w;
 	public int h;
 	
+	/*
+	 * Creates a new sprite Data
+	 */
+	public SpriteData(int x, int y, int w, int h) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+	}
+	
 }

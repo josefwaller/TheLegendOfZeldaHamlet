@@ -16,7 +16,7 @@ public class NPC extends InteractiveEntity {
 		this.loadImageWithDimensions(String.format("assets/images/%s.png", spriteSheet));
 		
 		// loads dialog
-		this.dialog = Game.readFile(dialog);
+		this.dialog = Game.readFile(String.format("assets/dialog/%s.txt", dialog));
 
 	}
 	

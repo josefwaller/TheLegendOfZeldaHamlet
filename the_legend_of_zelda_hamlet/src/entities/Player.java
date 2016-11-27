@@ -67,7 +67,7 @@ public class Player extends AnimatedEntity{
 		
 		// loads sprites
 		SpriteSheet sheet = SpriteStore.get().loadSpriteSheet(
-			"assets/images/linkspritesheet.png", 
+			"assets/images/linkspritesheet", 
 			9, 
 			9
 		);

@@ -1,5 +1,11 @@
 package sprites;
 
+import game.Game;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Scanner;
+
 import org.newdawn.slick.Image;
 
 /*
@@ -16,18 +22,23 @@ public class SpriteSheet {
 	private int w;
 	private int h;
 	
+	// the data associated with the sprite sheet
+	private HashMap sheetData;
+	
 	/*
 	 * Constructor
 	 * 
-	 * Loads the sprite sheet and sets the width and height of each sprite in pixel
-	 * per_row and per_column are how many sprites per row and per column
+	 * Loads the sprites and their data file,
 	 */
-	public SpriteSheet(Image sheet, int per_row, int per_column)
-	{
+	public SpriteSheet (Image sheet, String fileName) {
+		
+		// loads the sheet
 		this.sheet = sheet;
 		
-		this.w = sheet.getWidth()/ per_row;
-		this.h = sheet.getHeight() / per_column;
+		// loads the data
+		String xmlData = Game.readFile(fileName + ".sprites");
+		
+		System.out.println(xmlData);
 	}
 	
 	/*
@@ -41,7 +52,6 @@ public class SpriteSheet {
 		int croppedX = x * this.w;
 		int croppedY = y * this.h;
 		
-		return this.sheet.getSubImage(croppedX, croppedY, this.w, this.h);
+		return this.sheet;//.getSubImage(croppedX, croppedY, this.w, this.h);
 	}
-	
 }

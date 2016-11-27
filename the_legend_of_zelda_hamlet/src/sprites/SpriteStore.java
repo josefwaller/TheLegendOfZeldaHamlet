@@ -78,10 +78,10 @@ public class SpriteStore {
 
 			try {
 				// loads the image
-				Image sheetImage = new Image(url, false, Image.FILTER_NEAREST);				
+				Image sheetImage = new Image(url + ".png", false, Image.FILTER_NEAREST);				
 				
 				// adds it to the spritesheet
-				this.spriteSheets.put(url, new SpriteSheet(sheetImage, per_row, per_column));
+				this.spriteSheets.put(url, new SpriteSheet(sheetImage, url));
 				
 			} catch (SlickException e) {
 

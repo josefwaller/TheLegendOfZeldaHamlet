@@ -492,7 +492,7 @@ public class Game extends BasicGame {
 		Scanner s;
 		try {
 			s = new Scanner(new File(
-				String.format("assets/dialog/%s.txt", filename)
+				String.format(filename)
 			));
 			
 		} catch (FileNotFoundException e) {

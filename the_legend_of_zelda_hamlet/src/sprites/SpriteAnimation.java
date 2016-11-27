@@ -20,7 +20,7 @@ public class SpriteAnimation {
 	private SpriteSheet sheet;
 	
 	// the animations
-	private HashMap<String, String[]> animations;
+	private HashMap<String, SpriteAnimationFrame[]> animations;
 	
 	public SpriteAnimation(SpriteSheet sheet) {
 		
@@ -35,10 +35,10 @@ public class SpriteAnimation {
 		
 	}
 	
-	public static HashMap<String, String[]> getAnimationDataFromXML(String xml) {
+	public static HashMap<String, SpriteAnimationFrame[]> getAnimationDataFromXML(String xml) {
 		
 		// creates a new HashMap to return
-		HashMap<String, String[]> animData = new HashMap<String, String[]>();
+		HashMap<String, SpriteAnimationFrame[]> animData = new HashMap<String, SpriteAnimationFrame[]>();
 
 		// parses the XML into a NodeList of the animation tags
 		NodeList tags;
@@ -63,7 +63,7 @@ public class SpriteAnimation {
 			NodeList children = tag.getElementsByTagName("cell");
 			
 			// creates the array to store the information
-			String[] animPaths = new String[children.getLength()];
+			SpriteAnimationFrame[] animPaths = new SpriteAnimationFrame[children.getLength()];
 			
 			// cycles through the cell tags and adds the sprite path to the array
 			for (int x = 0; x < children.getLength(); x++) {
@@ -71,13 +71,20 @@ public class SpriteAnimation {
 				// gets the child
 				Element child = (Element) children.item(x);
 				
+				// gets the sprite tag
+				Element sprite = (Element)child.getElementsByTagName("spr").item(0);
+				
 				// gets the path in the <spr> tag in it
-				String path = ((Element)child.getElementsByTagName("spr").item(0)).getAttribute("name");
+				String path = sprite.getAttribute("name");
+				
+				// gets the x and y offset
+				int offX = Integer.parseInt(sprite.getAttribute("x"));
+				int offY = Integer.parseInt(sprite.getAttribute("y"));
 				
 				// adds the path to the array
-				animPaths[x] = path;
+				animPaths[x] = new SpriteAnimationFrame(offX, offY, path);
 				
-				System.out.println(path);
+				System.out.println(String.format("%s, %d, %d", path, offX, offY));
 			}
 			
 			// adds the animation to the HashMap

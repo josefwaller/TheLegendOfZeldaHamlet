@@ -6,6 +6,7 @@ A list of things to do
 ## Not done
 
 * Add Attacking
+* Remove or change AnimatedEntity
 * Add enemies
 * Add health/Death/Respawn
 * Add pots/picking up things (Quick/Easy/Helps game a lot)

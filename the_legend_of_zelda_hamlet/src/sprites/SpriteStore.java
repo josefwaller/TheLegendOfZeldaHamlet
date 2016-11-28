@@ -92,6 +92,9 @@ public class SpriteStore {
 			}
 		}
 		
+		// loads the animations for the sheet
+		AnimationStore.get().loadAnimationsForSheet(url);
+		
 		return this.spriteSheets.get(url);
 	}
 	

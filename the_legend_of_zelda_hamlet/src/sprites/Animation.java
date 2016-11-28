@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
  * An Animation for several sprites. Works with the 
  * SpriteSheet to draw animations correctly
  */
-public class SpriteAnimation {
+public class Animation {
 
 	// the spritesheet the animations are for
 	private String sheetUrl;
@@ -29,7 +29,7 @@ public class SpriteAnimation {
 	// the index of the curretn image
 	private int index;
 	
-	public SpriteAnimation(String sheetUrl, int duration, SpriteAnimationFrame[] frames) {
+	public Animation(String sheetUrl, int duration, SpriteAnimationFrame[] frames) {
 		
 		// saves the sheet
 		this.sheetUrl = sheetUrl;

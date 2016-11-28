@@ -22,7 +22,7 @@ public class AnimationStore {
 	// the top HashMap contains the animations for a spritesheet at the 
 	// key of the spritesheet's path
 	// Ex: "assets/images/linkspritesheet" would contain Link's animations
-	private HashMap<String, HashMap<String, SpriteAnimation>> animations;
+	private HashMap<String, HashMap<String, Animation>> animations;
 	
 	// the single instance of the AnimationStore
 	// so that animations are not loaded over and over again
@@ -35,7 +35,7 @@ public class AnimationStore {
 	public AnimationStore() {
 		
 		// initializes HashMap
-		this.animations = new HashMap<String, HashMap<String, SpriteAnimation>>();
+		this.animations = new HashMap<String, HashMap<String, Animation>>();
 		
 	}
 	
@@ -45,7 +45,7 @@ public class AnimationStore {
 	private void loadAnimationsForSheet(String sheetUrl) {
 		
 		// adds a new entry
-		this.animations.put(sheetUrl, new HashMap<String, SpriteAnimation>());
+		this.animations.put(sheetUrl, new HashMap<String, Animation>());
 		
 		// loads the XML file
 		File xml = new File(sheetUrl + ".anim");
@@ -102,11 +102,11 @@ public class AnimationStore {
 			
 			// adds the new animation to the sprite animation
 			this.animations.get(sheetUrl).put(animTag.getAttribute("name"),
-				new SpriteAnimation(sheetUrl, 100, anim));
+				new Animation(sheetUrl, 100, anim));
 		}
 	}
 	
-	public SpriteAnimation getAnimation(String sheetName, String animName) {
+	public Animation getAnimation(String sheetName, String animName) {
 		
 		// checks if it needs to load the animation
 		if (!this.animations.containsKey(sheetName)) {

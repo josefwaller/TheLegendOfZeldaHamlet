@@ -10,7 +10,7 @@ import entities.abstracts.AnimatedEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
 import sprites.AnimationStore;
-import sprites.SpriteAnimation;
+import sprites.Animation;
 import game.Game;
 
 /*
@@ -34,31 +34,31 @@ public class Player extends AnimatedEntity{
 	private long attackTime;
 	
 	// the standing animations
-	private SpriteAnimation standUp;
-	private SpriteAnimation standDown;
-	private SpriteAnimation standSide;
-	private SpriteAnimation standUpShield;
-	private SpriteAnimation standDownShield;
-	private SpriteAnimation standSideShield;
+	private Animation standUp;
+	private Animation standDown;
+	private Animation standSide;
+	private Animation standUpShield;
+	private Animation standDownShield;
+	private Animation standSideShield;
 	
 	// the running animations
-	private SpriteAnimation runUp;
-	private SpriteAnimation runDown;
-	private SpriteAnimation runSide;
-	private SpriteAnimation runUpShield;
-	private SpriteAnimation runDownShield;
-	private SpriteAnimation runSideShield;
+	private Animation runUp;
+	private Animation runDown;
+	private Animation runSide;
+	private Animation runUpShield;
+	private Animation runDownShield;
+	private Animation runSideShield;
 	
 	// the attacking animations
-	private SpriteAnimation attackUp;
-	private SpriteAnimation attackDown;
-	private SpriteAnimation attackSide;
+	private Animation attackUp;
+	private Animation attackDown;
+	private Animation attackSide;
 	
 	// the time inbetween sprite changes while running
 	private int runInterval = 100;
 	
 	// the current animation being used
-	private SpriteAnimation currentAnim;
+	private Animation currentAnim;
 	
 	/*
 	Creates a new player

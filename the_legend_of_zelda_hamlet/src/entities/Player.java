@@ -2,6 +2,7 @@ package entities;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
@@ -29,34 +30,37 @@ public class Player extends AnimatedEntity{
 	boolean isAttacking;
 	
 	// how long the attack takes
-	private int attackDuration = 500;
+	private int attackDuration = 300;
 	
 	// when the attack started
 	private long attackTime;
 	
-	// the standing sprites
-	private Image standUp;
-	private Image standDown;
-	private Image standLeft;
-	private Image standRight;
+	// the standing animations
+	private SpriteAnimationSet standUp;
+	private SpriteAnimationSet standDown;
+	private SpriteAnimationSet standSide;
+	private SpriteAnimationSet standUpShield;
+	private SpriteAnimationSet standDownShield;
+	private SpriteAnimationSet standSideShield;
 	
 	// the running animations
-	private Animation runUp;
-	private Animation runDown;
-	private Animation runSide;
+	private SpriteAnimationSet runUp;
+	private SpriteAnimationSet runDown;
+	private SpriteAnimationSet runSide;
+	private SpriteAnimationSet runUpShield;
+	private SpriteAnimationSet runDownShield;
+	private SpriteAnimationSet runSideShield;
 	
 	// the attacking animations
-	private Animation attackUp;
-	private Animation attackSide;
-	private Animation attackDown;
-	
-	private SpriteAnimationSet animSet;
+	private SpriteAnimationSet attackUp;
+	private SpriteAnimationSet attackDown;
+	private SpriteAnimationSet attackSide;
 	
 	// the time inbetween sprite changes while running
 	private int runInterval = 100;
 	
 	// the current animation being used
-	private Animation currentAnim;
+	private SpriteAnimationSet currentAnim;
 	
 	/*
 	Creates a new player
@@ -75,63 +79,42 @@ public class Player extends AnimatedEntity{
 			9
 		);
 		
-		// loads standing sprites
-		this.standUp = sheet.getSprite(2,  0);
-		this.standDown = sheet.getSprite(1, 0);
-		this.standLeft = sheet.getSprite(3, 0);
-		this.standRight = this.standLeft.getFlippedCopy(true, false);
+		// loads standing sprite
+		this.standDown = new SpriteAnimationSet(sheet, "standdown", 1);
+		this.standSide = new SpriteAnimationSet(sheet, "standside", 1);
+		this.standUp = new SpriteAnimationSet(sheet, "standup", 1);
+		this.standDownShield = new SpriteAnimationSet(sheet, "standdownshield", 1);
+		this.standSideShield = new SpriteAnimationSet(sheet, "standsideshield", 1);
+		this.standUpShield = new SpriteAnimationSet(sheet, "standupshield", 1);
 		
-		this.animSet = new SpriteAnimationSet(sheet);
+		// creates animations
+		this.runUp = new SpriteAnimationSet(sheet, "runup", this.runInterval);
+		this.runDown = new SpriteAnimationSet(sheet, "rundown", this.runInterval);
+		this.runSide = new SpriteAnimationSet(sheet, "runside", this.runInterval);
+		this.runUpShield = new SpriteAnimationSet(sheet, "runupshield", this.runInterval);
+		this.runDownShield = new SpriteAnimationSet(sheet, "rundownshield", this.runInterval);
+		this.runSideShield = new SpriteAnimationSet(sheet, "runsideshield", this.runInterval);
 		
-		this.currentSprite = standDown;
+		// these durations are set after, bacuse they depend on the animation's length
+		this.attackUp = new SpriteAnimationSet(sheet, "attackup", 0);
+		this.attackSide = new SpriteAnimationSet(sheet, "attackside", 0);
+		this.attackDown = new SpriteAnimationSet(sheet, "attackdown", 0);
 		
-		// saves running sprites in array to be used in animation
-		Image[] runDownImages = new Image[8];
-		Image[] runUpImages = new Image[8];
-		Image[] runSideImages = new Image[6];
+		// sets the attack animation's duration
+		this.attackUp.setDuration(this.attackDuration / this.attackUp.getAnimLength());
+		this.attackSide.setDuration(this.attackDuration / this.attackSide.getAnimLength());
+		this.attackDown.setDuration(this.attackDuration / this.attackDown.getAnimLength());
 		
-		// holds attacking sprites in array to be used in animation
-		Image[] attackDownImages = new Image[6];
-		Image[] attackSideImages = new Image[5];
-		Image[] attackUpImages = new Image[5];
-		
-		for (int i = 0; i < 8; i++) {
-			
-			runDownImages[i] = sheet.getSprite(i, 1);
-			runUpImages[i] = sheet.getSprite(i, 2);
-			
-			if (i < 6) {
-
-				runSideImages[i] = sheet.getSprite(i, 3);
-				
-				attackDownImages[i] = sheet.getSprite(i, 4);
-				
-				if (i < 5) {
-
-					attackSideImages[i] = sheet.getSprite(i, 5);
-					attackUpImages[i] = sheet.getSprite(i, 6);
-				}
-			}
-		}
-		
-		// creates animations from arrays of images
-		this.runDown = new Animation(runDownImages, this.runInterval, false);
-		this.runUp = new Animation(runUpImages, this.runInterval, false);
-		this.runSide = new Animation(runSideImages, this.runInterval, false);
-		
-		// creates animations for attacking
-		this.attackDown = new Animation(attackDownImages, this.attackDuration / 6, false);
-		this.attackSide = new Animation(attackSideImages, this.attackDuration / 5, false);
-		this.attackUp = new Animation(attackUpImages, this.attackDuration / 5, false);
-		
-		// sets the default animation to running down
-		this.currentAnim = this.runDown;
 		
 		this.imgX = (this.w - 32) / 2;
 		this.imgY = (this.h - 32) / 2;		
 		
 		// adds hitbox
 		this.addHitbox(2, 2, 14, 20);
+		
+		// sets to go down for default
+		this.currentAnim = this.runDown;
+		this.currentSprite = this.currentAnim.getSprite();
 	}
 	
 	/*
@@ -152,9 +135,9 @@ public class Player extends AnimatedEntity{
 				this.isAttacking = false;
 			}
 			
-			this.currentAnim.update(delta);
+			this.currentAnim.update();
 			
-			this.currentSprite = this.currentAnim.getCurrentFrame();
+			this.currentSprite = this.currentAnim.getSprite();
 			
 		} else {
 
@@ -164,7 +147,7 @@ public class Player extends AnimatedEntity{
 				this.tryToMove(this.x, this.y - (this.speed * delta / 1000f));
 				
 				this.direction = Entity.DIR_UP;
-				this.currentAnim  = this.runUp;
+				this.currentAnim = this.runUpShield;
 				this.isRunning = true;
 			}
 			else if (input.isKeyDown(Input.KEY_DOWN))
@@ -172,7 +155,7 @@ public class Player extends AnimatedEntity{
 				this.tryToMove(this.x, this.y + (this.speed * delta / 1000f));
 				
 				this.direction = Entity.DIR_DOWN;
-				this.currentAnim = this.runDown;
+				this.currentAnim = this.runDownShield;
 				this.isRunning = true;
 			}
 			if (input.isKeyDown(Input.KEY_LEFT))
@@ -180,7 +163,7 @@ public class Player extends AnimatedEntity{
 				this.tryToMove(this.x - (this.speed * delta / 1000f), this.y);
 				
 				this.direction = Entity.DIR_LEFT;
-				this.currentAnim = this.runSide;
+				this.currentAnim = this.runSideShield;
 				this.isRunning = true;
 			}
 			else if (input.isKeyDown(Input.KEY_RIGHT))
@@ -188,7 +171,7 @@ public class Player extends AnimatedEntity{
 				this.tryToMove(this.x + (this.speed * delta / 1000f), this.y);
 
 				this.direction = Entity.DIR_RIGHT;
-				this.currentAnim = this.runSide;
+				this.currentAnim = this.runSideShield;
 				this.isRunning = true;
 			}
 			
@@ -200,27 +183,56 @@ public class Player extends AnimatedEntity{
 					this.swingSword();
 					
 				}
-			}
-			
-			if (this.isRunning) {
+			} else if (this.isRunning) {
 				
-				this.currentAnim.update(delta);
+				this.currentAnim.update();
 				
-				this.currentSprite = this.currentAnim.getCurrentFrame();
-				
-				if (this.direction == Entity.DIR_RIGHT) {
-					this.currentSprite = this.currentSprite.getFlippedCopy(true,  false);
-				}
+				this.currentSprite = this.currentAnim.getSprite();
 				
 			} else {
+				
 				switch (this.direction) {
-					case Entity.DIR_UP: this.currentSprite = this.standUp; break;
-					case Entity.DIR_DOWN: this.currentSprite = this.standDown; break;
-					case Entity.DIR_LEFT: this.currentSprite = this.standLeft; break;
-					case Entity.DIR_RIGHT: this.currentSprite = this.standRight; break;
+					case Entity.DIR_DOWN:
+						this.currentAnim = this.standDownShield;
+						break;
+					case Entity.DIR_UP:
+						this.currentAnim = this.standUpShield;
+						break;
+					case Entity.DIR_LEFT:
+					case Entity.DIR_RIGHT:
+						this.currentAnim = this.standSideShield;
+						break;
 				}
+				
+				this.currentSprite = this.currentAnim.getSprite();
 			}
 		}
+	}
+	
+	/*
+	 * Renders the player
+	 */
+	public void render(Graphics g) {
+		
+		Image sprite = this.currentSprite;
+
+		int imgX = (int)this.x + this.w / 2;
+		int imgY = (int)this.y + this.h / 2;
+		
+		if (this.direction == Entity.DIR_LEFT) {
+			sprite = sprite.getFlippedCopy(true, false);
+			imgX -= this.currentAnim.getOffX();
+			
+		} else {
+			imgX += this.currentAnim.getOffX();
+		}
+		imgY += this.currentAnim.getOffY();
+		
+		sprite.drawCentered(
+			imgX, 
+			imgY);
+		
+		g.drawRect(this.x, this.y, this.w, this.h);
 	}
 	
 	/*
@@ -233,21 +245,21 @@ public class Player extends AnimatedEntity{
 		this.isAttacking = true;
 		this.attackTime = System.currentTimeMillis();
 		
-		// finds the correct animation to play
+		// sets animation to attack
 		switch (this.direction) {
-			case Entity.DIR_DOWN:
-				this.currentAnim = this.attackDown;
+			case Entity.DIR_UP: 
+				this.currentAnim = this.attackUp;
 				break;
 			case Entity.DIR_LEFT:
 			case Entity.DIR_RIGHT:
 				this.currentAnim = this.attackSide;
 				break;
-			case Entity.DIR_UP:
-				this.currentAnim = this.attackUp;
+			case Entity.DIR_DOWN:
+				this.currentAnim = this.attackDown;
 				break;
 		}
 		
-		// restarts it
+		// restarts that animation
 		this.currentAnim.restart();
 	}
 	

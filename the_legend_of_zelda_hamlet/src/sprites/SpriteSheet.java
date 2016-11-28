@@ -11,7 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.newdawn.slick.Image;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /*
@@ -54,10 +53,17 @@ public class SpriteSheet {
 	 * 
 	 * Gets a single sprite at the x and y offset.
 	 */
-	public Image getSprite(int x, int y)
+	public Image getSprite(String path)
 	{
 		
-		return this.sheet;//.getSubImage(croppedX, croppedY, this.w, this.h);
+		// gets the data for the sprite
+		SpriteData data = this.sheetData.get(path);
+		
+		// cuts out that part of the spritesheet
+		Image sprite = this.sheet.getSubImage(data.x, data.y, data.w, data.h);
+		
+		return sprite;
+		
 	}
 	
 	/*

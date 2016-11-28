@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.newdawn.slick.Image;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,29 +20,53 @@ public class SpriteAnimationSet {
 	// the spritesheet the animations are for
 	private SpriteSheet sheet;
 	
-	// the animations
-	private HashMap<String, SpriteAnimationFrame[]> animations;
+	// the frames
+	private SpriteAnimationFrame[] frames;
 	
-	public SpriteAnimationSet(SpriteSheet sheet) {
+	// the time between updating
+	private int duration;
+	
+	// the last time the image changed
+	private long lastChange;
+	
+	// the index of the curretn image
+	private int index;
+	
+	public SpriteAnimationSet(SpriteSheet sheet, String animName, int duration) {
 		
 		// saves the sheet
 		this.sheet = sheet;
 		
 		// records the animation from the XML file
-		SpriteAnimationSet.getAnimationDataFromXML(sheet.getPath() + ".anim");
+		this.frames = SpriteAnimationSet.getAnimationDataFromXML(sheet.getPath() + ".anim", animName);
+		
+		this.duration = duration;
+		
+		this.lastChange = System.currentTimeMillis();
 	}
 	
-	public void drawAnimation(String Animation, int index, int x, int y) {
+
+	/*
+	 * Checks if the sprite animation should change sprites
+	 */
+	public void update() {
 		
+		if (System.currentTimeMillis() - this.lastChange > this.duration) {
+			this.index = (this.index + 1) % this.frames.length;
+			this.lastChange = System.currentTimeMillis();
+		}
 	}
-	
-	public static HashMap<String, SpriteAnimationFrame[]> getAnimationDataFromXML(String xml) {
+	/*
+	 * Loads an animation and animation data into a HashMap
+	 */
+	public static SpriteAnimationFrame[] getAnimationDataFromXML(String xml, String animName) {
 		
-		// creates a new HashMap to return
-		HashMap<String, SpriteAnimationFrame[]> animData = new HashMap<String, SpriteAnimationFrame[]>();
+		// Creates the array to return, but doesn't actually store anything because we don't know its length yet
+		SpriteAnimationFrame[] animData = new SpriteAnimationFrame[0];
 
 		// parses the XML into a NodeList of the animation tags
 		NodeList tags;
+		
 		try {
 
 			DocumentBuilderFactory dBFactory = DocumentBuilderFactory.newInstance();
@@ -59,41 +84,67 @@ public class SpriteAnimationSet {
 			// casts to element
 			Element tag = (Element)(tags.item(i));
 			
-			// finds all the child nodes
-			NodeList children = tag.getElementsByTagName("cell");
-			
-			// creates the array to store the information
-			SpriteAnimationFrame[] animPaths = new SpriteAnimationFrame[children.getLength()];
-			
-			// cycles through the cell tags and adds the sprite path to the array
-			for (int x = 0; x < children.getLength(); x++) {
+			// finds the one relating to the animation
+			if (tag.getAttribute("name").equals(animName)) {
 				
-				// gets the child
-				Element child = (Element) children.item(x);
+				// finds all the child nodes
+				NodeList children = tag.getElementsByTagName("cell");
 				
-				// gets the sprite tag
-				Element sprite = (Element)child.getElementsByTagName("spr").item(0);
+				// creates the array to store the information
+				animData = new SpriteAnimationFrame[children.getLength()];
 				
-				// gets the path in the <spr> tag in it
-				String path = sprite.getAttribute("name");
+				// cycles through the cell tags and adds the sprite path to the array
+				for (int x = 0; x < children.getLength(); x++) {
+					
+					// gets the child
+					Element child = (Element) children.item(x);
+					
+					// gets the sprite tag
+					Element sprite = (Element)child.getElementsByTagName("spr").item(0);
+					
+					// gets the path in the <spr> tag in it
+					String path = sprite.getAttribute("name");
+					
+					// gets the x and y offset
+					int offX = Integer.parseInt(sprite.getAttribute("x"));
+					int offY = Integer.parseInt(sprite.getAttribute("y"));
+					
+					// adds the path to the array
+					animData[x] = new SpriteAnimationFrame(offX, offY, path);
+				}
 				
-				// gets the x and y offset
-				int offX = Integer.parseInt(sprite.getAttribute("x"));
-				int offY = Integer.parseInt(sprite.getAttribute("y"));
-				
-				// adds the path to the array
-				animPaths[x] = new SpriteAnimationFrame(offX, offY, path);
-				
-				System.out.println(String.format("%s, %d, %d", path, offX, offY));
+				break;
 			}
-			
-			// adds the animation to the HashMap
-			animData.put(tag.getAttribute("name"), animPaths);
 			
 		}
 		
-		// returns the completed HashMap
+		// returns the completed Array
 		return animData;
 	}
+	/*
+	 * Restarts the animation
+	 */
+	public void restart() {
+		this.index = 0;
+		this.lastChange = System.currentTimeMillis();
+	}
 	
+	/*
+	 * Get/Set methods
+	 */
+	public int getAnimLength() {
+		return this.frames.length;
+	}
+	public Image getSprite() {
+		return this.sheet.getSprite(this.frames[this.index].spritePath);
+	}
+	public int getOffX() {
+		return this.frames[this.index].x;
+	}
+	public int getOffY() {
+		return this.frames[this.index].y;
+	}
+	public void setDuration(int d) {
+		this.duration = d;
+	}
 }

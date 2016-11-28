@@ -13,8 +13,10 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
+
 // different entities
 import entities.Button;
+import entities.CutsceneAnimation;
 import entities.Door;
 import entities.NPC;
 
@@ -96,8 +98,14 @@ public class Game extends BasicGame {
 	// the player entity
 	private Player player;
 
-	// all objects/entities on the current map
+	// all objects on the current map
 	private ArrayList<StaticEntity> objects;
+	
+	// all entities (Except the player) on the screen
+	private ArrayList<Entity> entities;
+	
+	// all animations that will be played
+	private ArrayList<CutsceneAnimation> animations;
 	
 	// the lines of dialog currently being drawn on the screen
 	
@@ -163,6 +171,12 @@ public class Game extends BasicGame {
 			for (int o = 0; o < this.objects.size(); o++) {
 				this.objects.get(o).update();
 			}
+			
+			// updates animations
+			for (int i = 0; i < this.animations.size(); i++) {
+				this.animations.get(i).update();
+			}
+			
 		} else if (this.isPlayingTransition){
 			
 			if (System.currentTimeMillis() - this.transStartTime > this.transDuration) {
@@ -274,6 +288,9 @@ public class Game extends BasicGame {
 		// initializes objects
 		this.objects = new ArrayList<StaticEntity>();
 		
+		// initialsizes animations
+		this.animations = new ArrayList<CutsceneAnimation>();
+		
 		for (int gi = 0; gi < this.map.getObjectGroupCount(); gi++) {
 			
 			for (int oi = 0; oi < this.map.getObjectCount(gi); oi++) {
@@ -285,7 +302,7 @@ public class Game extends BasicGame {
 				// creates a new object
 				switch (this.map.getObjectType(gi, oi)) {
 					case "button": this.objects.add(new Button(objX, objY, this)); break;
-					case "door": {
+					case "door": 
 						this.objects.add(
 							new Door(
 									objX, 
@@ -296,14 +313,21 @@ public class Game extends BasicGame {
 							)
 						); 
 						break;
-					}
-					case "npc": this.objects.add(
+					case "npc": 
+						this.objects.add(
 							new NPC(
 								objX, 
 								objY,
 								this.map.getObjectProperty(gi, oi, "spritesheet", "test"),
 								this.map.getObjectProperty(gi,  oi, "dialog", "test"),
-								this));break;
+								this));
+						break;
+					case "cutsceneanimation": 
+						this.animations.add(new CutsceneAnimation(
+							this.map.getObjectProperty(gi,  oi, "src", "test"),
+							this)
+						);
+						break;
 					case "section": addSection(gi, oi); break;
 					
 					default : System.out.println(this.map.getObjectType(gi, oi)); break;

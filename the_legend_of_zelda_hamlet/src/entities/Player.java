@@ -10,6 +10,7 @@ import org.newdawn.slick.Image;
 import entities.abstracts.AnimatedEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
+import sprites.AnimationStore;
 import sprites.SpriteAnimation;
 import sprites.SpriteSheet;
 import sprites.SpriteStore;
@@ -73,32 +74,34 @@ public class Player extends AnimatedEntity{
 		isRunning = false;
 		
 		// loads sprites
-		SpriteSheet sheet = SpriteStore.get().loadSpriteSheet(
-			"assets/images/linkspritesheet", 
-			9, 
-			9
-		);
+//		SpriteSheet sheet = SpriteStore.get().loadSpriteSheet(
+//			"assets/images/linkspritesheet", 
+//			9, 
+//			9
+//		);
+		
+		String sheet = "assets/images/linkspritesheet";
 		
 		// loads standing sprite
-		this.standDown = new SpriteAnimation(sheet, "standdown", 1);
-		this.standSide = new SpriteAnimation(sheet, "standside", 1);
-		this.standUp = new SpriteAnimation(sheet, "standup", 1);
-		this.standDownShield = new SpriteAnimation(sheet, "standdownshield", 1);
-		this.standSideShield = new SpriteAnimation(sheet, "standsideshield", 1);
-		this.standUpShield = new SpriteAnimation(sheet, "standupshield", 1);
+		this.standDown = AnimationStore.get().getAnimation(sheet, "standdown");
+		this.standSide = AnimationStore.get().getAnimation(sheet, "standside");
+		this.standUp = AnimationStore.get().getAnimation(sheet, "standup");
+		this.standDownShield = AnimationStore.get().getAnimation(sheet, "standdownshield");
+		this.standSideShield = AnimationStore.get().getAnimation(sheet, "standsideshield");
+		this.standUpShield = AnimationStore.get().getAnimation(sheet, "standupshield");
 		
 		// creates animations
-		this.runUp = new SpriteAnimation(sheet, "runup", this.runInterval);
-		this.runDown = new SpriteAnimation(sheet, "rundown", this.runInterval);
-		this.runSide = new SpriteAnimation(sheet, "runside", this.runInterval);
-		this.runUpShield = new SpriteAnimation(sheet, "runupshield", this.runInterval);
-		this.runDownShield = new SpriteAnimation(sheet, "rundownshield", this.runInterval);
-		this.runSideShield = new SpriteAnimation(sheet, "runsideshield", this.runInterval);
+		this.runUp = AnimationStore.get().getAnimation(sheet, "runup");
+		this.runDown = AnimationStore.get().getAnimation(sheet, "rundown");
+		this.runSide = AnimationStore.get().getAnimation(sheet, "runside");
+		this.runUpShield = AnimationStore.get().getAnimation(sheet, "runupshield");
+		this.runDownShield = AnimationStore.get().getAnimation(sheet, "rundownshield");
+		this.runSideShield = AnimationStore.get().getAnimation(sheet, "runsideshield");
 		
 		// these durations are set after, bacuse they depend on the animation's length
-		this.attackUp = new SpriteAnimation(sheet, "attackup", 0);
-		this.attackSide = new SpriteAnimation(sheet, "attackside", 0);
-		this.attackDown = new SpriteAnimation(sheet, "attackdown", 0);
+		this.attackUp = AnimationStore.get().getAnimation(sheet, "attackup");
+		this.attackSide = AnimationStore.get().getAnimation(sheet, "attackside");
+		this.attackDown = AnimationStore.get().getAnimation(sheet, "attackdown");
 		
 		// sets the attack animation's duration
 		this.attackUp.setDuration(this.attackDuration / this.attackUp.getAnimLength());

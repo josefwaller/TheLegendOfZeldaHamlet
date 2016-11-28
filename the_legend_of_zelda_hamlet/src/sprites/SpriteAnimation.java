@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 public class SpriteAnimation {
 
 	// the spritesheet the animations are for
-	private SpriteSheet sheet;
+	private String sheetUrl;
 	
 	// the frames
 	private SpriteAnimationFrame[] frames;
@@ -32,15 +32,14 @@ public class SpriteAnimation {
 	// the index of the curretn image
 	private int index;
 	
-	public SpriteAnimation(SpriteSheet sheet, String animName, int duration) {
+	public SpriteAnimation(String sheetUrl, int duration, SpriteAnimationFrame[] frames) {
 		
 		// saves the sheet
-		this.sheet = sheet;
-		
-		// records the animation from the XML file
-		this.frames = SpriteAnimation.getAnimationDataFromXML(sheet.getPath() + ".anim", animName);
+		this.sheetUrl = sheetUrl;
 		
 		this.duration = duration;
+		
+		this.frames = frames;
 		
 		this.lastChange = System.currentTimeMillis();
 	}
@@ -136,7 +135,7 @@ public class SpriteAnimation {
 		return this.frames.length;
 	}
 	public Image getSprite() {
-		return this.sheet.getSprite(this.frames[this.index].spritePath);
+		return SpriteStore.get().loadSpriteSheet(this.sheetUrl).getSprite(this.frames[this.index].spritePath);
 	}
 	public int getOffX() {
 		return this.frames[this.index].x;

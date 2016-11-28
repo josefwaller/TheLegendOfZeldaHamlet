@@ -69,7 +69,7 @@ public class SpriteStore {
 	 * 
 	 * Loads a new image and creates a SpriteSheet object with it
 	 */
-	public SpriteSheet loadSpriteSheet(String url, int per_row, int per_column)
+	public SpriteSheet loadSpriteSheet(String url)
 	{
 		
 		// checks it hasn't already loaded the spritesheet
@@ -91,9 +91,6 @@ public class SpriteStore {
 				System.exit(0);
 			}
 		}
-		
-		// loads the animations for the sheet
-		AnimationStore.get().loadAnimationsForSheet(url);
 		
 		return this.spriteSheets.get(url);
 	}

@@ -22,7 +22,10 @@ public class AnimationStore {
 		
 	}
 	
-	public void loadAnimationsForSheet(String sheetUrl) {
+	private void loadAnimationsForSheet(String sheetUrl) {
+		
+		// adds a new entry
+		this.animations.put(sheetUrl, new HashMap<String, SpriteAnimation>());
 		
 		// loads the xml file
 		File xml = new File(sheetUrl + ".anim");
@@ -82,12 +85,22 @@ public class AnimationStore {
 				// adds the path to the array
 				anim[x] = new SpriteAnimationFrame(offX, offY, path);
 			}
+			
+			// adds the new animation to the sprite animation
+			this.animations.get(sheetUrl).put(animTag.getAttribute("name"),
+				new SpriteAnimation(sheetUrl, 100, anim));
 		}
 	}
 	
 	public SpriteAnimation getAnimation(String sheetName, String animName) {
 		
-		return null;
+		// checks if it needs to load the animation
+		if (!this.animations.containsKey(sheetName)) {
+			
+			this.loadAnimationsForSheet(sheetName);
+		} 
+		
+		return this.animations.get(sheetName).get(animName);
 	}
 	
 	public static AnimationStore get() {

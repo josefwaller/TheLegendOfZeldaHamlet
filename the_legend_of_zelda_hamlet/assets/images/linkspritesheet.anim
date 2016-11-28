@@ -195,23 +195,23 @@
     </cell>
   </anim>
   <anim name="attackdown" loops="0">
-    <cell index="0" delay="1">
-      <spr name="/Attacking/Front/0" x="-3" y="-3" z="0"/>
+    <cell index="0" delay="3">
+      <spr name="/Attacking/Front/0" x="-3" y="-1" z="0"/>
     </cell>
     <cell index="1" delay="1">
-      <spr name="/Attacking/Front/1" x="-3" y="0" z="0"/>
+      <spr name="/Attacking/Front/1" x="-4" y="3" z="0"/>
     </cell>
     <cell index="2" delay="1">
-      <spr name="/Attacking/Front/2" x="-2" y="1" z="0"/>
+      <spr name="/Attacking/Front/2" x="-3" y="4" z="0"/>
     </cell>
     <cell index="3" delay="1">
-      <spr name="/Attacking/Front/3" x="-1" y="3" z="0"/>
+      <spr name="/Attacking/Front/3" x="-3" y="8" z="0"/>
     </cell>
     <cell index="4" delay="1">
-      <spr name="/Attacking/Front/4" x="3" y="1" z="0"/>
+      <spr name="/Attacking/Front/4" x="0" y="5" z="0"/>
     </cell>
     <cell index="5" delay="1">
-      <spr name="/Attacking/Front/5" x="6" y="0" z="0"/>
+      <spr name="/Attacking/Front/5" x="3" y="2" z="0"/>
     </cell>
   </anim>
   <anim name="standup" loops="0">

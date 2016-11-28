@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import entities.abstracts.AnimatedEntity;
@@ -12,8 +11,6 @@ import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
 import sprites.AnimationStore;
 import sprites.SpriteAnimation;
-import sprites.SpriteSheet;
-import sprites.SpriteStore;
 import game.Game;
 
 /*

@@ -17,6 +17,7 @@ A list of things to do
 * Walking into a door to the left will not position the camera correctly
 
 ## Done
+* ~Add AnimationStore~
 * ~Extend InteractiveEntity to entities that need it~
 * ~Add NPCs~
 * ~Add doors~

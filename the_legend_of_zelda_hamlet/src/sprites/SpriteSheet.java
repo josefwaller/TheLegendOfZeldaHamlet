@@ -1,7 +1,5 @@
 package sprites;
 
-import game.Game;
-
 import java.io.File;
 import java.util.HashMap;
 
@@ -42,9 +40,7 @@ public class SpriteSheet {
 		// saves the path
 		this.path = path;
 		
-		// loads the data
-		String xmlData = Game.readFile(path + ".sprites");
-		
+		// loads the sprite data
 		this.sheetData = SpriteSheet.getSpriteDataFromXML(new File(path + ".sprites"));
 	}
 	

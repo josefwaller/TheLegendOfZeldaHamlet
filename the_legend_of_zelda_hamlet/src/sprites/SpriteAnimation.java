@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
  * An Animation for several sprites. Works with the 
  * SpriteSheet to draw animations correctly
  */
-public class SpriteAnimationSet {
+public class SpriteAnimation {
 
 	// the spritesheet the animations are for
 	private SpriteSheet sheet;
@@ -32,13 +32,13 @@ public class SpriteAnimationSet {
 	// the index of the curretn image
 	private int index;
 	
-	public SpriteAnimationSet(SpriteSheet sheet, String animName, int duration) {
+	public SpriteAnimation(SpriteSheet sheet, String animName, int duration) {
 		
 		// saves the sheet
 		this.sheet = sheet;
 		
 		// records the animation from the XML file
-		this.frames = SpriteAnimationSet.getAnimationDataFromXML(sheet.getPath() + ".anim", animName);
+		this.frames = SpriteAnimation.getAnimationDataFromXML(sheet.getPath() + ".anim", animName);
 		
 		this.duration = duration;
 		

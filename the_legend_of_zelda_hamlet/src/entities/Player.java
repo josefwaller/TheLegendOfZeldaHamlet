@@ -10,7 +10,7 @@ import org.newdawn.slick.Image;
 import entities.abstracts.AnimatedEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
-import sprites.SpriteAnimationSet;
+import sprites.SpriteAnimation;
 import sprites.SpriteSheet;
 import sprites.SpriteStore;
 import game.Game;
@@ -36,31 +36,31 @@ public class Player extends AnimatedEntity{
 	private long attackTime;
 	
 	// the standing animations
-	private SpriteAnimationSet standUp;
-	private SpriteAnimationSet standDown;
-	private SpriteAnimationSet standSide;
-	private SpriteAnimationSet standUpShield;
-	private SpriteAnimationSet standDownShield;
-	private SpriteAnimationSet standSideShield;
+	private SpriteAnimation standUp;
+	private SpriteAnimation standDown;
+	private SpriteAnimation standSide;
+	private SpriteAnimation standUpShield;
+	private SpriteAnimation standDownShield;
+	private SpriteAnimation standSideShield;
 	
 	// the running animations
-	private SpriteAnimationSet runUp;
-	private SpriteAnimationSet runDown;
-	private SpriteAnimationSet runSide;
-	private SpriteAnimationSet runUpShield;
-	private SpriteAnimationSet runDownShield;
-	private SpriteAnimationSet runSideShield;
+	private SpriteAnimation runUp;
+	private SpriteAnimation runDown;
+	private SpriteAnimation runSide;
+	private SpriteAnimation runUpShield;
+	private SpriteAnimation runDownShield;
+	private SpriteAnimation runSideShield;
 	
 	// the attacking animations
-	private SpriteAnimationSet attackUp;
-	private SpriteAnimationSet attackDown;
-	private SpriteAnimationSet attackSide;
+	private SpriteAnimation attackUp;
+	private SpriteAnimation attackDown;
+	private SpriteAnimation attackSide;
 	
 	// the time inbetween sprite changes while running
 	private int runInterval = 100;
 	
 	// the current animation being used
-	private SpriteAnimationSet currentAnim;
+	private SpriteAnimation currentAnim;
 	
 	/*
 	Creates a new player
@@ -80,25 +80,25 @@ public class Player extends AnimatedEntity{
 		);
 		
 		// loads standing sprite
-		this.standDown = new SpriteAnimationSet(sheet, "standdown", 1);
-		this.standSide = new SpriteAnimationSet(sheet, "standside", 1);
-		this.standUp = new SpriteAnimationSet(sheet, "standup", 1);
-		this.standDownShield = new SpriteAnimationSet(sheet, "standdownshield", 1);
-		this.standSideShield = new SpriteAnimationSet(sheet, "standsideshield", 1);
-		this.standUpShield = new SpriteAnimationSet(sheet, "standupshield", 1);
+		this.standDown = new SpriteAnimation(sheet, "standdown", 1);
+		this.standSide = new SpriteAnimation(sheet, "standside", 1);
+		this.standUp = new SpriteAnimation(sheet, "standup", 1);
+		this.standDownShield = new SpriteAnimation(sheet, "standdownshield", 1);
+		this.standSideShield = new SpriteAnimation(sheet, "standsideshield", 1);
+		this.standUpShield = new SpriteAnimation(sheet, "standupshield", 1);
 		
 		// creates animations
-		this.runUp = new SpriteAnimationSet(sheet, "runup", this.runInterval);
-		this.runDown = new SpriteAnimationSet(sheet, "rundown", this.runInterval);
-		this.runSide = new SpriteAnimationSet(sheet, "runside", this.runInterval);
-		this.runUpShield = new SpriteAnimationSet(sheet, "runupshield", this.runInterval);
-		this.runDownShield = new SpriteAnimationSet(sheet, "rundownshield", this.runInterval);
-		this.runSideShield = new SpriteAnimationSet(sheet, "runsideshield", this.runInterval);
+		this.runUp = new SpriteAnimation(sheet, "runup", this.runInterval);
+		this.runDown = new SpriteAnimation(sheet, "rundown", this.runInterval);
+		this.runSide = new SpriteAnimation(sheet, "runside", this.runInterval);
+		this.runUpShield = new SpriteAnimation(sheet, "runupshield", this.runInterval);
+		this.runDownShield = new SpriteAnimation(sheet, "rundownshield", this.runInterval);
+		this.runSideShield = new SpriteAnimation(sheet, "runsideshield", this.runInterval);
 		
 		// these durations are set after, bacuse they depend on the animation's length
-		this.attackUp = new SpriteAnimationSet(sheet, "attackup", 0);
-		this.attackSide = new SpriteAnimationSet(sheet, "attackside", 0);
-		this.attackDown = new SpriteAnimationSet(sheet, "attackdown", 0);
+		this.attackUp = new SpriteAnimation(sheet, "attackup", 0);
+		this.attackSide = new SpriteAnimation(sheet, "attackside", 0);
+		this.attackDown = new SpriteAnimation(sheet, "attackdown", 0);
 		
 		// sets the attack animation's duration
 		this.attackUp.setDuration(this.attackDuration / this.attackUp.getAnimLength());

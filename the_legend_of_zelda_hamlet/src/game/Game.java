@@ -174,7 +174,7 @@ public class Game extends BasicGame {
 			
 			// updates animations
 			for (int i = 0; i < this.animations.size(); i++) {
-				this.animations.get(i).update();
+				this.animations.get(i).update(delta);
 			}
 			
 		} else if (this.isPlayingTransition){

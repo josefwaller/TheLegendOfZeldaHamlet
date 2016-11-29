@@ -9,13 +9,14 @@ import org.newdawn.slick.Image;
 import sprites.Animation;
 import sprites.AnimationStore;
 import entities.abstracts.Entity;
+import entities.abstracts.MovingEntity;
 import game.Game;
 
 /*
  * An entity that moves and acts according to a file. To be
  * used during animated cutscenes in the game.
  */
-public class AutomatedEntity extends Entity {
+public class AutomatedEntity extends MovingEntity {
 
 	// the different things the animation can do
 	static final int MOVE = 0;
@@ -26,31 +27,34 @@ public class AutomatedEntity extends Entity {
 	
 	// what the current action is
 	// uses the automated entity's static final variables
-	int[] actions;
+	private int[] actions;
 	
 	// the index of the current action
-	int actionIndex = 0;
+	private int actionIndex = 0;
 	
 	// the different positions the animation will walk to
-	int[][] positions;
+	private int[][] positions;
 	
 	// the index of the current position
-	int positionIndex;
+	private int positionIndex;
 	
 	// the different dialogs the animation will say
-	String[] dialog;
+	private String[] dialog;
 	
 	// the index of the current dialog
-	int dialogIndex;
+	private int dialogIndex;
 	
 	// the name of the spritesheet this animation uses
-	String sprites;
+	private String sprites;
 	
 	// the name of the different sprite animatons to change between
-	String[] animNames;
+	private String[] animNames;
 	
 	// the current animation
-	Animation currentAnim;
+	private Animation currentAnim;
+	
+	// the speed at which the entity moves
+	private int speed = 20;
 	
 	/*
 	 * creates a new AutomatedEntity from the animation file name
@@ -142,14 +146,17 @@ public class AutomatedEntity extends Entity {
 		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[0]);
 	}
 	
-	public void update() {
+	public void update(int delta) {
 
 		this.currentAnim.update();
 		
 		switch (this.actions[this.actionIndex]) {
 			case AutomatedEntity.MOVE:
-				this.moveToNextPoint();
+				this.moveToNextPoint(delta);
 				break;
+				
+			default:
+				System.out.println(this.actions[this.actionIndex]);
 		}
 	}
 	
@@ -167,9 +174,11 @@ public class AutomatedEntity extends Entity {
 	/*
 	 * Moves the automated entity near to the net point
 	 */
-	private void moveToNextPoint() {
+	private void moveToNextPoint(int delta) {
 		
+		int[] nextPoint = this.positions[this.positionIndex];
 		
+		this.moveToPoint(0, 0, 50 * delta / 1000f);
 		
 	}
 }

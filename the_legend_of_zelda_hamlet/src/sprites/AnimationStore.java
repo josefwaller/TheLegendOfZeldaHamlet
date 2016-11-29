@@ -42,7 +42,7 @@ public class AnimationStore {
 	/*
 	 * Loads animations for a sprite sheet
 	 */
-	private void loadAnimationsForSheet(String sheetUrl) {
+	public void loadAnimationsForSheet(String sheetUrl) {
 		
 		// adds a new entry
 		this.animations.put(sheetUrl, new HashMap<String, Animation>());

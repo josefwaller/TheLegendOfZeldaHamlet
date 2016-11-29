@@ -266,6 +266,13 @@ public class Game extends BasicGame {
 
 			// renders the player
 			this.player.render(g);
+			
+			// renders animations
+			
+			for (int i = 0; i < this.animations.size(); i++) {
+				
+				this.animations.get(i).render(g);
+			}
 		}
 		
 		// draws the hud
@@ -526,7 +533,7 @@ public class Game extends BasicGame {
 		}
 		
 		while (s.hasNextLine()) {
-			toReturn += s.nextLine();
+			toReturn += s.nextLine() + "\n";
 		}
 		
 		s.close();

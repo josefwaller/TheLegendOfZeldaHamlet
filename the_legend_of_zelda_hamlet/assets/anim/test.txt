@@ -3,6 +3,6 @@ SPRITES assets/images/npcs/oldman
 ACTIONS
 ANIM walkside MIRROR
 MOVE 3 3 5
-ANIM walkside
+ANIM walkfront MIRROR
 MOVE 9 3 5
 REPEAT

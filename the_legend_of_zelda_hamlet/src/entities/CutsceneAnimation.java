@@ -42,6 +42,12 @@ public class CutsceneAnimation extends Entity {
 	// the name of the spritesheet this animation uses
 	String sprites;
 	
+	// the name of the different sprite animatons to change between
+	String[] animNames;
+	
+	// the current sprite animation
+	Animation currentAnim;
+	
 	/*
 	 * creates a new CutsceneAnimation from the animation file name
 	 */
@@ -60,11 +66,15 @@ public class CutsceneAnimation extends Entity {
 		// until we know how many points there are
 		ArrayList<int[]> tempPoints = new ArrayList<int[]>();
 		
+		// same as tempPoints, but for the srite animations
+		ArrayList<String> tempAnims = new ArrayList<String>();
+		
 		for (int i = 0; i < actions.length; i++) {
 			String[] words = actions[i].split(" ");
 			
 			switch(words[0]) {
 			
+				// saves the spriteset the cutscene animation will use
 				case "sprites":
 					this.sprites = words[1];
 					
@@ -72,6 +82,12 @@ public class CutsceneAnimation extends Entity {
 					AnimationStore.get().loadAnimationsForSheet(this.sprites);
 					break;
 					
+				// saves a sprite animation the cutscene animation wil use
+				case "anim":
+					tempAnims.add(words[1]);
+					break;
+					
+				// saves a point the animation will walk to
 				case "move":
 					int[] point = {Integer.parseInt(words[1]), Integer.parseInt(words[2])};
 					tempPoints.add(point);
@@ -93,21 +109,26 @@ public class CutsceneAnimation extends Entity {
 		// resets position
 		this.x = 16 * this.positions[0][0];
 		this.y = 16 * this.positions[0][1];
+		
+		// saves the animations
+		this.animNames = tempAnims.toArray(new String[0]);
+		
+		// sets the first animation
+		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[0]);
 	}
 	
 	public void update() {
-		
+
+		this.currentAnim.update();
 	}
 	
 	public void render(Graphics g) {
 		
-		Animation anim = AnimationStore.get().getAnimation(this.sprites, "walkside");
-		System.out.println(anim);
-		Image sprite = anim.getSprite();
+		Image sprite = this.currentAnim.getSprite();
 		
 		sprite.draw(
-			this.x + anim.getOffX(),
-			this.y + anim.getOffY()
+			this.x + this.currentAnim.getOffX(),
+			this.y + this.currentAnim.getOffY()
 		);
 		
 	}

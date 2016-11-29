@@ -16,7 +16,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 // different entities
 import entities.Button;
-import entities.CutsceneAnimation;
+import entities.AutomatedEntity;
 import entities.Door;
 import entities.NPC;
 
@@ -105,7 +105,7 @@ public class Game extends BasicGame {
 	private ArrayList<Entity> entities;
 	
 	// all animations that will be played
-	private ArrayList<CutsceneAnimation> animations;
+	private ArrayList<AutomatedEntity> animations;
 	
 	// the lines of dialog currently being drawn on the screen
 	
@@ -296,7 +296,7 @@ public class Game extends BasicGame {
 		this.objects = new ArrayList<StaticEntity>();
 		
 		// initialsizes animations
-		this.animations = new ArrayList<CutsceneAnimation>();
+		this.animations = new ArrayList<AutomatedEntity>();
 		
 		for (int gi = 0; gi < this.map.getObjectGroupCount(); gi++) {
 			
@@ -330,7 +330,7 @@ public class Game extends BasicGame {
 								this));
 						break;
 					case "cutsceneanimation": 
-						this.animations.add(new CutsceneAnimation(
+						this.animations.add(new AutomatedEntity(
 							this.map.getObjectProperty(gi,  oi, "src", "test"),
 							this)
 						);

@@ -11,10 +11,10 @@ import entities.abstracts.Entity;
 import game.Game;
 
 /*
- * An entity that moves and acts according t a file. To be
+ * An entity that moves and acts according to a file. To be
  * used during animated cutscenes in the game.
  */
-public class CutsceneAnimation extends Entity {
+public class AutomatedEntity extends Entity {
 
 	// the different things the animation can do
 	static final int MOVE = 0;
@@ -51,7 +51,7 @@ public class CutsceneAnimation extends Entity {
 	/*
 	 * creates a new CutsceneAnimation from the animation file name
 	 */
-	public CutsceneAnimation (String filename, Game g) {
+	public AutomatedEntity (String filename, Game g) {
 		
 		// calls constructor
 		super (0, 0, 16, g);

@@ -11,6 +11,9 @@ public class SpriteAnimationFrame {
 	public int x;
 	public int y;
 	
+	// whether the sprite is mirrored
+	public boolean isMirrored;
+	
 	// the path to the sprite in the spritesheet
 	// ex: "/Attacking/Side/4"
 	public String spritePath;
@@ -18,11 +21,13 @@ public class SpriteAnimationFrame {
 	/*
 	 * Creates a new frame in a SpriteAnimation
 	 */
-	public SpriteAnimationFrame(int x, int y, String spritePath) {
+	public SpriteAnimationFrame(int x, int y, String spritePath, boolean isMirrored) {
 		
 		// saves offsets
 		this.x = x;
 		this.y = y;
+		
+		this.isMirrored = isMirrored;
 		
 		// saves sprite path
 		this.spritePath = spritePath;

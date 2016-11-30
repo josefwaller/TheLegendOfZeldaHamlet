@@ -1,12 +1,6 @@
 package sprites;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.newdawn.slick.Image;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /*
  * An Animation for several sprites. Works with the 
@@ -53,70 +47,23 @@ public class Animation {
 		}
 	}
 	/*
-	 * Loads an animation and animation data into a HashMap
+	 * Gets the current frame of the animation
 	 */
-	public static SpriteAnimationFrame[] getAnimationDataFromXML(String xml, String animName) {
+	public Image getSprite() {
 		
-		// Creates the array to return, but doesn't actually store anything because we don't know its length yet
-		SpriteAnimationFrame[] animData = new SpriteAnimationFrame[0];
-
-		// parses the XML into a NodeList of the animation tags
-		NodeList tags;
+		// gets the image
+		Image sprite = SpriteStore.get().loadSpriteSheet(this.sheetUrl).getSprite(this.frames[this.index].spritePath);
 		
-		try {
-
-			DocumentBuilderFactory dBFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dBFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(xml);
-			tags = doc.getElementsByTagName("anim");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		// checks if the image should be mirrored
+		if (this.frames[this.index].isMirrored) {
+			
+			// mirrors the sprite
+			sprite = sprite.getFlippedCopy(true, false);
 		}
 		
-		// cycles through the nodes
-		for (int i = 0; i < tags.getLength(); i++) {
-			
-			// casts to element
-			Element tag = (Element)(tags.item(i));
-			
-			// finds the one relating to the animation
-			if (tag.getAttribute("name").equals(animName)) {
-				
-				// finds all the child nodes
-				NodeList children = tag.getElementsByTagName("cell");
-				
-				// creates the array to store the information
-				animData = new SpriteAnimationFrame[children.getLength()];
-				
-				// cycles through the cell tags and adds the sprite path to the array
-				for (int x = 0; x < children.getLength(); x++) {
-					
-					// gets the child
-					Element child = (Element) children.item(x);
-					
-					// gets the sprite tag
-					Element sprite = (Element)child.getElementsByTagName("spr").item(0);
-					
-					// gets the path in the <spr> tag in it
-					String path = sprite.getAttribute("name");
-					
-					// gets the x and y offset
-					int offX = Integer.parseInt(sprite.getAttribute("x"));
-					int offY = Integer.parseInt(sprite.getAttribute("y"));
-					
-					// adds the path to the array
-					animData[x] = new SpriteAnimationFrame(offX, offY, path);
-				}
-				
-				break;
-			}
-			
-		}
-		
-		// returns the completed Array
-		return animData;
+		return sprite;
 	}
+	
 	/*
 	 * Restarts the animation
 	 */
@@ -130,9 +77,6 @@ public class Animation {
 	 */
 	public int getAnimLength() {
 		return this.frames.length;
-	}
-	public Image getSprite() {
-		return SpriteStore.get().loadSpriteSheet(this.sheetUrl).getSprite(this.frames[this.index].spritePath);
 	}
 	public int getOffX() {
 		return this.frames[this.index].x;

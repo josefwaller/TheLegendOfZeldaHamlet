@@ -96,8 +96,11 @@ public class AnimationStore {
 				int offX = Integer.parseInt(sprite.getAttribute("x"));
 				int offY = Integer.parseInt(sprite.getAttribute("y"));
 				
+				// gets whether the sprite is mirrored
+				boolean isMirrored = sprite.hasAttribute("flipH");
+				
 				// adds the path to the array
-				anim[x] = new SpriteAnimationFrame(offX, offY, path);
+				anim[x] = new SpriteAnimationFrame(offX, offY, path, isMirrored);
 			}
 			
 			// adds the new animation to the sprite animation

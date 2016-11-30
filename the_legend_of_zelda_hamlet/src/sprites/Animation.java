@@ -20,7 +20,7 @@ public class Animation {
 	// the last time the image changed
 	private long lastChange;
 	
-	// the index of the curretn image
+	// the index of the current image
 	private int index;
 	
 	public Animation(String sheetUrl, int duration, SpriteAnimationFrame[] frames) {
@@ -49,13 +49,14 @@ public class Animation {
 	/*
 	 * Gets the current frame of the animation
 	 */
-	public Image getSprite() {
+	public Image getSprite(int i) {
 		
 		// gets the image
-		Image sprite = SpriteStore.get().loadSpriteSheet(this.sheetUrl).getSprite(this.frames[this.index].spritePath);
+		Image sprite = SpriteStore.get().loadSpriteSheet(this.sheetUrl)
+				.getSprite(this.frames[i].spritePath);
 		
 		// checks if the image should be mirrored
-		if (this.frames[this.index].isMirrored) {
+		if (this.frames[i].isMirrored) {
 			
 			// mirrors the sprite
 			sprite = sprite.getFlippedCopy(true, false);
@@ -65,24 +66,16 @@ public class Animation {
 	}
 	
 	/*
-	 * Restarts the animation
-	 */
-	public void restart() {
-		this.index = 0;
-		this.lastChange = System.currentTimeMillis();
-	}
-	
-	/*
 	 * Get/Set methods
 	 */
 	public int getAnimLength() {
 		return this.frames.length;
 	}
-	public int getOffX() {
-		return this.frames[this.index].x;
+	public int getOffX(int i) {
+		return this.frames[i].x;
 	}
-	public int getOffY() {
-		return this.frames[this.index].y;
+	public int getOffY(int i) {
+		return this.frames[i].y;
 	}
 	public void setDuration(int d) {
 		this.duration = d;

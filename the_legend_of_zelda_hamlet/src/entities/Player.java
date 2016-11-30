@@ -55,7 +55,7 @@ public class Player extends AnimatedEntity{
 	private Animation attackSide;
 	
 	// the time inbetween sprite changes while running
-	private int runInterval = 100;
+	private int runDuration = 100;
 	
 	/*
 	Creates a new player
@@ -106,7 +106,7 @@ public class Player extends AnimatedEntity{
 		this.addHitbox(2, 2, 14, 20);
 		
 		// sets to go down for default
-		this.currentAnim = this.runDown;
+		this.setAnim(this.runDown, this.runDuration);
 	}
 	
 	/*
@@ -123,37 +123,21 @@ public class Player extends AnimatedEntity{
 		
 		if (this.isAttacking) {
 			
-			if (System.currentTimeMillis() - this.attackTime > this.attackDuration) {
+			if (System.currentTimeMillis() - this.attackTime >= this.attackDuration) {
 				this.isAttacking = false;
 			}
 			
-			this.currentAnim.update();
+			this.animUpdate();
 			
 		} else {
 
 			// checks if the player needs to move
-			if (input.isKeyDown(Input.KEY_UP))
-			{
-				this.tryToMove(this.x, this.y - (this.speed * delta / 1000f));
-				
-				this.direction = Entity.DIR_UP;
-				this.currentAnim = this.runUpShield;
-				this.isRunning = true;
-			}
-			else if (input.isKeyDown(Input.KEY_DOWN))
-			{
-				this.tryToMove(this.x, this.y + (this.speed * delta / 1000f));
-				
-				this.direction = Entity.DIR_DOWN;
-				this.currentAnim = this.runDownShield;
-				this.isRunning = true;
-			}
 			if (input.isKeyDown(Input.KEY_LEFT))
 			{
 				this.tryToMove(this.x - (this.speed * delta / 1000f), this.y);
-				
 				this.direction = Entity.DIR_LEFT;
-				this.currentAnim = this.runSideShield;
+				
+				this.setAnim(this.runSideShield, this.runDuration);
 				this.isRunning = true;
 			}
 			else if (input.isKeyDown(Input.KEY_RIGHT))
@@ -161,7 +145,31 @@ public class Player extends AnimatedEntity{
 				this.tryToMove(this.x + (this.speed * delta / 1000f), this.y);
 
 				this.direction = Entity.DIR_RIGHT;
-				this.currentAnim = this.runSideShield;
+				this.setAnim(this.runSideShield, this.runDuration);
+				this.isRunning = true;
+			}
+			if (input.isKeyDown(Input.KEY_UP))
+			{
+				this.tryToMove(this.x, this.y - (this.speed * delta / 1000f));
+				
+				// checks it is not just overwriting an animation that was already set
+				// earlier this frame.
+				if (!(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT))) {
+					
+					this.direction = Entity.DIR_UP;
+					this.setAnim(this.runUpShield, this.runDuration);
+				}
+				this.isRunning = true;
+			}
+			else if (input.isKeyDown(Input.KEY_DOWN))
+			{
+				this.tryToMove(this.x, this.y + (this.speed * delta / 1000f));
+				
+				if (!(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT))) {
+					
+					this.direction = Entity.DIR_DOWN;
+					this.setAnim(this.runDownShield, this.runDuration);
+				}
 				this.isRunning = true;
 			}
 			
@@ -175,20 +183,20 @@ public class Player extends AnimatedEntity{
 				}
 			} else if (this.isRunning) {
 				
-				this.currentAnim.update();
+				this.animUpdate();
 				
 			} else {
 				
 				switch (this.direction) {
 					case Entity.DIR_DOWN:
-						this.currentAnim = this.standDownShield;
+						this.setAnim(this.standDownShield, this.runDuration);
 						break;
 					case Entity.DIR_UP:
-						this.currentAnim = this.standUpShield;
+						this.setAnim(this.standUpShield, this.runDuration);
 						break;
 					case Entity.DIR_LEFT:
 					case Entity.DIR_RIGHT:
-						this.currentAnim = this.standSideShield;
+						this.setAnim(this.standSideShield, this.runDuration);
 						break;
 				}
 			}
@@ -208,19 +216,22 @@ public class Player extends AnimatedEntity{
 		// sets animation to attack
 		switch (this.direction) {
 			case Entity.DIR_UP: 
-				this.currentAnim = this.attackUp;
+				this.setAnim(
+					this.attackUp, 
+					this.attackDuration / this.attackUp.getAnimLength());
 				break;
 			case Entity.DIR_LEFT:
 			case Entity.DIR_RIGHT:
-				this.currentAnim = this.attackSide;
+				this.setAnim(
+					this.attackSide, 
+					this.attackDuration / this.attackSide.getAnimLength());
 				break;
 			case Entity.DIR_DOWN:
-				this.currentAnim = this.attackDown;
+				this.setAnim(
+					this.attackDown, 
+					this.attackDuration / this.attackDown.getAnimLength());
 				break;
 		}
-		
-		// restarts that animation
-		this.currentAnim.restart();
 	}
 	
 	/*

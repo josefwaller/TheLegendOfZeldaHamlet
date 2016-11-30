@@ -61,11 +61,11 @@ public class AutomatedEntity extends MovingEntity {
 	// the time the entity started waiting
 	private long waitTime;
 	
-	// the current animation
-	private Animation currentAnim;
-	
 	// the speed at which the entity moves
 	private int speed = 20;
+	
+	// the duration between switching frames
+	private int duration = 100;
 	
 	/*
 	 * creates a new AutomatedEntity from the animation file name
@@ -145,7 +145,7 @@ public class AutomatedEntity extends MovingEntity {
 				case "init_anim":
 					
 					// sets the initial animation
-					this.currentAnim = AnimationStore.get().getAnimation(this.sprites, words[1]);
+					this.setAnim(AnimationStore.get().getAnimation(this.sprites, words[1]), this.duration);
 					break;
 					
 				case "wait":
@@ -172,7 +172,7 @@ public class AutomatedEntity extends MovingEntity {
 		this.waitTimes = this.intArrayListToArray(tempWait);
 		
 		// sets the current animation
-		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[0]);
+		this.setAnim(AnimationStore.get().getAnimation(this.sprites, this.animNames[0]), this.duration);
 		
 		// set indexes to 0
 		this.actionIndex = 0;
@@ -190,7 +190,7 @@ public class AutomatedEntity extends MovingEntity {
 		if (this.actionIndex < this.actions.length) {
 
 			// updates the current animation
-			this.currentAnim.update();
+			this.animUpdate();
 			
 			// performs different things based on the type of action
 			switch (this.actions[this.actionIndex]) {
@@ -215,20 +215,6 @@ public class AutomatedEntity extends MovingEntity {
 					System.out.println(this.actions[this.actionIndex]);
 			}
 		}
-	}
-	/*
-	 * (non-Javadoc)
-	 * @see entities.abstracts.Entity#render(org.newdawn.slick.Graphics)
-	 */
-	public void render(Graphics g) {
-		
-		Image sprite = this.currentAnim.getSprite();
-		
-		sprite.drawCentered(
-			this.x + this.w / 2 + this.currentAnim.getOffX(),
-			this.y + this.h / 2 + this.currentAnim.getOffY()
-		);
-		
 	}
 	
 	/*
@@ -288,8 +274,12 @@ public class AutomatedEntity extends MovingEntity {
 	 */
 	private void changeAnimation() {
 		
-		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[this.animIndex]);
+		// sets animation
+		String animName =  this.animNames[this.animIndex];
+		Animation thisAnim = AnimationStore.get().getAnimation(this.sprites, animName);
+		this.setAnim(thisAnim, this.duration);
 
+		// moves to next action
 		this.animIndex++;
 		this.actionIndex++;
 	}

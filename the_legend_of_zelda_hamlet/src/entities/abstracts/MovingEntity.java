@@ -5,7 +5,7 @@ import game.Game;
 /*
  * Used for entities that chase something or move towards a point
  */
-public abstract class MovingEntity extends Entity {
+public abstract class MovingEntity extends AnimatedEntity {
 
 	/*
 	 * Constructors

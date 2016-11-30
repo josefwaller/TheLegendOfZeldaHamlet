@@ -19,6 +19,15 @@ public abstract class AnimatedEntity extends Entity {
 	// the current animation the entity is playing
 	protected Animation currentAnim;
 	
+	// the duration between animation frame changes
+	protected int currentDuration;
+	
+	// the current index of the frame
+	private int index;
+	
+	// the last time the frame changed
+	private long lastChangeTime;
+	
 	/*
 	 * Constructors
 	 * 
@@ -26,9 +35,43 @@ public abstract class AnimatedEntity extends Entity {
 	 */
 	public AnimatedEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
+		
+		this.index = 0;
+		this.lastChangeTime = System.currentTimeMillis();
+		this.currentDuration = 100;
 	}
 	public AnimatedEntity(int x, int y, int s, Game g) {
 		super(x, y, s, g);
+		
+		this.index = 0;
+		this.lastChangeTime = System.currentTimeMillis();
+		this.currentDuration = 100;
+	}
+	
+	/*
+	 * Updates the animation the entity is playing
+	 */
+	protected void animUpdate() {
+		
+		if (System.currentTimeMillis() - this.lastChangeTime >= this.currentDuration) {
+			
+			this.index = (this.index + 1) % this.currentAnim.getAnimLength();
+			this.lastChangeTime = System.currentTimeMillis();
+			
+		}
+		
+	}
+	/*
+	 * Sets the animation and restarts it if it is different
+	 */
+	protected void setAnim(Animation newAnim, int duration) {
+
+		if (newAnim != this.currentAnim) {
+		
+			this.currentAnim = newAnim;
+			this.currentDuration = duration;
+			this.index = 0;
+		}
 	}
 	
 	/*
@@ -37,7 +80,7 @@ public abstract class AnimatedEntity extends Entity {
 	public void render(Graphics g) {
 		
 		// gets the sprite to use now
-		Image sprite = this.currentAnim.getSprite();
+		Image sprite = this.currentAnim.getSprite(this.index);
 		
 		// gets the coordinates to draw the sprite
 		int x = (int) (this.x + this.w / 2);
@@ -46,17 +89,17 @@ public abstract class AnimatedEntity extends Entity {
 		if (this.direction == Entity.DIR_LEFT) {
 			
 			// moves the sprite over and mirrors it
-			x -= this.currentAnim.getOffX();
+			x -= this.currentAnim.getOffX(this.index);
 			sprite = sprite.getFlippedCopy(true, false);
 			
 		} else {
 			
 			// just move the sprite over
-			x += this.currentAnim.getOffX();
+			x += this.currentAnim.getOffX(this.index);
 		}
 		
 		// moves the sprite up
-		y += this.currentAnim.getOffY();
+		y += this.currentAnim.getOffY(this.index);
 		
 		// draws the sprite with the proper x and y offset
 		sprite.drawCentered(x, y);
@@ -66,5 +109,9 @@ public abstract class AnimatedEntity extends Entity {
 			this.drawHitboxes(g);
 		}
 	}
+	
+	/*
+	 * Updates the current animation
+	 */
 	
 }

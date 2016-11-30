@@ -51,6 +51,16 @@ public class AutomatedEntity extends MovingEntity {
 	// the current index of the animation in animNames;
 	private int animIndex;
 	
+	// how long to wait in seconds
+	private int[] waitTimes;
+	private int waitIndex;
+	
+	// whether the entity is currently waiting
+	private boolean isWaiting;
+	
+	// the time the entity started waiting
+	private long waitTime;
+	
 	// the current animation
 	private Animation currentAnim;
 	
@@ -74,10 +84,11 @@ public class AutomatedEntity extends MovingEntity {
 		// temporary storage of the entity's arrays
 		// because we do not yet know the size of the arrays
 		// these will be converted to a normal array after the for loop
-		List<Integer> tempActions = new ArrayList<Integer>();
+		ArrayList<Integer> tempActions = new ArrayList<Integer>();
 		ArrayList<int[]> tempPoints = new ArrayList<int[]>();
 		ArrayList<String> tempAnims = new ArrayList<String>();
 		ArrayList<String> tempDialogs = new ArrayList<String>();
+		ArrayList<Integer> tempWait = new ArrayList<Integer>();
 		
 		for (int i = 0; i < actions.length; i++) {
 			String[] words = actions[i].split(" ");
@@ -136,6 +147,14 @@ public class AutomatedEntity extends MovingEntity {
 					// sets the initial animation
 					this.currentAnim = AnimationStore.get().getAnimation(this.sprites, words[1]);
 					break;
+					
+				case "wait":
+					
+					// adds how long to wait
+					tempWait.add(Integer.parseInt(words[1]));
+					
+					// adds an action
+					tempActions.add(AutomatedEntity.WAIT);
 			}
 		}
 		
@@ -149,13 +168,8 @@ public class AutomatedEntity extends MovingEntity {
 		// converts the ArrayLists into arrays for storage
 		this.animNames = tempAnims.toArray(new String[0]);
 		this.dialogs = tempDialogs.toArray(new String[0]);
-		
-		// has to do the Integer ArrayLists in a for loop because
-		// Java can't cast from Integer to int
-		this.actions = new int[tempActions.size()];
-		for (int i = 0; i < tempActions.size(); i++) {
-			this.actions[i] = tempActions.get(i);
-		}
+		this.actions = this.intArrayListToArray(tempActions);
+		this.waitTimes = this.intArrayListToArray(tempWait);
 		
 		// sets the current animation
 		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[0]);
@@ -164,6 +178,7 @@ public class AutomatedEntity extends MovingEntity {
 		this.actionIndex = 0;
 		this.positionIndex = 0;
 		this.animIndex = 0;
+		this.waitIndex = 0;
 	}
 	
 	/*
@@ -192,6 +207,10 @@ public class AutomatedEntity extends MovingEntity {
 					this.startDialog();
 					break;
 					
+				case AutomatedEntity.WAIT:
+					this.pause();
+					break;
+					
 				default:
 					System.out.println(this.actions[this.actionIndex]);
 			}
@@ -205,11 +224,49 @@ public class AutomatedEntity extends MovingEntity {
 		
 		Image sprite = this.currentAnim.getSprite();
 		
-		sprite.draw(
-			this.x + this.currentAnim.getOffX(),
-			this.y + this.currentAnim.getOffY()
+		sprite.drawCentered(
+			this.x + this.w / 2 + this.currentAnim.getOffX(),
+			this.y + this.h / 2 + this.currentAnim.getOffY()
 		);
 		
+	}
+	
+	/*
+	 * Pauses the entity for a certain amount of time
+	 */
+	private void pause() {
+		
+		// checks if the entity was already waiting
+		if (!this.isWaiting){
+			
+			// since the entity wasn't waiting , this must be 
+			// the first time pause() is called for this pause
+			// so it sets up to wait
+			this.isWaiting = true;
+			this.waitTime = System.currentTimeMillis();
+		}
+		
+		// check if it is done waiting
+		if (System.currentTimeMillis() - this.waitTime >= this.waitTimes[this.waitIndex]) {
+			
+			this.isWaiting = false;
+			this.waitIndex++;
+			this.actionIndex++;
+		}
+	}
+	
+	/*
+	 * Turns an ArrayList of Integers into an int array
+	 */
+	private int[] intArrayListToArray(ArrayList<Integer> x) {
+		
+		int[] toReturn = new int[x.size()];
+		
+		for (int i = 0; i < x.size(); i++) {
+			toReturn[i] = x.get(i);
+		}
+		
+		return toReturn;
 	}
 	
 	/*

@@ -5,9 +5,10 @@ ANIM walkback
 MOVE 16 16
 anim walkfront
 move 16 80
-anim walkside
+anim walkright
 move 80 80
 dialog testtwo.txt
-anim walkback
+anim walkleft
 move 16 16 100
-anim walkfront
+anim wave
+wait 2000

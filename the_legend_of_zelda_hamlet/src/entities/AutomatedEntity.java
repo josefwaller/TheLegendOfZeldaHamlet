@@ -23,7 +23,6 @@ public class AutomatedEntity extends MovingEntity {
 	static final int DIALOG = 1;
 	static final int CHANGE_ANIM = 2;
 	static final int WAIT = 3;
-	static final int REPEAT = 4;
 	
 	// what the current action is
 	// uses the automated entity's static final variables
@@ -49,6 +48,9 @@ public class AutomatedEntity extends MovingEntity {
 	
 	// the name of the different sprite animatons to change between
 	private String[] animNames;
+	
+	// the current index of the animation in animNames;
+	private int animIndex;
 	
 	// the current animation
 	private Animation currentAnim;
@@ -116,11 +118,10 @@ public class AutomatedEntity extends MovingEntity {
 					
 					break;
 					
-				case "repeat":
+				case "init_anim":
 					
-					// adds an action
-					tempActions.add(AutomatedEntity.REPEAT);
-					
+					// sets the initial animation
+					this.currentAnim = AnimationStore.get().getAnimation(this.sprites, words[1]);
 					break;
 			}
 		}
@@ -129,13 +130,13 @@ public class AutomatedEntity extends MovingEntity {
 		this.positions = tempPoints.toArray(new int[0][0]);
 		
 		// resets position
-		this.x = 16 * this.positions[0][0];
-		this.y = 16 * this.positions[0][1];
+		this.x = this.positions[0][0];
+		this.y = this.positions[0][1];
 		
 		// converts the ArrayLists into arrays for storage
 		this.animNames = tempAnims.toArray(new String[0]);
-		
 		this.actions = new int[tempActions.size()];
+		
 		// has to do the Integer ArrayLists in a for loop because
 		// Java can't cast from Integer to int
 		for (int i = 0; i < tempActions.size(); i++) {
@@ -144,19 +145,40 @@ public class AutomatedEntity extends MovingEntity {
 		
 		// sets the current animation
 		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[0]);
+		
+		// sets all indexes to 0
+		this.actionIndex = 0;
+		this.positionIndex = 0;
+		
+		// action index is set to -1, so that when it changes it will start at 0
+		this.animIndex = -1;
+
+		System.out.println(this.actions.length);
+		System.out.println(this.animNames.length);
 	}
 	
 	public void update(int delta) {
-
-		this.currentAnim.update();
 		
-		switch (this.actions[this.actionIndex]) {
-			case AutomatedEntity.MOVE:
-				this.moveToNextPoint(delta);
-				break;
-				
-			default:
-				System.out.println(this.actions[this.actionIndex]);
+		// checks the entity hasn't run out of things to do
+		if (this.actionIndex < this.actions.length) {
+
+			// updates the current animation
+			this.currentAnim.update();
+			
+			// performs different things based on the type of action
+			switch (this.actions[this.actionIndex]) {
+			
+				case AutomatedEntity.MOVE:
+					this.moveToNextPoint(delta);
+					break;
+					
+				case AutomatedEntity.CHANGE_ANIM:
+					
+					this.changeAnimation();
+					break;
+				default:
+					System.out.println(this.actions[this.actionIndex]);
+			}
 		}
 	}
 	
@@ -172,13 +194,34 @@ public class AutomatedEntity extends MovingEntity {
 	}
 	
 	/*
+	 * Changes the entity's animation
+	 */
+	private void changeAnimation() {
+		
+		System.out.println(String.format("Changing Animation: Action Index: %d, Anim index: %d", actionIndex, animIndex));
+		
+		this.animIndex++;
+		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[this.animIndex]);
+		
+		this.actionIndex++;
+	}
+	
+	/*
 	 * Moves the automated entity near to the net point
 	 */
 	private void moveToNextPoint(int delta) {
 		
 		int[] nextPoint = this.positions[this.positionIndex];
 		
-		this.moveToPoint(0, 0, 50 * delta / 1000f);
+		if (this.collidesWithPoint(nextPoint[0], nextPoint[1])) {
+			
+			System.out.println(String.format("Done moving to point. Action Index %d. Anim Index %d", this.actionIndex, this.animIndex));
+			this.actionIndex++;
+			this.positionIndex++;
+		} else {
+			
+			this.moveToPoint(nextPoint[0], nextPoint[1], 50 * delta / 1000f);
+		}
 		
 	}
 }

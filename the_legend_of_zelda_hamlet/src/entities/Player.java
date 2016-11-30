@@ -183,6 +183,7 @@ public class Player extends AnimatedEntity{
 				}
 			} else if (this.isRunning) {
 				
+				this.loop = true;
 				this.animUpdate();
 				
 			} else {
@@ -212,6 +213,7 @@ public class Player extends AnimatedEntity{
 		// sets up to attack
 		this.isAttacking = true;
 		this.attackTime = System.currentTimeMillis();
+		this.loop = false;
 		
 		// sets animation to attack
 		switch (this.direction) {

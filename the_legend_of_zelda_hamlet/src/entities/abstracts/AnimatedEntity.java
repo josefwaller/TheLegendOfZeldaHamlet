@@ -17,10 +17,10 @@ import sprites.Animation;
 public abstract class AnimatedEntity extends Entity {
 	
 	// the current animation the entity is playing
-	protected Animation currentAnim;
+	private Animation currentAnim;
 	
 	// the duration between animation frame changes
-	protected int currentDuration;
+	private int currentDuration;
 	
 	// the current index of the frame
 	private int index;
@@ -28,10 +28,13 @@ public abstract class AnimatedEntity extends Entity {
 	// the last time the frame changed
 	private long lastChangeTime;
 	
+	// whether to loop the animation or not
+	protected boolean loop;
+	
 	/*
 	 * Constructors
 	 * 
-	 * Exactly the same as entity, just sets them up
+	 * Calls the Entity constructor and sets up animation variables
 	 */
 	public AnimatedEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
@@ -39,6 +42,7 @@ public abstract class AnimatedEntity extends Entity {
 		this.index = 0;
 		this.lastChangeTime = System.currentTimeMillis();
 		this.currentDuration = 100;
+		this.loop = true;
 	}
 	public AnimatedEntity(int x, int y, int s, Game g) {
 		super(x, y, s, g);
@@ -46,6 +50,7 @@ public abstract class AnimatedEntity extends Entity {
 		this.index = 0;
 		this.lastChangeTime = System.currentTimeMillis();
 		this.currentDuration = 100;
+		this.loop = true;
 	}
 	
 	/*
@@ -55,8 +60,11 @@ public abstract class AnimatedEntity extends Entity {
 		
 		if (System.currentTimeMillis() - this.lastChangeTime >= this.currentDuration) {
 			
-			this.index = (this.index + 1) % this.currentAnim.getAnimLength();
-			this.lastChangeTime = System.currentTimeMillis();
+			if (this.loop || this.index < this.currentAnim.getAnimLength() - 1) {
+
+				this.index = (this.index + 1) % this.currentAnim.getAnimLength();
+				this.lastChangeTime = System.currentTimeMillis();
+			}
 			
 		}
 		

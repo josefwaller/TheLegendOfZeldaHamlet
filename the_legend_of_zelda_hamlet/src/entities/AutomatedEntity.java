@@ -198,8 +198,6 @@ public class AutomatedEntity extends MovingEntity {
 	 */
 	private void changeAnimation() {
 		
-		System.out.println(String.format("Changing Animation: Action Index: %d, Anim index: %d", actionIndex, animIndex));
-		
 		this.animIndex++;
 		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[this.animIndex]);
 		
@@ -213,9 +211,9 @@ public class AutomatedEntity extends MovingEntity {
 		
 		int[] nextPoint = this.positions[this.positionIndex];
 		
-		if (this.collidesWithPoint(nextPoint[0], nextPoint[1])) {
-			
-			System.out.println(String.format("Done moving to point. Action Index %d. Anim Index %d", this.actionIndex, this.animIndex));
+		// checks if the entity's center is within 2 pixels of the point
+		if (this.closeToPoint(nextPoint[0], nextPoint[1])) {
+
 			this.actionIndex++;
 			this.positionIndex++;
 		} else {
@@ -223,5 +221,26 @@ public class AutomatedEntity extends MovingEntity {
 			this.moveToPoint(nextPoint[0], nextPoint[1], 50 * delta / 1000f);
 		}
 		
+	}
+	
+	/*
+	 * Checks if the entity's center is within 2 pixels of the point
+	 */
+	private boolean closeToPoint(int x, int y) {
+		
+		// how far the x and y coordinates can be off
+		int radius = 2;
+		
+		if (this.x + radius >= x) {
+			if (this.x <= x + radius) {
+				if (this.y + radius >= y) {
+					if (this.y <= y + radius) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
 	}
 }

@@ -8,3 +8,4 @@ anim walkside
 move 100 100
 anim walkback
 move 0 0
+anim walkfront

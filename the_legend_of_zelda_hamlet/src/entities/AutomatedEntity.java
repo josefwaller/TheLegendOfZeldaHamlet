@@ -93,6 +93,13 @@ public class AutomatedEntity extends MovingEntity {
 					AnimationStore.get().loadAnimationsForSheet(this.sprites);
 					break;
 					
+				// saves the base speed the entity will move at
+				// Note: individual movements may have their own speeds, which will override this one
+				case "speed":
+					
+					this.speed = Integer.parseInt(words[1]);
+					break;
+					
 				// saves a sprite animation the cutscene animation wil use
 				case "anim":
 					
@@ -107,7 +114,10 @@ public class AutomatedEntity extends MovingEntity {
 					// adds an action
 					tempActions.add(AutomatedEntity.MOVE);
 					
-					int[] point = {Integer.parseInt(words[1]), Integer.parseInt(words[2])};
+					int[] point = {Integer.parseInt(words[1]), Integer.parseInt(words[2]), 0};
+					if (words.length == 4) {
+						point[2] = Integer.parseInt(words[3]);
+					}
 					tempPoints.add(point);
 					break;
 					
@@ -157,6 +167,9 @@ public class AutomatedEntity extends MovingEntity {
 		System.out.println(this.animNames.length);
 	}
 	
+	/*
+	 * Updates the entity
+	 */
 	public void update(int delta) {
 		
 		// checks the entity hasn't run out of things to do
@@ -181,7 +194,10 @@ public class AutomatedEntity extends MovingEntity {
 			}
 		}
 	}
-	
+	/*
+	 * (non-Javadoc)
+	 * @see entities.abstracts.Entity#render(org.newdawn.slick.Graphics)
+	 */
 	public void render(Graphics g) {
 		
 		Image sprite = this.currentAnim.getSprite();
@@ -218,7 +234,14 @@ public class AutomatedEntity extends MovingEntity {
 			this.positionIndex++;
 		} else {
 			
-			this.moveToPoint(nextPoint[0], nextPoint[1], 50 * delta / 1000f);
+			int speed = this.speed;
+			
+			// checks if the movement has a custom speed
+			if (nextPoint[2] != 0) {
+				speed = nextPoint[2];
+			}
+			
+			this.moveToPoint(nextPoint[0], nextPoint[1], speed * delta / 1000f);
 		}
 		
 	}

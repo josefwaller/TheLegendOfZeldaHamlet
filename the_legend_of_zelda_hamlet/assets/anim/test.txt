@@ -1,11 +1,12 @@
 SPRITES assets/images/npcs/oldman
+speed 50
 
 ANIM walkback
-MOVE 0 0
+MOVE 16 16
 anim walkfront
-move 0 100
+move 16 80
 anim walkside
-move 100 100
+move 80 80
 anim walkback
-move 0 0
+move 16 16 100
 anim walkfront

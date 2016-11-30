@@ -16,9 +16,11 @@ A list of things to do
 
 ## Bugs
 
-* Walking into a door to the left will not position the camera correctly
+* Stop entities who are not in the current section from updating
 
 ## Done
+
+* ~Walking into a door to the left will not position the camera correctly~
 * ~Add AnimationStore~
 * ~Extend InteractiveEntity to entities that need it~
 * ~Add NPCs~

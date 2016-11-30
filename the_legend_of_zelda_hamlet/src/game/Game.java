@@ -463,7 +463,7 @@ public class Game extends BasicGame {
 			case Entity.DIR_LEFT:
 				
 				// the door is facing left, so it needs to be at the right
-				this.camEndX = (int) (d.getX() - this.w);
+				this.camEndX = (int) (d.getX() + d.getW() - this.w);
 				break;
 				
 			case Entity.DIR_RIGHT:

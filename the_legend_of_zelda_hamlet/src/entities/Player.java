@@ -57,9 +57,6 @@ public class Player extends AnimatedEntity{
 	// the time inbetween sprite changes while running
 	private int runInterval = 100;
 	
-	// the current animation being used
-	private Animation currentAnim;
-	
 	/*
 	Creates a new player
 	*/
@@ -105,16 +102,11 @@ public class Player extends AnimatedEntity{
 		this.attackSide.setDuration(this.attackDuration / this.attackSide.getAnimLength());
 		this.attackDown.setDuration(this.attackDuration / this.attackDown.getAnimLength());
 		
-		
-		this.imgX = (this.w - 32) / 2;
-		this.imgY = (this.h - 32) / 2;		
-		
 		// adds hitbox
 		this.addHitbox(2, 2, 14, 20);
 		
 		// sets to go down for default
 		this.currentAnim = this.runDown;
-		this.currentSprite = this.currentAnim.getSprite();
 	}
 	
 	/*
@@ -136,8 +128,6 @@ public class Player extends AnimatedEntity{
 			}
 			
 			this.currentAnim.update();
-			
-			this.currentSprite = this.currentAnim.getSprite();
 			
 		} else {
 
@@ -187,8 +177,6 @@ public class Player extends AnimatedEntity{
 				
 				this.currentAnim.update();
 				
-				this.currentSprite = this.currentAnim.getSprite();
-				
 			} else {
 				
 				switch (this.direction) {
@@ -203,36 +191,8 @@ public class Player extends AnimatedEntity{
 						this.currentAnim = this.standSideShield;
 						break;
 				}
-				
-				this.currentSprite = this.currentAnim.getSprite();
 			}
 		}
-	}
-	
-	/*
-	 * Renders the player
-	 */
-	public void render(Graphics g) {
-		
-		Image sprite = this.currentSprite;
-
-		int imgX = (int)this.x + this.w / 2;
-		int imgY = (int)this.y + this.h / 2;
-		
-		if (this.direction == Entity.DIR_LEFT) {
-			sprite = sprite.getFlippedCopy(true, false);
-			imgX -= this.currentAnim.getOffX();
-			
-		} else {
-			imgX += this.currentAnim.getOffX();
-		}
-		imgY += this.currentAnim.getOffY();
-		
-		sprite.drawCentered(
-			imgX, 
-			imgY);
-		
-		g.drawRect(this.x, this.y, this.w, this.h);
 	}
 	
 	/*

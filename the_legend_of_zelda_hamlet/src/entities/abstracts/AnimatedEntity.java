@@ -5,6 +5,8 @@ import game.Game;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import sprites.Animation;
+
 /*
  * An entity that is animated. It's main use is to
  * automatically draw the currentSprite (which 
@@ -14,22 +16,17 @@ import org.newdawn.slick.Image;
  */
 public abstract class AnimatedEntity extends Entity {
 	
-	// the sprite to render
-	protected Image currentSprite;
-	
-	// how much to move the sprites over so that they are positioned correctly
-	protected int imgX;
-	protected int imgY;
+	// the current animation the entity is playing
+	protected Animation currentAnim;
 	
 	/*
-	 * Constructor for when the entity does not have equal width and height
+	 * Constructors
+	 * 
+	 * Exactly the same as entity, just sets them up
 	 */
 	public AnimatedEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
 	}
-	/*
-	 * Constructor for when the entity does have equal width and height
-	 */
 	public AnimatedEntity(int x, int y, int s, Game g) {
 		super(x, y, s, g);
 	}
@@ -37,16 +34,32 @@ public abstract class AnimatedEntity extends Entity {
 	/*
 	 * Renders the sprite on the screen
 	 */
-
 	public void render(Graphics g) {
 		
-		// draws the sprite
-		this.currentSprite.draw(
-			(int)this.x + this.imgX, 
-			(int)this.y + this.imgY, 
-			this.currentSprite.getWidth(), 
-			this.currentSprite.getHeight()
-		);	
+		// gets the sprite to use now
+		Image sprite = this.currentAnim.getSprite();
+		
+		// gets the coordinates to draw the sprite
+		int x = (int) (this.x + this.w / 2);
+		int y = (int) (this.y + this.h / 2);
+		
+		if (this.direction == Entity.DIR_LEFT) {
+			
+			// moves the sprite over and mirrors it
+			x -= this.currentAnim.getOffX();
+			sprite = sprite.getFlippedCopy(true, false);
+			
+		} else {
+			
+			// just move the sprite over
+			x += this.currentAnim.getOffX();
+		}
+		
+		// moves the sprite up
+		y += this.currentAnim.getOffY();
+		
+		// draws the sprite with the proper x and y offset
+		sprite.drawCentered(x, y);
 		
 		// draws hitboxes
 		if (this.game.isDebug()) {

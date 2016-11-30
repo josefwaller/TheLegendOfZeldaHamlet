@@ -12,15 +12,15 @@ Shakespeare's *Hamlet* using *The Legend of Zelda: A Link to the Past* assets. M
 * Has a boss at the end
 * No/very few bugs, no crashes
 
-### Setup
+### Set Up
 
-#### Developement
+#### Development
 * Download and install [Slick2D](http://slick.ninjacave.com/)
 * Download Git repository
 * In Eclipse
-	* Create a new project and add git files/assets
+	* Create a new project and add repository files/assets
 	* Run
 	
 ### Production
 
-Currentlys has no production .jar or .exe.
+Currently has no production .jar or .exe. Is currently planned for release.

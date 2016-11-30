@@ -519,23 +519,32 @@ public class Game extends BasicGame {
 	 * Returns the contents of a file
 	 */
 	public static String readFile(String filename) {
+		
+		// the string to return
 		String toReturn = "";
+		
+		// the scanner used to read the file
 		Scanner s;
 		try {
+			// creates a new scanner from the file
 			s = new Scanner(new File(
 				String.format(filename)
 			));
 			
 		} catch (FileNotFoundException e) {
+			
+			// prints error message and exits
 			e.printStackTrace();
 			System.exit(0);
 			return "";
 		}
 		
+		// adds lines to toReturn
 		while (s.hasNextLine()) {
 			toReturn += s.nextLine() + "\n";
 		}
 		
+		// closes the scanner
 		s.close();
 		
 		return toReturn;

@@ -8,7 +8,6 @@ import org.newdawn.slick.Image;
 
 import sprites.Animation;
 import sprites.AnimationStore;
-import entities.abstracts.Entity;
 import entities.abstracts.MovingEntity;
 import game.Game;
 
@@ -38,7 +37,7 @@ public class AutomatedEntity extends MovingEntity {
 	private int positionIndex;
 	
 	// the different dialogs the animation will say
-	private String[] dialog;
+	private String[] dialogs;
 	
 	// the index of the current dialog
 	private int dialogIndex;
@@ -78,6 +77,7 @@ public class AutomatedEntity extends MovingEntity {
 		List<Integer> tempActions = new ArrayList<Integer>();
 		ArrayList<int[]> tempPoints = new ArrayList<int[]>();
 		ArrayList<String> tempAnims = new ArrayList<String>();
+		ArrayList<String> tempDialogs = new ArrayList<String>();
 		
 		for (int i = 0; i < actions.length; i++) {
 			String[] words = actions[i].split(" ");
@@ -126,6 +126,9 @@ public class AutomatedEntity extends MovingEntity {
 					// adds an action
 					tempActions.add(AutomatedEntity.DIALOG);
 					
+					// reads the dialog file
+					String dialog = Game.readFile("assets/dialog/" + words[1]);
+					tempDialogs.add(dialog);
 					break;
 					
 				case "init_anim":
@@ -145,10 +148,11 @@ public class AutomatedEntity extends MovingEntity {
 		
 		// converts the ArrayLists into arrays for storage
 		this.animNames = tempAnims.toArray(new String[0]);
-		this.actions = new int[tempActions.size()];
+		this.dialogs = tempDialogs.toArray(new String[0]);
 		
 		// has to do the Integer ArrayLists in a for loop because
 		// Java can't cast from Integer to int
+		this.actions = new int[tempActions.size()];
 		for (int i = 0; i < tempActions.size(); i++) {
 			this.actions[i] = tempActions.get(i);
 		}
@@ -156,15 +160,10 @@ public class AutomatedEntity extends MovingEntity {
 		// sets the current animation
 		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[0]);
 		
-		// sets all indexes to 0
+		// set indexes to 0
 		this.actionIndex = 0;
 		this.positionIndex = 0;
-		
-		// action index is set to -1, so that when it changes it will start at 0
-		this.animIndex = -1;
-
-		System.out.println(this.actions.length);
-		System.out.println(this.animNames.length);
+		this.animIndex = 0;
 	}
 	
 	/*
@@ -186,9 +185,13 @@ public class AutomatedEntity extends MovingEntity {
 					break;
 					
 				case AutomatedEntity.CHANGE_ANIM:
-					
 					this.changeAnimation();
 					break;
+					
+				case AutomatedEntity.DIALOG:
+					this.startDialog();
+					break;
+					
 				default:
 					System.out.println(this.actions[this.actionIndex]);
 			}
@@ -210,13 +213,27 @@ public class AutomatedEntity extends MovingEntity {
 	}
 	
 	/*
+	 * Starts dialog
+	 */
+	private void startDialog() {
+		
+		// starts the dialog
+		this.game.startDialog(this.dialogs[this.dialogIndex]);
+		
+		// advances to next action
+		this.actionIndex++;
+		this.dialogIndex++;
+		
+	}
+	
+	/*
 	 * Changes the entity's animation
 	 */
 	private void changeAnimation() {
 		
-		this.animIndex++;
 		this.currentAnim = AnimationStore.get().getAnimation(this.sprites, this.animNames[this.animIndex]);
-		
+
+		this.animIndex++;
 		this.actionIndex++;
 	}
 	

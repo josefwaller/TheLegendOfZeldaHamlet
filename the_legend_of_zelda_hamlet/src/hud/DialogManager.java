@@ -188,10 +188,6 @@ public class DialogManager {
 				this.dialogLines.add(words[i]);
 			}
 		}
-		
-		for (int i = 0; i < this.dialogLines.size(); i++) {
-			System.out.println(this.dialogLines.get(i));
-		}
 	}
 
 }

@@ -14,6 +14,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
 
+
 // different entities
 import entities.Button;
 import entities.AutomatedEntity;
@@ -23,6 +24,7 @@ import entities.NPC;
 // The player Entity
 import entities.Player;
 
+import entities.Soldier;
 // superclasses
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
@@ -295,6 +297,9 @@ public class Game extends BasicGame {
 		// initializes objects
 		this.objects = new ArrayList<StaticEntity>();
 		
+		// initializes entities
+		this.entities = new ArrayList<Entity>();
+		
 		// initialsizes animations
 		this.animations = new ArrayList<AutomatedEntity>();
 		
@@ -336,6 +341,13 @@ public class Game extends BasicGame {
 						);
 						break;
 					case "section": addSection(gi, oi); break;
+					case "enemy":
+						this.entities.add(new Soldier(
+							objX,
+							objY,
+							this
+						));
+						break;
 					
 					default : System.out.println(this.map.getObjectType(gi, oi)); break;
 				

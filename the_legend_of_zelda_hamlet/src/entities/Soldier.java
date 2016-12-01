@@ -18,6 +18,20 @@ import game.Game;
  */
 public class Soldier extends EnemyEntity {
 
+	// its standing animations
+	private Animation standUp;
+	private Animation standSide;
+	private Animation standDown;
+	
+	// its running animations
+	private Animation runUp;
+	private Animation runSide;
+	private Animation runDown;
+
+	// its attacking animations
+	private Animation attackUp;
+	private Animation attackSide;
+	private Animation attackDown;
 	/*
 	 * Initializes solder enemy and loads sprites
 	 */
@@ -40,19 +54,25 @@ public class Soldier extends EnemyEntity {
 		AnimationStore.get().loadAnimations(
 				imagePath,
 				spritesPath);
+
+		this.standUp = AnimationStore.get().getAnimation(imagePath, "standup");
+		this.standSide = AnimationStore.get().getAnimation(imagePath, "standside");
+		this.standDown = AnimationStore.get().getAnimation(imagePath, "standdown");
+		this.runUp = AnimationStore.get().getAnimation(imagePath, "runup");
+		this.runSide = AnimationStore.get().getAnimation(imagePath, "runside");
+		this.runDown = AnimationStore.get().getAnimation(imagePath, "rundown");
+		this.attackUp = AnimationStore.get().getAnimation(imagePath, "attackup");
+		this.attackSide = AnimationStore.get().getAnimation(imagePath, "attackside");
+		this.attackDown = AnimationStore.get().getAnimation(imagePath, "attackdown");
 		
-		Animation a = AnimationStore.get().getAnimation(
-			imagePath, 
-			"runup");
-		
-		this.setAnim(a, 100);
+		this.setAnim(this.runSide, 100);
 	}
 	
 	/*
 	 * @see entities.abstracts.EnemyEntity#update(int)
 	 */
 	public void update(int delta) {
-		
+		this.animUpdate();
 	}
 	
 }

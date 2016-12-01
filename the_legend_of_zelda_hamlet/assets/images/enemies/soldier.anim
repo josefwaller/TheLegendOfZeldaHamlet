@@ -43,13 +43,13 @@
   </anim>
   <anim name="runside" loops="0">
     <cell index="0" delay="1">
-      <spr name="/Running/Side/0" x="5" y="-2" z="0" flipH="1"/>
+      <spr name="/Running/Side/1" x="8" y="-3" z="0" flipH="1"/>
     </cell>
     <cell index="1" delay="1">
       <spr name="/Standing/Side" x="5" y="-2" z="0" flipH="1"/>
     </cell>
     <cell index="2" delay="1">
-      <spr name="/Running/Side/1" x="8" y="-3" z="0" flipH="1"/>
+      <spr name="/Running/Side/0" x="5" y="-3" z="0" flipH="1"/>
     </cell>
   </anim>
   <anim name="lookup" loops="0">

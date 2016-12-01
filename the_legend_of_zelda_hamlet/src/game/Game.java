@@ -15,6 +15,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 
 
+
 // different entities
 import entities.Button;
 import entities.AutomatedEntity;
@@ -23,8 +24,8 @@ import entities.NPC;
 
 // The player Entity
 import entities.Player;
-
 import entities.Soldier;
+import entities.abstracts.EnemyEntity;
 // superclasses
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
@@ -104,7 +105,7 @@ public class Game extends BasicGame {
 	private ArrayList<StaticEntity> objects;
 	
 	// all entities (Except the player) on the screen
-	private ArrayList<Entity> entities;
+	private ArrayList<EnemyEntity> enemies;
 	
 	// all animations that will be played
 	private ArrayList<AutomatedEntity> animations;
@@ -177,6 +178,11 @@ public class Game extends BasicGame {
 			// updates animations
 			for (int i = 0; i < this.animations.size(); i++) {
 				this.animations.get(i).update(delta);
+			}
+			
+			// updates enemies
+			for (int i = 0; i < this.enemies.size(); i++) {
+				this.enemies.get(i).update(delta);
 			}
 			
 		} else if (this.isPlayingTransition){
@@ -275,6 +281,11 @@ public class Game extends BasicGame {
 				
 				this.animations.get(i).render(g);
 			}
+			
+			// renders enemies
+			for (int i = 0; i < this.enemies.size(); i++){
+				this.enemies.get(i).render(g);;
+			}
 		}
 		
 		// draws the hud
@@ -297,10 +308,10 @@ public class Game extends BasicGame {
 		// initializes objects
 		this.objects = new ArrayList<StaticEntity>();
 		
-		// initializes entities
-		this.entities = new ArrayList<Entity>();
+		// initializes enemies
+		this.enemies = new ArrayList<EnemyEntity>();
 		
-		// initialsizes animations
+		// initializes animations
 		this.animations = new ArrayList<AutomatedEntity>();
 		
 		for (int gi = 0; gi < this.map.getObjectGroupCount(); gi++) {
@@ -342,7 +353,7 @@ public class Game extends BasicGame {
 						break;
 					case "section": addSection(gi, oi); break;
 					case "enemy":
-						this.entities.add(new Soldier(
+						this.enemies.add(new Soldier(
 							objX,
 							objY,
 							this

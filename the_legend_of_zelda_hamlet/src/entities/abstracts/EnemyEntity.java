@@ -2,7 +2,7 @@ package entities.abstracts;
 
 import game.Game;
 
-public abstract class EnemyEntity extends AnimatedEntity {
+public abstract class EnemyEntity extends MovingEntity {
 
 	public EnemyEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);

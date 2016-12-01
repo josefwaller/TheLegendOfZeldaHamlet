@@ -32,12 +32,25 @@ public class Soldier extends EnemyEntity {
 	private Animation attackUp;
 	private Animation attackSide;
 	private Animation attackDown;
+	
+	// the points which it patrols to
+	int[][] patrols;
+	
+	// the current patrol the enemy is walking to
+	int currentPatrol;
+	
+	// the speed the soldier patrols at
+	int patrolSpeed = 50;
+	
+	// the speed the soldier chases the player at
+	int chaseSpeed = 100;
+	
 	/*
 	 * Initializes solder enemy and loads sprites
 	 */
-	public Soldier(int x, int y, Game g) {
+	public Soldier(int x, int y, int pX, int pY, Game g) {
 		super(x, y, 16, 20, g);
-
+		
 		// the path to the image
 		// will vary with different colors of soldier
 		String imagePath = "assets/images/enemies/bluesoldier";
@@ -66,13 +79,59 @@ public class Soldier extends EnemyEntity {
 		this.attackDown = AnimationStore.get().getAnimation(imagePath, "attackdown");
 		
 		this.setAnim(this.runSide, 100);
+
+		// sets up its point
+		this.setUpPatrol((int) this.x, (int) this.y, pX * 16, pY * 16);
 	}
 	
 	/*
 	 * @see entities.abstracts.EnemyEntity#update(int)
 	 */
 	public void update(int delta) {
-		this.animUpdate();
+		
+		// gets the point
+		int[] point = this.patrols[currentPatrol];
+
+		if (!this.isAtPoint(point[0], point[1], 1)) {
+			
+			// walks to its point
+			this.moveToPoint(point[0], point[1], this.patrolSpeed * delta / 1000f);
+			
+		} else {
+			
+			// walks to its next point
+			this.currentPatrol = (this.currentPatrol + 1) % this.patrols.length;
+		}
+	}
+	
+	/*
+	 * Sets up patrol points from a box's coordinates
+	 * the enemy will walk to each of the corners
+	 */
+	private void setUpPatrol(int x, int y, int pX, int pY) {
+		
+		int[][] patrols = {
+			{
+				x,
+				y
+			},
+			{
+				x,
+				y + pY
+			},
+			{
+				x + pX,
+				y + pY
+			},
+			{
+				x + pX,
+				y
+			}
+		};
+		
+		this.patrols = patrols;
+		
+		this.currentPatrol = 1;
 	}
 	
 }

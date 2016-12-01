@@ -352,10 +352,21 @@ public class Game extends BasicGame {
 						);
 						break;
 					case "section": addSection(gi, oi); break;
-					case "enemy":
+					case "soldier":
+						
+						// gets the patrol routes
+						int patrolX = Integer.parseInt(
+								this.map.getObjectProperty(gi,  oi, "patrolx", "0")
+						);
+						int patrolY = Integer.parseInt(
+								this.map.getObjectProperty(gi,  oi, "patroly", "0")
+						);
+						
 						this.enemies.add(new Soldier(
 							objX,
 							objY,
+							patrolX,
+							patrolY,
 							this
 						));
 						break;

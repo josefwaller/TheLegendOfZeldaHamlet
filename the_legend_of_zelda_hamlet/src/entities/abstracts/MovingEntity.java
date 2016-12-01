@@ -67,6 +67,9 @@ public abstract class MovingEntity extends AnimatedEntity {
 		
 	}
 	
+	/*
+	 * Checks if the soldier collides with a certain point
+	 */
 	protected boolean collidesWithPoint(int x, int y) {
 		
 		if (this.x <= x) {
@@ -83,4 +86,22 @@ public abstract class MovingEntity extends AnimatedEntity {
 		
 	}
 	
+	/*
+	 * Checks if the center of the entity is within a certain 
+	 * distance of the point
+	 */
+	protected boolean isAtPoint(int x, int y, int dis) {
+		
+		if (this.x + dis > x) {
+			if (this.x < x + dis) {
+				if (this.y + dis > y) {
+					if (this.y < y + dis) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
 }

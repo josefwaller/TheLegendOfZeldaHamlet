@@ -120,8 +120,6 @@ public class AnimationStore {
 			// adds the new animation to the sprite animation
 			this.animations.get(sheetPath).put(animTag.getAttribute("name"),
 				new Animation(sheetPath, 100, anim));
-			
-			System.out.println("Adding value for " + sheetPath);
 		}
 	}
 
@@ -132,8 +130,6 @@ public class AnimationStore {
 		
 		// checks if it needs to load the animation
 		if (!this.animations.containsKey(animPath)) {
-			
-			System.out.println(animPath);
 			
 			this.loadAnimationsForSheet(animPath);
 		} 

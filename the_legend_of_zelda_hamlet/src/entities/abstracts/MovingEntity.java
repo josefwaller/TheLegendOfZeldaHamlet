@@ -60,6 +60,23 @@ public abstract class MovingEntity extends AnimatedEntity {
 				yMod = -1;
 			}
 			
+			// changes the entity's direction depending on where he is going
+			if (Math.abs(newX) > Math.abs(newY)) {
+				if (xMod > 0) {
+					this.direction = Entity.DIR_RIGHT;
+					
+				} else {
+					this.direction = Entity.DIR_LEFT;
+				}
+			} else {
+				if (yMod > 0) {
+					this.direction = Entity.DIR_DOWN;
+							
+				} else {
+					this.direction = Entity.DIR_UP;
+				}
+			}
+			
 			// changes the x and y to the new x and y
 			this.x += xMod * newX;
 			this.y += yMod * newY;

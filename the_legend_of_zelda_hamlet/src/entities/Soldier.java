@@ -6,6 +6,7 @@ import sprites.Animation;
 import sprites.AnimationStore;
 import sprites.SpriteStore;
 import entities.abstracts.EnemyEntity;
+import entities.abstracts.Entity;
 import game.Game;
 
 /*
@@ -34,16 +35,19 @@ public class Soldier extends EnemyEntity {
 	private Animation attackDown;
 	
 	// the points which it patrols to
-	int[][] patrols;
+	private int[][] patrols;
 	
 	// the current patrol the enemy is walking to
-	int currentPatrol;
+	private int currentPatrol;
 	
 	// the speed the soldier patrols at
-	int patrolSpeed = 50;
+	private int patrolSpeed = 20;
 	
 	// the speed the soldier chases the player at
-	int chaseSpeed = 100;
+	private int chaseSpeed = 100;
+	
+	// the time it takes to change frame when patrolling
+	private int patrolDuration= 150;
 	
 	/*
 	 * Initializes solder enemy and loads sprites
@@ -102,6 +106,23 @@ public class Soldier extends EnemyEntity {
 			// walks to its next point
 			this.currentPatrol = (this.currentPatrol + 1) % this.patrols.length;
 		}
+		
+		switch (this.direction) {
+			case Entity.DIR_DOWN:
+				this.setAnim(this.runDown, this.patrolDuration);
+				break;
+			case Entity.DIR_UP:
+				this.setAnim(this.runUp, this.patrolDuration);
+				break;
+			case Entity.DIR_LEFT:
+				this.setAnim(this.runSide, this.patrolDuration);
+				break;
+			case Entity.DIR_RIGHT:
+				this.setAnim(this.runSide, this.patrolDuration);
+				break;
+		}
+		
+		this.animUpdate();
 	}
 	
 	/*

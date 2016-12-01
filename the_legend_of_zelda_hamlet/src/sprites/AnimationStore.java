@@ -40,15 +40,22 @@ public class AnimationStore {
 	}
 	
 	/*
-	 * Loads animations for a sprite sheet
+	 * Loads animation where the .anim file and the .sprites file are called the same
 	 */
-	public void loadAnimationsForSheet(String sheetUrl) {
+	public void loadAnimationsForSheet(String sheetPath) {
+		this.loadAnimations(sheetPath, sheetPath);
+	}
+	
+	/*
+	 * Loads animations in the anim path given using the spritesheet path given
+	 */
+	public void loadAnimations(String sheetUrl, String animPath) {
 		
 		// adds a new entry
-		this.animations.put(sheetUrl, new HashMap<String, Animation>());
+		this.animations.put(animPath, new HashMap<String, Animation>());
 		
 		// loads the XML file
-		File xml = new File(sheetUrl + ".anim");
+		File xml = new File(animPath + ".anim");
 		
 		// creates a new NodeList to hold the XML tags
 		NodeList animTags = null;
@@ -109,15 +116,15 @@ public class AnimationStore {
 		}
 	}
 	
-	public Animation getAnimation(String sheetName, String animName) {
+	public Animation getAnimation(String animPath, String animName) {
 		
 		// checks if it needs to load the animation
-		if (!this.animations.containsKey(sheetName)) {
+		if (!this.animations.containsKey(animPath)) {
 			
-			this.loadAnimationsForSheet(sheetName);
+			this.loadAnimationsForSheet(animPath);
 		} 
 		
-		return this.animations.get(sheetName).get(animName);
+		return this.animations.get(animPath).get(animName);
 	}
 	
 	public static AnimationStore get() {

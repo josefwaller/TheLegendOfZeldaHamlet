@@ -48,11 +48,18 @@ public class AnimationStore {
 	
 	/*
 	 * Loads animations in the anim path given using the spritesheet path given
+	 * 
+	 * sheetPath is the path to the actual image
+	 * animPath is the path to the .anim file
+	 * Allows things like soldiers to use the same animations with different images
 	 */
-	public void loadAnimations(String sheetUrl, String animPath) {
+	public void loadAnimations(String sheetPath, String animPath) {
+		
+		// makes sure the sheet is loaded
+		SpriteStore.get().loadSpriteSheet(sheetPath);
 		
 		// adds a new entry
-		this.animations.put(animPath, new HashMap<String, Animation>());
+		this.animations.put(sheetPath, new HashMap<String, Animation>());
 		
 		// loads the XML file
 		File xml = new File(animPath + ".anim");
@@ -111,15 +118,22 @@ public class AnimationStore {
 			}
 			
 			// adds the new animation to the sprite animation
-			this.animations.get(sheetUrl).put(animTag.getAttribute("name"),
-				new Animation(sheetUrl, 100, anim));
+			this.animations.get(sheetPath).put(animTag.getAttribute("name"),
+				new Animation(sheetPath, 100, anim));
+			
+			System.out.println("Adding value for " + sheetPath);
 		}
 	}
-	
+
+	/*
+	 * Returns an animation or loads it if it has not been loaded
+	 */
 	public Animation getAnimation(String animPath, String animName) {
 		
 		// checks if it needs to load the animation
 		if (!this.animations.containsKey(animPath)) {
+			
+			System.out.println(animPath);
 			
 			this.loadAnimationsForSheet(animPath);
 		} 
@@ -127,6 +141,9 @@ public class AnimationStore {
 		return this.animations.get(animPath).get(animName);
 	}
 	
+	/*
+	 * Returns the one instance of the AnimationStore
+	 */
 	public static AnimationStore get() {
 		return AnimationStore.animStore;
 	}

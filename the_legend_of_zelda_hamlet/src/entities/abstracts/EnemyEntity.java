@@ -2,9 +2,7 @@ package entities.abstracts;
 
 import game.Game;
 
-import org.newdawn.slick.Graphics;
-
-public abstract class EnemyEntity extends Entity {
+public abstract class EnemyEntity extends AnimatedEntity {
 
 	public EnemyEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);

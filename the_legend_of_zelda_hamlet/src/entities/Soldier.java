@@ -2,6 +2,9 @@ package entities;
 
 import org.newdawn.slick.Graphics;
 
+import sprites.Animation;
+import sprites.AnimationStore;
+import sprites.SpriteStore;
 import entities.abstracts.EnemyEntity;
 import game.Game;
 
@@ -15,9 +18,34 @@ import game.Game;
  */
 public class Soldier extends EnemyEntity {
 
+	/*
+	 * Initializes solder enemy and loads sprites
+	 */
 	public Soldier(int x, int y, Game g) {
 		super(x, y, 16, 20, g);
-		System.out.println("Hello world");
+
+		// the path to the image
+		// will vary with different colors of soldier
+		String imagePath = "assets/images/enemies/bluesoldier";
+		
+		// the string to the .sprites file
+		// should remain constant unless the file is moved
+		String spritesPath = "assets/images/enemies/soldier";
+		// loads its sprites
+		SpriteStore.get().loadSpriteSheet(
+			imagePath,
+			spritesPath);
+		
+		// loads its animations
+		AnimationStore.get().loadAnimations(
+				imagePath,
+				spritesPath);
+		
+		Animation a = AnimationStore.get().getAnimation(
+			imagePath, 
+			"runup");
+		
+		this.setAnim(a, 100);
 	}
 	
 	/*
@@ -25,13 +53,6 @@ public class Soldier extends EnemyEntity {
 	 */
 	public void update(int delta) {
 		
-	}
-	
-	/*
-	 * @see entities.abstracts.Entity#render(org.newdawn.slick.Graphics)
-	 */
-	public void render(Graphics g) {
-		g.drawRect(this.x, this.y, this.w, this.h);
 	}
 	
 }

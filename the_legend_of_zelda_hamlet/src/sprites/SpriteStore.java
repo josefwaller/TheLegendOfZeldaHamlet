@@ -64,35 +64,43 @@ public class SpriteStore {
 		
 		return this.images.get(url);
 	}
+	
 	/*
-	 * loadSpriteSheet(String url, int w, int h)
+	 * loadSpriteSheet
 	 * 
 	 * Loads a new image and creates a SpriteSheet object with it
 	 */
-	public SpriteSheet loadSpriteSheet(String url)
+	public SpriteSheet loadSpriteSheet(String imagePath, String spritesPath)
 	{
 		
 		// checks it hasn't already loaded the spritesheet
 		
-		if (!this.spriteSheets.containsKey(url)) {
+		if (!this.spriteSheets.containsKey(imagePath)) {
 
 			try {
 				// loads the image
-				Image sheetImage = new Image(url + ".png", false, Image.FILTER_NEAREST);				
+				Image sheetImage = new Image(imagePath + ".png", false, Image.FILTER_NEAREST);				
 				
 				// adds it to the spritesheet
-				this.spriteSheets.put(url, new SpriteSheet(sheetImage, url));
+				this.spriteSheets.put(imagePath, new SpriteSheet(sheetImage, spritesPath));
 				
 			} catch (SlickException e) {
 
 				// prints that the image does not exist
 				e.printStackTrace();
-				System.err.format("The Image %d does not exist", url);
+				System.err.format("The Image %d does not exist", imagePath);
 				System.exit(0);
 			}
 		}
 		
-		return this.spriteSheets.get(url);
+		return this.spriteSheets.get(imagePath);
+	}
+	
+	/*
+	 * Loads a sprite sheet if the .sprites file and .anim file are the same
+	 */
+	public SpriteSheet loadSpriteSheet(String path) {
+		return this.loadSpriteSheet(path, path);
 	}
 	
 	/*

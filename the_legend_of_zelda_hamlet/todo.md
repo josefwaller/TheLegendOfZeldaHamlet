@@ -7,12 +7,13 @@ A list of things to do
 
 * Add Attacking
 * Remove or change AnimatedEntity
-* Have different entities track their own animation change time
 * Add enemies
 * Add health/Death/Respawn
 * Add pots/picking up things (Quick/Easy/Helps game a lot)
 * Add certain doors that load a new map when entered
 * Add button functionality (Is it needed?)
+* Add music
+
 
 ## Bugs
 
@@ -20,6 +21,7 @@ A list of things to do
 
 ## Done
 
+* ~Have different entities track their own animation change time~
 * ~Walking into a door to the left will not position the camera correctly~
 * ~Add AnimationStore~
 * ~Extend InteractiveEntity to entities that need it~

@@ -56,7 +56,7 @@ public class Soldier extends EnemyEntity {
 	private int patrolDuration= 150;
 	
 	// the speed the soldier chases the player at
-	private int chaseSpeed = 80;
+	private int chaseSpeed = 60;
 	
 	// the time between changing sprites when chasing the player
 	private int chaseDuration = 50;
@@ -73,7 +73,7 @@ public class Soldier extends EnemyEntity {
 	private int lookDirection;
 	
 	// the distance this enemy can look
-	private int lookDistance = 200;
+	private int lookDistance = 50;
 	
 	/*
 	 * Initializes solder enemy and loads sprites
@@ -149,8 +149,11 @@ public class Soldier extends EnemyEntity {
 	 */
 	private void chase(int delta) { 
 		
+		this.lookDirection = this.direction;
+		
 		if (!this.canSeePlayer()) {
 			this.state = Soldier.STATE_LOOKING;
+			
 		} else {
 			
 			Player p = this.game.getPlayer();
@@ -225,7 +228,7 @@ public class Soldier extends EnemyEntity {
 			
 			// sets lookDirection based on how long the animation has been going
 			// sets it so that it matches the enemy's head
-			switch ((int)Math.floor((since) / (this.lookDuration * 4))) {
+			switch ((int)Math.floor((since) / (this.lookDuration / 4))) {
 			
 				case 0:
 					this.lookDirection = dirLeft;
@@ -239,6 +242,12 @@ public class Soldier extends EnemyEntity {
 				case 3:
 					this.lookDirection = this.direction;
 					break;
+			}
+			
+			if (this.canSeePlayer()) {
+				this.state = EnemyEntity.STATE_CHASING;
+				this.direction = this.lookDirection;
+				
 			}
 			
 		}
@@ -299,12 +308,14 @@ public class Soldier extends EnemyEntity {
 		double disY = this.y - p.getY();
 		
 		double totalDis = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
-		
+
 		if (totalDis < this.lookDistance) {
 			
 			// checks if it can see the player based on what direction it is looking			
 			switch (this.lookDirection) {
+			
 				case Entity.DIR_DOWN:
+					
 					if (p.getY() > this.y) {
 						return true;
 					}

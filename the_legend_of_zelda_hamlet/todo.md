@@ -8,6 +8,8 @@ A list of things to do
 * Add Attacking
 * Remove or change AnimatedEntity
 * Add enemies
+* Add Soldier realization stage
+* Fix Soldier not correctly setting duration when seeing the player
 * Add health/Death/Respawn
 * Add pots/picking up things (Quick/Easy/Helps game a lot)
 * Add certain doors that load a new map when entered

@@ -52,11 +52,14 @@ public class Soldier extends EnemyEntity {
 	// the speed the soldier patrols at
 	private int patrolSpeed = 20;
 	
-	// the speed the soldier chases the player at
-	private int chaseSpeed = 100;
-	
 	// the time it takes to change frame when patrolling
 	private int patrolDuration= 150;
+	
+	// the speed the soldier chases the player at
+	private int chaseSpeed = 80;
+	
+	// the time between changing sprites when chasing the player
+	private int chaseDuration = 50;
 	
 	// the duration of the looking animations
 	private int lookDuration = 2000;
@@ -131,12 +134,39 @@ public class Soldier extends EnemyEntity {
 				this.patrol(delta);
 				break;
 				
+			case EnemyEntity.STATE_CHASING:
+				this.chase(delta);
+				break;
+				
 			case Soldier.STATE_LOOKING:
 				this.lookAround();
 				break;
 		}
 	}
 	
+	/*
+	 * Chases the player
+	 */
+	private void chase(int delta) { 
+		
+		if (!this.canSeePlayer()) {
+			this.state = Soldier.STATE_LOOKING;
+		} else {
+			
+			Player p = this.game.getPlayer();
+			int x = (int) (p.getX());
+			int y = (int) (p.getY());
+			
+			this.moveToPoint(x, y, this.chaseSpeed * delta / 1000f);
+			
+			this.setRunAnim(this.chaseDuration);
+		}
+		
+	}
+	
+	/*
+	 * Makes the entity look left and right to see if it can see the player
+	 */
 	private void lookAround() {
 		
 		// when looking around, the enemy looks to his left,
@@ -154,9 +184,8 @@ public class Soldier extends EnemyEntity {
 		
 			case Entity.DIR_DOWN:
 				this.setAnim(
-					this.lookDown,
+					this.lookDown, 
 					this.lookDuration / this.lookDown.getAnimLength());
-				
 				// sets direction
 				dirLeft = Entity.DIR_RIGHT;
 				dirRight = Entity.DIR_LEFT;
@@ -166,8 +195,8 @@ public class Soldier extends EnemyEntity {
 			case Entity.DIR_RIGHT:				
 			case Entity.DIR_LEFT:
 				this.setAnim(
-					this.lookSide,
-					this.lookDuration / this.lookSide.getAnimLength());
+						this.lookSide, 
+						this.lookDuration / this.lookSide.getAnimLength());
 
 				// sets direction
 				dirLeft = Entity.DIR_UP;
@@ -176,8 +205,8 @@ public class Soldier extends EnemyEntity {
 				
 			case Entity.DIR_UP:
 				this.setAnim(
-					this.lookUp,
-					this.lookDuration / this.lookUp.getAnimLength());
+						this.lookUp, 
+						this.lookDuration / this.lookUp.getAnimLength());
 				
 				// sets direction
 				dirLeft = Entity.DIR_LEFT;
@@ -231,6 +260,9 @@ public class Soldier extends EnemyEntity {
 
 		if (this.canSeePlayer()) {
 			
+			// sets to chase the player
+			this.state = EnemyEntity.STATE_CHASING;
+			
 		} else {
 			
 			if (this.isAtPoint(point[0], point[1], 0.01f)) {
@@ -248,24 +280,10 @@ public class Soldier extends EnemyEntity {
 				// walks to its point
 				this.moveToPoint(point[0], point[1], this.patrolSpeed * delta / 1000f);
 				
-				switch (this.direction) {
-					case Entity.DIR_DOWN:
-						this.setAnim(this.runDown, this.patrolDuration);
-						break;
-					case Entity.DIR_UP:
-						this.setAnim(this.runUp, this.patrolDuration);
-						break;
-					case Entity.DIR_LEFT:
-						this.setAnim(this.runSide, this.patrolDuration);
-						break;
-					case Entity.DIR_RIGHT:
-						this.setAnim(this.runSide, this.patrolDuration);
-						break;
-				}
+				this.setRunAnim(this.patrolDuration);
 			}
 			
 		}
-		this.animUpdate();
 	}
 	
 	/*
@@ -315,6 +333,38 @@ public class Soldier extends EnemyEntity {
 		
 		
 		return false;
+	}
+	
+	/*
+	 * Sets the animation for when the enemy is just walking
+	 * Based on which direction it is facing
+	 */
+	private void setRunAnim(int dur) {
+		
+		switch (this.direction) {
+		
+			case Entity.DIR_DOWN:
+				this.setAnim(
+					this.runDown,
+					dur);
+				
+				break;
+				
+			case Entity.DIR_RIGHT:				
+			case Entity.DIR_LEFT:
+				this.setAnim(
+					this.runSide,
+					dur);
+				break;
+				
+			case Entity.DIR_UP:
+				this.setAnim(
+					this.runUp,
+					dur);
+				break;
+		}
+		
+		this.animUpdate();
 	}
 	
 	/*

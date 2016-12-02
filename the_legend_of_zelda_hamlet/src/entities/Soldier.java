@@ -69,6 +69,9 @@ public class Soldier extends EnemyEntity {
 	// used to determine if e can see the player
 	private int lookDirection;
 	
+	// the distance this enemy can look
+	private int lookDistance = 200;
+	
 	/*
 	 * Initializes solder enemy and loads sprites
 	 */
@@ -77,11 +80,12 @@ public class Soldier extends EnemyEntity {
 		
 		// the path to the image
 		// will vary with different colors of soldier
-		String imagePath = "assets/images/enemies/bluesoldier";
+		String imagePath = "assets/images/enemies/redsoldier";
 		
 		// the string to the .sprites file
 		// should remain constant unless the file is moved
 		String spritesPath = "assets/images/enemies/soldier";
+		
 		// loads its sprites
 		SpriteStore.get().loadSpriteSheet(
 			imagePath,
@@ -225,7 +229,9 @@ public class Soldier extends EnemyEntity {
 		// so sets his looking direction to directin
 		this.lookDirection = this.direction;
 
-		if (!this.canSeePlayer()) {
+		if (this.canSeePlayer()) {
+			
+		} else {
 			
 			if (this.isAtPoint(point[0], point[1], 0.01f)) {
 				
@@ -266,6 +272,48 @@ public class Soldier extends EnemyEntity {
 	 * Checks if the soldier can see the player
 	 */
 	private boolean canSeePlayer() {
+		
+		// gets the player
+		Player p = this.game.getPlayer();
+
+		// first checks that the player is close enough
+		double disX = this.x - p.getX();
+		double disY = this.y - p.getY();
+		
+		double totalDis = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
+		
+		if (totalDis < this.lookDistance) {
+			
+			// checks if it can see the player based on what direction it is looking			
+			switch (this.lookDirection) {
+				case Entity.DIR_DOWN:
+					if (p.getY() > this.y) {
+						return true;
+					}
+					break;
+					
+				case Entity.DIR_UP:
+					if (p.getY() < this.y) {
+						return true;
+					}
+					break;
+					
+				case Entity.DIR_LEFT:
+					if (p.getX() < this.x) {
+						return true;
+					}
+					break;
+					
+				case Entity.DIR_RIGHT:
+					if (p.getX() > this.x) {
+						return true;
+					}
+					break;
+			}
+			
+		}
+		
+		
 		return false;
 	}
 	

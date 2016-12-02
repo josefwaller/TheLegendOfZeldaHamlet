@@ -38,6 +38,11 @@ public class Soldier extends EnemyEntity {
 	private Animation attackSide;
 	private Animation attackDown;
 	
+	// its looking animations
+	private Animation lookUp;
+	private Animation lookSide;
+	private Animation lookDown;
+	
 	// the points which it patrols to
 	private int[][] patrols;
 	
@@ -53,7 +58,12 @@ public class Soldier extends EnemyEntity {
 	// the time it takes to change frame when patrolling
 	private int patrolDuration= 150;
 	
-	// 
+	// the duration of the looking animations
+	private int lookDuration = 2000;
+	
+	// the time the entity started looking
+	// used to time looking around
+	private long lookTime;
 	
 	/*
 	 * Initializes solder enemy and loads sprites
@@ -73,22 +83,28 @@ public class Soldier extends EnemyEntity {
 			imagePath,
 			spritesPath);
 		
+		// gest the animation for easy reference
+		AnimationStore a = AnimationStore.get();
+		
 		// loads its animations
 		AnimationStore.get().loadAnimations(
 				imagePath,
 				spritesPath);
 
-		this.standUp = AnimationStore.get().getAnimation(imagePath, "standup");
-		this.standSide = AnimationStore.get().getAnimation(imagePath, "standside");
-		this.standDown = AnimationStore.get().getAnimation(imagePath, "standdown");
-		this.runUp = AnimationStore.get().getAnimation(imagePath, "runup");
-		this.runSide = AnimationStore.get().getAnimation(imagePath, "runside");
-		this.runDown = AnimationStore.get().getAnimation(imagePath, "rundown");
-		this.attackUp = AnimationStore.get().getAnimation(imagePath, "attackup");
-		this.attackSide = AnimationStore.get().getAnimation(imagePath, "attackside");
-		this.attackDown = AnimationStore.get().getAnimation(imagePath, "attackdown");
+		this.standUp = a.getAnimation(imagePath, "standup");
+		this.standSide = a.getAnimation(imagePath, "standside");
+		this.standDown = a.getAnimation(imagePath, "standdown");
+		this.runUp = a.getAnimation(imagePath, "runup");
+		this.runSide = a.getAnimation(imagePath, "runside");
+		this.runDown = a.getAnimation(imagePath, "rundown");
+		this.attackUp = a.getAnimation(imagePath, "attackup");
+		this.attackSide = a.getAnimation(imagePath, "attackside");
+		this.attackDown = a.getAnimation(imagePath, "attackdown");
+		this.lookUp = a.getAnimation(imagePath, "lookup");
+		this.lookSide = a.getAnimation(imagePath, "lookside");
+		this.lookDown = a.getAnimation(imagePath, "lookdown");
 		
-		this.setAnim(this.runSide, 100);
+		this.setAnim(this.runSide, this.patrolDuration);
 
 		// sets up its point
 		this.setUpPatrol((int) this.x, (int) this.y, pX * 16, pY * 16);
@@ -105,7 +121,42 @@ public class Soldier extends EnemyEntity {
 		switch (this.state) {
 			case EnemyEntity.STATE_IDLE:
 				this.patrol(delta);
+				break;
+				
+			case Soldier.STATE_LOOKING:
+				this.lookAround();
+				break;
 		}
+	}
+	
+	private void lookAround() {
+		
+		switch (this.direction) {
+			case Entity.DIR_DOWN:
+				this.setAnim(
+					this.lookDown,
+					this.lookDuration / this.lookDown.getAnimLength());
+				break;
+			case Entity.DIR_RIGHT:
+			case Entity.DIR_LEFT:
+				this.setAnim(
+					this.lookSide,
+					this.lookDuration / this.lookSide.getAnimLength());
+				break;
+			case Entity.DIR_UP:
+				this.setAnim(
+					this.lookUp,
+					this.lookDuration / this.lookUp.getAnimLength());
+				break;
+		}
+		
+		if (System.currentTimeMillis() - this.lookTime >= this.lookDuration) {
+			
+			this.state = EnemyEntity.STATE_IDLE;
+			this.loop = true;
+		}
+		
+		this.animUpdate();
 	}
 	
 	/*
@@ -118,32 +169,38 @@ public class Soldier extends EnemyEntity {
 
 		if (!this.canSeePlayer()) {
 			
-			if (this.isAtPoint(point[0], point[1], 1)) {
+			if (this.isAtPoint(point[0], point[1], 0.01f)) {
 				
-				// walks to its next point
+				// sets to walk to next point
 				this.currentPatrol = (this.currentPatrol + 1) % this.patrols.length;
-			}
-				
-			// walks to its point
-			this.moveToPoint(point[0], point[1], this.patrolSpeed * delta / 1000f);
 			
-			switch (this.direction) {
-				case Entity.DIR_DOWN:
-					this.setAnim(this.runDown, this.patrolDuration);
-					break;
-				case Entity.DIR_UP:
-					this.setAnim(this.runUp, this.patrolDuration);
-					break;
-				case Entity.DIR_LEFT:
-					this.setAnim(this.runSide, this.patrolDuration);
-					break;
-				case Entity.DIR_RIGHT:
-					this.setAnim(this.runSide, this.patrolDuration);
-					break;
+				// sets to look around
+				this.state = Soldier.STATE_LOOKING;
+				this.lookTime = System.currentTimeMillis();
+				this.loop = false;
+				
+			} else {
+
+				// walks to its point
+				this.moveToPoint(point[0], point[1], this.patrolSpeed * delta / 1000f);
+				
+				switch (this.direction) {
+					case Entity.DIR_DOWN:
+						this.setAnim(this.runDown, this.patrolDuration);
+						break;
+					case Entity.DIR_UP:
+						this.setAnim(this.runUp, this.patrolDuration);
+						break;
+					case Entity.DIR_LEFT:
+						this.setAnim(this.runSide, this.patrolDuration);
+						break;
+					case Entity.DIR_RIGHT:
+						this.setAnim(this.runSide, this.patrolDuration);
+						break;
+				}
 			}
 			
 		}
-		
 		this.animUpdate();
 	}
 	

@@ -107,7 +107,7 @@ public abstract class MovingEntity extends AnimatedEntity {
 	 * Checks if the center of the entity is within a certain 
 	 * distance of the point
 	 */
-	protected boolean isAtPoint(int x, int y, int dis) {
+	protected boolean isAtPoint(int x, int y, float dis) {
 		
 		if (this.x + dis > x) {
 			if (this.x < x + dis) {

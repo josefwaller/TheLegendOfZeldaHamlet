@@ -19,6 +19,10 @@ import game.Game;
  */
 public class Soldier extends EnemyEntity {
 
+	// the other state the soldier can be
+	// when he is looking aruond at the end of hiss patrol
+	public static final int STATE_LOOKING = 11;
+	
 	// its standing animations
 	private Animation standUp;
 	private Animation standSide;
@@ -48,6 +52,8 @@ public class Soldier extends EnemyEntity {
 	
 	// the time it takes to change frame when patrolling
 	private int patrolDuration= 150;
+	
+	// 
 	
 	/*
 	 * Initializes solder enemy and loads sprites
@@ -86,6 +92,9 @@ public class Soldier extends EnemyEntity {
 
 		// sets up its point
 		this.setUpPatrol((int) this.x, (int) this.y, pX * 16, pY * 16);
+		
+		// sets to walk around to start
+		this.state = EnemyEntity.STATE_IDLE;
 	}
 	
 	/*
@@ -93,36 +102,56 @@ public class Soldier extends EnemyEntity {
 	 */
 	public void update(int delta) {
 		
+		switch (this.state) {
+			case EnemyEntity.STATE_IDLE:
+				this.patrol(delta);
+		}
+	}
+	
+	/*
+	 * Moves the soldier to follow his patrol
+	 */
+	private void patrol(int delta) {
+
 		// gets the point
 		int[] point = this.patrols[currentPatrol];
 
-		if (!this.isAtPoint(point[0], point[1], 1)) {
+		if (!this.canSeePlayer()) {
 			
+			if (this.isAtPoint(point[0], point[1], 1)) {
+				
+				// walks to its next point
+				this.currentPatrol = (this.currentPatrol + 1) % this.patrols.length;
+			}
+				
 			// walks to its point
 			this.moveToPoint(point[0], point[1], this.patrolSpeed * delta / 1000f);
 			
-		} else {
+			switch (this.direction) {
+				case Entity.DIR_DOWN:
+					this.setAnim(this.runDown, this.patrolDuration);
+					break;
+				case Entity.DIR_UP:
+					this.setAnim(this.runUp, this.patrolDuration);
+					break;
+				case Entity.DIR_LEFT:
+					this.setAnim(this.runSide, this.patrolDuration);
+					break;
+				case Entity.DIR_RIGHT:
+					this.setAnim(this.runSide, this.patrolDuration);
+					break;
+			}
 			
-			// walks to its next point
-			this.currentPatrol = (this.currentPatrol + 1) % this.patrols.length;
-		}
-		
-		switch (this.direction) {
-			case Entity.DIR_DOWN:
-				this.setAnim(this.runDown, this.patrolDuration);
-				break;
-			case Entity.DIR_UP:
-				this.setAnim(this.runUp, this.patrolDuration);
-				break;
-			case Entity.DIR_LEFT:
-				this.setAnim(this.runSide, this.patrolDuration);
-				break;
-			case Entity.DIR_RIGHT:
-				this.setAnim(this.runSide, this.patrolDuration);
-				break;
 		}
 		
 		this.animUpdate();
+	}
+	
+	/*
+	 * Checks if the soldier can see the player
+	 */
+	private boolean canSeePlayer() {
+		return false;
 	}
 	
 	/*

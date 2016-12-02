@@ -65,6 +65,10 @@ public class Soldier extends EnemyEntity {
 	// used to time looking around
 	private long lookTime;
 	
+	// the direction the entity is looking in
+	// used to determine if e can see the player
+	private int lookDirection;
+	
 	/*
 	 * Initializes solder enemy and loads sprites
 	 */
@@ -131,29 +135,79 @@ public class Soldier extends EnemyEntity {
 	
 	private void lookAround() {
 		
+		// when looking around, the enemy looks to his left,
+		// then back, then his right, then back. So the
+		// enemy finds the directions in terms of absolute 
+		// position and later sets lookDirection
+		
+		// the direction when the enemy turns his head left
+		int dirLeft = 0;
+		
+		// the direction when the enemy turns his head right
+		int dirRight = 0;
+		
 		switch (this.direction) {
+		
 			case Entity.DIR_DOWN:
 				this.setAnim(
 					this.lookDown,
 					this.lookDuration / this.lookDown.getAnimLength());
+				
+				// sets direction
+				dirLeft = Entity.DIR_RIGHT;
+				dirRight = Entity.DIR_LEFT;
+				
 				break;
-			case Entity.DIR_RIGHT:
+				
+			case Entity.DIR_RIGHT:				
 			case Entity.DIR_LEFT:
 				this.setAnim(
 					this.lookSide,
 					this.lookDuration / this.lookSide.getAnimLength());
+
+				// sets direction
+				dirLeft = Entity.DIR_UP;
+				dirRight = Entity.DIR_DOWN;
 				break;
+				
 			case Entity.DIR_UP:
 				this.setAnim(
 					this.lookUp,
 					this.lookDuration / this.lookUp.getAnimLength());
+				
+				// sets direction
+				dirLeft = Entity.DIR_LEFT;
+				dirRight = Entity.DIR_RIGHT;
 				break;
 		}
 		
-		if (System.currentTimeMillis() - this.lookTime >= this.lookDuration) {
+		// gets the time since the start of the looking animation
+		long since = System.currentTimeMillis() - this.lookTime;
+		
+		if (since >= this.lookDuration) {
 			
 			this.state = EnemyEntity.STATE_IDLE;
 			this.loop = true;
+		} else {
+			
+			// sets lookDirection based on how long the animation has been going
+			// sets it so that it matches the enemy's head
+			switch ((int)Math.floor((since) / (this.lookDuration * 4))) {
+			
+				case 0:
+					this.lookDirection = dirLeft;
+					break;
+					
+				case 2:
+					this.lookDirection = dirRight;
+					break;
+					
+				case 1:
+				case 3:
+					this.lookDirection = this.direction;
+					break;
+			}
+			
 		}
 		
 		this.animUpdate();
@@ -166,6 +220,10 @@ public class Soldier extends EnemyEntity {
 
 		// gets the point
 		int[] point = this.patrols[currentPatrol];
+		
+		// the enemy is always looking ahead when patroling
+		// so sets his looking direction to directin
+		this.lookDirection = this.direction;
 
 		if (!this.canSeePlayer()) {
 			

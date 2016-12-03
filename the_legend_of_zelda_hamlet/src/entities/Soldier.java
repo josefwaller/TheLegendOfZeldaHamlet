@@ -19,9 +19,14 @@ import game.Game;
  */
 public class Soldier extends EnemyEntity {
 
-	// the other state the soldier can be
-	// when he is looking aruond at the end of hiss patrol
+	/*   the other states the soldier can be    */
+	
+	// when he is looking around at the end of hiss patrol
 	public static final int STATE_LOOKING = 11;
+	
+	// when he has seen the player but is not yet chasing him
+	// there is a small delay inbetween
+	public static final int STATE_REALIZING = 12;
 	
 	// its standing animations
 	private Animation standUp;
@@ -74,6 +79,12 @@ public class Soldier extends EnemyEntity {
 	
 	// the distance this enemy can look
 	private int lookDistance = 50;
+	
+	// the time the enemy saw the player
+	private long seeTime;
+	
+	// how long the delay should be between the soldier seeing the player and actually chasing it
+	private int realizeDelay = 200;
 	
 	/*
 	 * Initializes solder enemy and loads sprites
@@ -134,6 +145,10 @@ public class Soldier extends EnemyEntity {
 				this.patrol(delta);
 				break;
 				
+			case Soldier.STATE_REALIZING:
+				this.realize();
+				break;
+				
 			case EnemyEntity.STATE_CHASING:
 				this.chase(delta);
 				break;
@@ -142,6 +157,29 @@ public class Soldier extends EnemyEntity {
 				this.lookAround();
 				break;
 		}
+	}
+	
+	/*
+	 * Causes a small delay between the soldier seeing
+	 * the player and chasing the player
+	 */
+	private void realize() {
+		
+		// checks if the soldier can chase the player now
+		long since = System.currentTimeMillis() - this.seeTime;
+		if (since >= this.realizeDelay) {
+			
+			this.state = EnemyEntity.STATE_CHASING;
+			
+		} else {
+			
+			if (since >= this.realizeDelay / 2) {
+				this.setRunAnim(this.chaseDuration);
+				this.animUpdate();
+			}
+			
+		}
+		
 	}
 	
 	/*
@@ -246,8 +284,10 @@ public class Soldier extends EnemyEntity {
 			}
 			
 			if (this.canSeePlayer()) {
-				this.state = EnemyEntity.STATE_CHASING;
+				this.state = Soldier.STATE_REALIZING;
 				this.direction = this.lookDirection;
+				this.lookTime = System.currentTimeMillis();
+				this.loop = true;
 				
 			}
 			
@@ -271,7 +311,8 @@ public class Soldier extends EnemyEntity {
 		if (this.canSeePlayer()) {
 			
 			// sets to chase the player
-			this.state = EnemyEntity.STATE_CHASING;
+			this.state = Soldier.STATE_REALIZING;
+			this.seeTime = System.currentTimeMillis();
 			
 		} else {
 			

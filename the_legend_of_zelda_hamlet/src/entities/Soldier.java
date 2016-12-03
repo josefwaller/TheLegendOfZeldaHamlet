@@ -163,6 +163,7 @@ public class Soldier extends EnemyEntity {
 			this.moveToPoint(x, y, this.chaseSpeed * delta / 1000f);
 			
 			this.setRunAnim(this.chaseDuration);
+			this.animUpdate();
 		}
 		
 	}

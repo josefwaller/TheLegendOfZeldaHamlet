@@ -41,7 +41,7 @@ public abstract class AnimatedEntity extends Entity {
 		
 		this.index = 0;
 		this.lastChangeTime = System.currentTimeMillis();
-		this.currentDuration = 100;
+		this.currentDuration = 0;
 		this.loop = true;
 	}
 	public AnimatedEntity(int x, int y, int s, Game g) {
@@ -49,7 +49,7 @@ public abstract class AnimatedEntity extends Entity {
 		
 		this.index = 0;
 		this.lastChangeTime = System.currentTimeMillis();
-		this.currentDuration = 100;
+		this.currentDuration = 0;
 		this.loop = true;
 	}
 	
@@ -74,7 +74,7 @@ public abstract class AnimatedEntity extends Entity {
 	 */
 	protected void setAnim(Animation newAnim, int duration) {
 
-		if (newAnim != this.currentAnim) {
+		if (newAnim != this.currentAnim || duration != this.currentDuration) {
 		
 			this.currentAnim = newAnim;
 			this.currentDuration = duration;

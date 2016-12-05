@@ -12,7 +12,9 @@ public class Pot extends ThrowableEntity {
 	 * Constructor
 	 */
 	public Pot(int x, int y, Game g) {
-		super(x, y, 16, g);
+		super(x, y, 14, g);
+		
+		this.loadImageWithDimensions("assets/images/objects/pot.png");
 	}
 
 	/*

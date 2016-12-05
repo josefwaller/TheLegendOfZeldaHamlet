@@ -16,6 +16,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 
 
+
 // different entities
 import entities.Button;
 import entities.AutomatedEntity;
@@ -24,6 +25,7 @@ import entities.NPC;
 
 // The player Entity
 import entities.Player;
+import entities.Pot;
 import entities.Soldier;
 import entities.abstracts.EnemyEntity;
 // superclasses
@@ -324,7 +326,11 @@ public class Game extends BasicGame {
 				
 				// creates a new object
 				switch (this.map.getObjectType(gi, oi)) {
-					case "button": this.objects.add(new Button(objX, objY, this)); break;
+				
+					case "button": 
+						this.objects.add(new Button(objX, objY, this)); 
+						break;
+						
 					case "door": 
 						this.objects.add(
 							new Door(
@@ -336,6 +342,7 @@ public class Game extends BasicGame {
 							)
 						); 
 						break;
+						
 					case "npc": 
 						this.objects.add(
 							new NPC(
@@ -345,13 +352,18 @@ public class Game extends BasicGame {
 								this.map.getObjectProperty(gi,  oi, "dialog", "test"),
 								this));
 						break;
+						
 					case "cutsceneanimation": 
 						this.animations.add(new AutomatedEntity(
 							this.map.getObjectProperty(gi,  oi, "src", "test"),
 							this)
 						);
 						break;
-					case "section": addSection(gi, oi); break;
+						
+					case "section": 
+						addSection(gi, oi); 
+						break;
+						
 					case "soldier":
 						
 						// gets the patrol routes
@@ -371,7 +383,13 @@ public class Game extends BasicGame {
 						));
 						break;
 					
-					default : System.out.println(this.map.getObjectType(gi, oi)); break;
+					case "pot":
+						this.objects.add(new Pot(objX, objY, this));
+						break;
+						
+					default : 
+						System.out.println(this.map.getObjectType(gi, oi)); 
+						break;
 				
 				}
 			}

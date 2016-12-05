@@ -10,6 +10,7 @@ import entities.abstracts.AnimatedEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
 import entities.abstracts.StaticEntity;
+import entities.abstracts.ThrowableEntity;
 import sprites.AnimationStore;
 import sprites.Animation;
 import game.Game;
@@ -34,6 +35,9 @@ public class Player extends AnimatedEntity{
 	// when the attack started
 	private long attackTime;
 	
+	// whether the player is picking up an object
+	private boolean isPickingUp;
+	
 	// the standing animations
 	private Animation standUp;
 	private Animation standDown;
@@ -55,6 +59,11 @@ public class Player extends AnimatedEntity{
 	private Animation attackDown;
 	private Animation attackSide;
 	
+	// the picking up animation
+	private Animation pickUpUp;
+	private Animation pickUpSide;
+	private Animation pickUpDown;
+	
 	// the time inbetween sprite changes while running
 	private int runDuration = 100;
 	
@@ -70,31 +79,38 @@ public class Player extends AnimatedEntity{
 		
 		String sheet = "assets/images/linkspritesheet";
 		
+		AnimationStore a = AnimationStore.get();;
+		
 		// loads standing sprite
-		this.standDown = AnimationStore.get().getAnimation(sheet, "standdown");
-		this.standSide = AnimationStore.get().getAnimation(sheet, "standside");
-		this.standUp = AnimationStore.get().getAnimation(sheet, "standup");
-		this.standDownShield = AnimationStore.get().getAnimation(sheet, "standdownshield");
-		this.standSideShield = AnimationStore.get().getAnimation(sheet, "standsideshield");
-		this.standUpShield = AnimationStore.get().getAnimation(sheet, "standupshield");
+		this.standDown = a.getAnimation(sheet, "standdown");
+		this.standSide = a.getAnimation(sheet, "standside");
+		this.standUp = a.getAnimation(sheet, "standup");
+		this.standDownShield = a.getAnimation(sheet, "standdownshield");
+		this.standSideShield = a.getAnimation(sheet, "standsideshield");
+		this.standUpShield = a.getAnimation(sheet, "standupshield");
 		
 		// creates animations
-		this.runUp = AnimationStore.get().getAnimation(sheet, "runup");
-		this.runDown = AnimationStore.get().getAnimation(sheet, "rundown");
-		this.runSide = AnimationStore.get().getAnimation(sheet, "runside");
-		this.runUpShield = AnimationStore.get().getAnimation(sheet, "runupshield");
-		this.runDownShield = AnimationStore.get().getAnimation(sheet, "rundownshield");
-		this.runSideShield = AnimationStore.get().getAnimation(sheet, "runsideshield");
+		this.runUp = a.getAnimation(sheet, "runup");
+		this.runDown = a.getAnimation(sheet, "rundown");
+		this.runSide = a.getAnimation(sheet, "runside");
+		this.runUpShield = a.getAnimation(sheet, "runupshield");
+		this.runDownShield = a.getAnimation(sheet, "rundownshield");
+		this.runSideShield = a.getAnimation(sheet, "runsideshield");
 		
 		// these durations are set after, bacuse they depend on the animation's length
-		this.attackUp = AnimationStore.get().getAnimation(sheet, "attackup");
-		this.attackSide = AnimationStore.get().getAnimation(sheet, "attackside");
-		this.attackDown = AnimationStore.get().getAnimation(sheet, "attackdown");
+		this.attackUp = a.getAnimation(sheet, "attackup");
+		this.attackSide = a.getAnimation(sheet, "attackside");
+		this.attackDown = a.getAnimation(sheet, "attackdown");
 		
 		// sets the attack animation's duration
 		this.attackUp.setDuration(this.attackDuration / this.attackUp.getAnimLength());
 		this.attackSide.setDuration(this.attackDuration / this.attackSide.getAnimLength());
 		this.attackDown.setDuration(this.attackDuration / this.attackDown.getAnimLength());
+		
+		// creates animation for picking up
+		this.pickUpUp = a.getAnimation(sheet, "pickupup");
+		this.pickUpSide = a.getAnimation(sheet, "pickupside");
+		this.pickUpDown = a.getAnimation(sheet, "pickupdown");
 		
 		// adds hitbox
 		this.addHitbox(2, 2, 14, 20);
@@ -115,7 +131,27 @@ public class Player extends AnimatedEntity{
 		
 		this.isRunning = false;
 		
-		if (this.isAttacking) {
+		if (this.isPickingUp) {
+			
+			switch (this.direction) {
+				case Entity.DIR_DOWN:
+					this.setAnim(this.pickUpDown, 100);
+					break;
+
+				case Entity.DIR_LEFT:
+				case Entity.DIR_RIGHT:
+					this.setAnim(this.pickUpUp, 100);
+					break;
+	
+				case Entity.DIR_UP:
+					this.setAnim(this.pickUpUp, 100);
+					break;
+					
+			}
+			
+			this.animUpdate();
+			
+		}else if (this.isAttacking) {
 			
 			if (System.currentTimeMillis() - this.attackTime >= this.attackDuration) {
 				this.isAttacking = false;
@@ -196,6 +232,16 @@ public class Player extends AnimatedEntity{
 				}
 			}
 		}
+	}
+	
+	/*
+	 * Sets up the animation to pick up an entity
+	 */
+	public void pickUpObject(ThrowableEntity obj) {
+		
+		this.isPickingUp = true;
+		this.loop = false;
+		
 	}
 	
 	/*

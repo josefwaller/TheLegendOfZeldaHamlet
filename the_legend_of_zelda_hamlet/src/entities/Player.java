@@ -300,15 +300,25 @@ public class Player extends AnimatedEntity{
 				
 				if (obj.getIsSolid()) {
 					
+					// records the old position in case it hits the entity
+					float oldX = this.x;
+					float oldY = this.y;
+					
+					// sets position
+					this.x = newX;
+					this.y = newY;
+					
+					// updates hitboxes
+					this.updateHitboxes();
+					
 					// checks if it collides
-					if (newX < obj.getX() + obj.getW()) {
-						if (newX + this.w > obj.getX()) {
-							if (newY < obj.getY() + obj.getH()) {
-								if (newY + this.h > obj.getY()) {
-									blocked = true;
-								}
-							}
-						}
+					if (this.collidesWithEntity(obj)) {
+						
+						// reverts back to old position
+						blocked = true;
+						this.x = oldX;
+						this.y = oldY;
+						
 					}
 				}
 			}

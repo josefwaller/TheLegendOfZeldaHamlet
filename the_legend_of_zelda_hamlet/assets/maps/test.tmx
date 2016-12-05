@@ -75,7 +75,7 @@
  </tileset>
  <layer name="Tile Layer" width="30" height="30">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC5NjYGCQJwMrALEcBXq1gJiJDKwzqpcuekOBOGwA7E0E4qQhFlYjUa8ZEJuTgS2I0GsLxHY49JJb5hCDPYHYC4u4AgVhRQmmJI5G7R21d9TeUXtH7R21d9TeoWcvue0rSjCofQUAhryOSxAOAAA=
+   H4sIAAAAAAAAC5NjYGCQJwMrALEcBXq1gJiJDKwzqpcuekOBOIxG9urjkUsE4qQhFlYjUa8ZEJuTgS2I0GsLxHY49JJb5hCDPYHYC4u4AgVhRQmmJI5G7R21d9TeUXtH7R21d9TeoWcvue0rSjCofQUAeGYs2RAOAAA=
   </data>
  </layer>
  <objectgroup name="Objects" width="192" height="192">

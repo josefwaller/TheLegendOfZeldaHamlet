@@ -3,7 +3,7 @@
 <animations spriteSheet="soldier.sprites" ver="1.2">
   <anim name="standup" loops="0">
     <cell index="0" delay="1">
-      <spr name="/Standing/Up" x="0" y="-4" z="0"/>
+      <spr name="/Standing/Up" x="0" y="-3" z="0"/>
     </cell>
   </anim>
   <anim name="standdown" loops="0">
@@ -21,10 +21,10 @@
       <spr name="/Running/Up/0" x="0" y="-1" z="0"/>
     </cell>
     <cell index="1" delay="1">
-      <spr name="/Running/Up/1" x="0" y="-5" z="0"/>
+      <spr name="/Standing/Up" x="0" y="-2" z="0"/>
     </cell>
     <cell index="2" delay="1">
-      <spr name="/Standing/Up" x="0" y="-3" z="0"/>
+      <spr name="/Running/Up/1" x="0" y="-5" z="0"/>
     </cell>
   </anim>
   <anim name="rundown" loops="0">
@@ -35,9 +35,6 @@
       <spr name="/Running/Down/1" x="0" y="5" z="0"/>
     </cell>
     <cell index="2" delay="1">
-      <spr name="/Standing/Down" x="0" y="3" z="0"/>
-    </cell>
-    <cell index="3" delay="1">
       <spr name="/Running/Down/2" x="0" y="4" z="0"/>
     </cell>
   </anim>
@@ -68,13 +65,13 @@
   </anim>
   <anim name="lookside" loops="0">
     <cell index="0" delay="1">
-      <spr name="/Looking/Side/Up" x="6" y="-4" z="0" flipH="1"/>
+      <spr name="/Looking/Side/Up" x="6" y="-3" z="0" flipH="1"/>
     </cell>
     <cell index="1" delay="1">
       <spr name="/Standing/Side" x="5" y="-3" z="0" flipH="1"/>
     </cell>
     <cell index="2" delay="1">
-      <spr name="/Looking/Side/Down" x="6" y="-4" z="0" flipH="1"/>
+      <spr name="/Looking/Side/Down" x="6" y="-3" z="0" flipH="1"/>
     </cell>
     <cell index="3" delay="1">
       <spr name="/Standing/Side" x="5" y="-3" z="0" flipH="1"/>

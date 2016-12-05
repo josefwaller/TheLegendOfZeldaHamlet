@@ -19,11 +19,4 @@ public class Pot extends ThrowableEntity {
 		this.isSolid = true;
 	}
 
-	/*
-	 * Updates the pot's position if it needs to be moved over to match the player's
-	 */
-	public void update() {
-
-	}
-
 }

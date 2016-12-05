@@ -63,6 +63,9 @@ public class Player extends AnimatedEntity{
 	private Animation pickUpSide;
 	private Animation pickUpDown;
 	
+	// the object the player is picking up
+	private ThrowableEntity carriedObject;
+	
 	// the time inbetween sprite changes while running
 	private int runDuration = 100;
 	
@@ -139,7 +142,7 @@ public class Player extends AnimatedEntity{
 
 					case Entity.DIR_LEFT:
 					case Entity.DIR_RIGHT:
-						this.setAnim(this.pickUpUp, 100);
+						this.setAnim(this.pickUpSide, 100);
 						break;
 		
 					case Entity.DIR_UP:
@@ -147,6 +150,11 @@ public class Player extends AnimatedEntity{
 						break;
 				}
 				this.animUpdate();
+				
+				if (input.isKeyPressed(Input.KEY_SPACE)) {
+					this.carriedObject.startThrow(this.direction);
+					this.state = Player.STATE_IDLE;
+				}
 				break;
 			
 			case Player.STATE_ATTACKING:
@@ -242,7 +250,7 @@ public class Player extends AnimatedEntity{
 		
 		this.state = Player.STATE_CARRYING;
 		this.loop = false;
-		
+		this.carriedObject = obj;
 	}
 	
 	/*

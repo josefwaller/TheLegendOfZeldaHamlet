@@ -20,23 +20,22 @@ The main player class.
 */
 public class Player extends AnimatedEntity{
 
+	// the different things the player can do
+	public static final int STATE_IDLE = 0;
+	public static final int STATE_ATTACKING = 1;
+	public static final int STATE_CARRYING = 2;
+	
+	// the current thing the player is doing
+	private int state;
+	
 	// the speed at which the player runs
 	private int speed = 90;
-	
-	// whether to play the running animation or not
-	private boolean isRunning;
-	
-	// whether the player is attacking
-	boolean isAttacking;
 	
 	// how long the attack takes
 	private int attackDuration = 300;
 	
 	// when the attack started
 	private long attackTime;
-	
-	// whether the player is picking up an object
-	private boolean isPickingUp;
 	
 	// the standing animations
 	private Animation standUp;
@@ -75,7 +74,7 @@ public class Player extends AnimatedEntity{
 		// sets position and game
 		super(x, y, 18, 24, g);
 		
-		isRunning = false;
+		this.state = Player.STATE_IDLE;
 		
 		String sheet = "assets/images/linkspritesheet";
 		
@@ -129,108 +128,110 @@ public class Player extends AnimatedEntity{
 		// updates hitboxes
 		this.updateHitboxes();
 		
-		this.isRunning = false;
-		
-		if (this.isPickingUp) {
-			
-			switch (this.direction) {
-				case Entity.DIR_DOWN:
-					this.setAnim(this.pickUpDown, 100);
-					break;
-
-				case Entity.DIR_LEFT:
-				case Entity.DIR_RIGHT:
-					this.setAnim(this.pickUpUp, 100);
-					break;
-	
-				case Entity.DIR_UP:
-					this.setAnim(this.pickUpUp, 100);
-					break;
-					
-			}
-			
-			this.animUpdate();
-			
-		}else if (this.isAttacking) {
-			
-			if (System.currentTimeMillis() - this.attackTime >= this.attackDuration) {
-				this.isAttacking = false;
-			}
-			
-			this.animUpdate();
-			
-		} else {
-
-			// checks if the player needs to move
-			if (input.isKeyDown(Input.KEY_LEFT))
-			{
-				this.tryToMove(this.x - (this.speed * delta / 1000f), this.y);
-				this.direction = Entity.DIR_LEFT;
+		switch (this.state) {
+			case Player.STATE_CARRYING:
 				
-				this.setAnim(this.runSideShield, this.runDuration);
-				this.isRunning = true;
-			}
-			else if (input.isKeyDown(Input.KEY_RIGHT))
-			{
-				this.tryToMove(this.x + (this.speed * delta / 1000f), this.y);
-
-				this.direction = Entity.DIR_RIGHT;
-				this.setAnim(this.runSideShield, this.runDuration);
-				this.isRunning = true;
-			}
-			if (input.isKeyDown(Input.KEY_UP))
-			{
-				this.tryToMove(this.x, this.y - (this.speed * delta / 1000f));
-				
-				// checks it is not just overwriting an animation that was already set
-				// earlier this frame.
-				if (!(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT))) {
-					
-					this.direction = Entity.DIR_UP;
-					this.setAnim(this.runUpShield, this.runDuration);
-				}
-				this.isRunning = true;
-			}
-			else if (input.isKeyDown(Input.KEY_DOWN))
-			{
-				this.tryToMove(this.x, this.y + (this.speed * delta / 1000f));
-				
-				if (!(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT))) {
-					
-					this.direction = Entity.DIR_DOWN;
-					this.setAnim(this.runDownShield, this.runDuration);
-				}
-				this.isRunning = true;
-			}
-			
-			if (input.isKeyPressed(Input.KEY_SPACE)) {
-				
-				// interacts with anything if it can, otherwise swings it's sword
-				if (!this.tryToInteract()) {
-					
-					this.swingSword();
-					
-				}
-			} else if (this.isRunning) {
-				
-				this.loop = true;
-				this.animUpdate();
-				
-			} else {
-				
+				// sets animation
 				switch (this.direction) {
 					case Entity.DIR_DOWN:
-						this.setAnim(this.standDownShield, this.runDuration);
+						this.setAnim(this.pickUpDown, 100);
 						break;
-					case Entity.DIR_UP:
-						this.setAnim(this.standUpShield, this.runDuration);
-						break;
+
 					case Entity.DIR_LEFT:
 					case Entity.DIR_RIGHT:
-						this.setAnim(this.standSideShield, this.runDuration);
+						this.setAnim(this.pickUpUp, 100);
+						break;
+		
+					case Entity.DIR_UP:
+						this.setAnim(this.pickUpUp, 100);
 						break;
 				}
-			}
+				this.animUpdate();
+				break;
+			
+			case Player.STATE_ATTACKING:
+				
+				if (System.currentTimeMillis() - this.attackTime >= this.attackDuration) {
+					this.state = Player.STATE_IDLE;
+				}
+				this.animUpdate();
+				break;
+			
+			case Player.STATE_IDLE:
+				
+				boolean isRunning = false;
+
+				// checks if the player needs to move
+				if (input.isKeyDown(Input.KEY_LEFT))
+				{
+					this.tryToMove(this.x - (this.speed * delta / 1000f), this.y);
+					this.direction = Entity.DIR_LEFT;
+					
+					this.setAnim(this.runSideShield, this.runDuration);
+					isRunning = true;
+				}
+				else if (input.isKeyDown(Input.KEY_RIGHT))
+				{
+					this.tryToMove(this.x + (this.speed * delta / 1000f), this.y);
+
+					this.direction = Entity.DIR_RIGHT;
+					this.setAnim(this.runSideShield, this.runDuration);
+					isRunning = true;
+				}
+				if (input.isKeyDown(Input.KEY_UP))
+				{
+					this.tryToMove(this.x, this.y - (this.speed * delta / 1000f));
+					
+					// checks it is not just overwriting an animation that was already set
+					// earlier this frame.
+					if (!(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT))) {
+						
+						this.direction = Entity.DIR_UP;
+						this.setAnim(this.runUpShield, this.runDuration);
+					}
+					isRunning = true;
+				}
+				else if (input.isKeyDown(Input.KEY_DOWN))
+				{
+					this.tryToMove(this.x, this.y + (this.speed * delta / 1000f));
+					
+					if (!(input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT))) {
+						
+						this.direction = Entity.DIR_DOWN;
+						this.setAnim(this.runDownShield, this.runDuration);
+					}
+					isRunning = true;
+				}
+				
+				if (input.isKeyPressed(Input.KEY_SPACE)) {
+					
+					// interacts with anything if it can, otherwise swings it's sword
+					if (!this.tryToInteract()) {
+						
+						this.swingSword();
+						
+					}
+				} else if (isRunning) {
+					
+					this.loop = true;
+					this.animUpdate();
+					
+				} else {
+					
+					switch (this.direction) {
+						case Entity.DIR_DOWN:
+							this.setAnim(this.standDownShield, this.runDuration);
+							break;
+						case Entity.DIR_UP:
+							this.setAnim(this.standUpShield, this.runDuration);
+							break;
+						case Entity.DIR_LEFT:
+						case Entity.DIR_RIGHT:
+							this.setAnim(this.standSideShield, this.runDuration);
+							break;
+					}
+				}
+				break;
 		}
 	}
 	
@@ -239,7 +240,7 @@ public class Player extends AnimatedEntity{
 	 */
 	public void pickUpObject(ThrowableEntity obj) {
 		
-		this.isPickingUp = true;
+		this.state = Player.STATE_CARRYING;
 		this.loop = false;
 		
 	}
@@ -251,7 +252,7 @@ public class Player extends AnimatedEntity{
 	private void swingSword() {
 		
 		// sets up to attack
-		this.isAttacking = true;
+		this.state = Player.STATE_ATTACKING;
 		this.attackTime = System.currentTimeMillis();
 		this.loop = false;
 		

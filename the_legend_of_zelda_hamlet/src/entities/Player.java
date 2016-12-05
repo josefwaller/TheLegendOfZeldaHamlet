@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import entities.abstracts.AnimatedEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
+import entities.abstracts.StaticEntity;
 import sprites.AnimationStore;
 import sprites.Animation;
 import game.Game;
@@ -288,8 +289,35 @@ public class Player extends AnimatedEntity{
 	private void tryToMove(float newX, float newY) {
 		
 		if (!this.game.isBlocked(newX, newY, this.w, this.h)) {
-			this.x = newX;
-			this.y = newY;
+			
+			boolean blocked = false;
+			
+			StaticEntity[] objs = this.game.getObjects();
+			
+			for (int i = 0; i < objs.length; i++) {
+				
+				StaticEntity obj = objs[i];
+				
+				if (obj.getIsSolid()) {
+					
+					// checks if it collides
+					if (newX < obj.getX() + obj.getW()) {
+						if (newX + this.w > obj.getX()) {
+							if (newY < obj.getY() + obj.getH()) {
+								if (newY + this.h > obj.getY()) {
+									blocked = true;
+								}
+							}
+						}
+					}
+				}
+			}
+			
+			if (!blocked) {
+
+				this.x = newX;
+				this.y = newY;
+			}
 		}
 		
 	}

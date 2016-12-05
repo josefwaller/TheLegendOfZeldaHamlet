@@ -15,6 +15,9 @@ public abstract class StaticEntity extends Entity {
 	// the one sprite
 	protected Image sprite;
 	
+	// whether or not the player bumps into the object
+	protected boolean isSolid = false;
+	
 	/*
 	 * Sets up position and dimensions
 	 */
@@ -73,4 +76,10 @@ public abstract class StaticEntity extends Entity {
 		super.addHitbox(0, 0, this.w, this.h);
 	}
 	
+	/*
+	 * Get/Set methods
+	 */
+	public boolean getIsSolid() {
+		return this.isSolid;
+	}
 }

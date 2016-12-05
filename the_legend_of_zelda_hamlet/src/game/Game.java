@@ -676,6 +676,11 @@ public class Game extends BasicGame {
 		return toReturn;
 		
 	}
+	public StaticEntity[] getObjects() {
+		
+		return this.objects.toArray(new StaticEntity[this.objects.size()]);
+		
+	}
 	/*
 	Starts the game
 	*/

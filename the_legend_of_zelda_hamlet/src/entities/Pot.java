@@ -15,6 +15,8 @@ public class Pot extends ThrowableEntity {
 		super(x, y, 14, g);
 		
 		this.loadImageWithDimensions("assets/images/objects/pot.png");
+		
+		this.isSolid = true;
 	}
 
 	/*

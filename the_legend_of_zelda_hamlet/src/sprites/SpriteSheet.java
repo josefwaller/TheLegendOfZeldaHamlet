@@ -134,4 +134,7 @@ public class SpriteSheet {
 	public String getPath() {
 		return this.path;
 	}
+	public Image getImage() {
+		return this.sheet;
+	}
 }

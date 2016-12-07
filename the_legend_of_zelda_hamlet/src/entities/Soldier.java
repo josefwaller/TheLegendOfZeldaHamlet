@@ -94,7 +94,9 @@ public class Soldier extends EnemyEntity {
 		
 		// the path to the image
 		// will vary with different colors of soldier
-		String imagePath = "assets/images/enemies/redsoldier";
+		String imagePath = "assets/images/enemies/soldier";
+		
+		String palettePath = "assets/images/enemies/redsoldierpalette";
 		
 		this.health = 3;
 		
@@ -103,8 +105,9 @@ public class Soldier extends EnemyEntity {
 		String spritesPath = "assets/images/enemies/soldier";
 		
 		// loads its sprites
-		SpriteStore.get().loadSpriteSheet(
+		SpriteStore.get().loadPaletteSwappedSpriteSheet(
 			imagePath,
+			palettePath,
 			spritesPath);
 		
 		// gest the animation for easy reference
@@ -112,7 +115,7 @@ public class Soldier extends EnemyEntity {
 		
 		// loads its animations
 		AnimationStore.get().loadAnimations(
-				imagePath,
+				palettePath,
 				spritesPath);
 
 		this.standUp = a.getAnimation(imagePath, "standup");

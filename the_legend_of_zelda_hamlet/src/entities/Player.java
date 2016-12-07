@@ -37,6 +37,12 @@ public class Player extends AnimatedEntity{
 	// when the attack started
 	private long attackTime;
 	
+	// the range at which the player can attack enemies
+	private int attackRange = 10;
+	
+	// the range at which the player can interact with objects
+	private int interactRange = 10;
+	
 	// the standing animations
 	private Animation standUp;
 	private Animation standDown;
@@ -244,6 +250,20 @@ public class Player extends AnimatedEntity{
 	}
 	
 	/*
+	 * Renders the player
+	 */
+	public void render(Graphics g) {
+		super.render(g);
+		
+		g.fillRect(
+			this.getCoordsInFront(this.interactRange)[0],
+			this.getCoordsInFront(this.interactRange)[1],
+			2,
+			2
+		);
+	}
+	
+	/*
 	 * Sets up the animation to pick up an entity
 	 */
 	public void pickUpObject(ThrowableEntity obj) {
@@ -286,6 +306,41 @@ public class Player extends AnimatedEntity{
 	}
 	
 	/*
+	 * Returns the x and y point that is directly in front of the player
+	 * Used for interacting, attacking, etc
+	 */
+	private int[] getCoordsInFront(int range) {
+		
+		// starts with the center position
+		int x = (int) this.x + this.w / 2;
+		int y = (int) this.y + this.h / 2;
+		
+		// changes depending on direction
+		switch (this.direction) {
+		
+			case Entity.DIR_UP:
+				y = (int) (this.y - range);
+				break;
+				
+			case Entity.DIR_DOWN:
+				y = (int) (this.y + this.h + range);
+				break;
+				
+			case Entity.DIR_LEFT:
+				x = (int) (this.x - range);
+				break;
+				
+			case Entity.DIR_RIGHT:
+				x = (int) (this.x + this.h + range);
+				break;
+		}
+		
+		int[] toReturn = {x, y};
+		
+		return toReturn;
+	}
+	
+	/*
 	 * Called when the player hits space. Returns
 	 * true if there is an object the player interacts with,
 	 * and false if there is not
@@ -293,24 +348,9 @@ public class Player extends AnimatedEntity{
 	private boolean tryToInteract() {
 		
 		// the position it should check for the interactive
-		int x = (int) this.x + this.w / 2;
-		int y = (int) this.y + this.h / 2;
-		
-		// changes depending on direction
-		switch (this.direction) {
-			case Entity.DIR_UP:
-				y = (int) (this.y - this.h / 2);
-				break;
-			case Entity.DIR_DOWN:
-				y = (int) (this.y + this.h * 3 / 2);
-				break;
-			case Entity.DIR_LEFT:
-				x = (int) (this.x - this.w / 2);
-				break;
-			case Entity.DIR_RIGHT:
-				x = (int) (this.x + this.h * 3 / 2);
-				break;
-		}
+		int[] point = this.getCoordsInFront(this.interactRange);
+		int x = point[0];
+		int y = point[1];
 		
 		// gets all the interactive objects
 		ArrayList<InteractiveEntity> objs = this.game.getInteractiveObjects();

@@ -1,5 +1,6 @@
 package entities.abstracts;
 
+import entities.Player;
 import game.Game;
 
 /*
@@ -27,6 +28,17 @@ public abstract class EnemyEntity extends MovingEntity {
 	// how long it takes the enemy to recover from being hit
 	protected int flinchDuration = 800;
 	
+	// how far the enemy is hit back
+	protected int flinchDistance = 40;
+	
+	// where the enemy was hit
+	private float flinchStartX;
+	private float flinchStartY;
+	
+	// where the enemy is hit to
+	protected float flinchX;
+	protected float flinchY;
+	
 	public EnemyEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
 	}
@@ -41,9 +53,50 @@ public abstract class EnemyEntity extends MovingEntity {
 	// enemies must also be able to be hit
 	public  void onHit() {
 		
-		this.health -= 1;
-		this.state = EnemyEntity.STATE_FLINCHING;
-		this.flinchTime = System.currentTimeMillis();
+		if (this.state != EnemyEntity.STATE_FLINCHING) {
+
+			
+			// reduces health
+			this.health -= 1;
+			
+			// sets state to flinching
+			this.state = EnemyEntity.STATE_FLINCHING;
+			this.flinchTime = System.currentTimeMillis();
+			
+			/*    finds the point the enemy needs to move to    */
+			
+			// records the original point
+			this.flinchStartX = this.x;
+			this.flinchStartY = this.y;
+			
+			// gets the different in position between it an the player
+			Player p = this.game.getPlayer();
+			float diffX = p.getX() - this.x;
+			float diffY = p.getY() - this.y;
+			double totalDiff = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY,  2));
+			
+			// gets the angle between it and the player
+			double theta = Math.asin(diffY / totalDiff);
+			
+			// finds the opposite and by adding pi to the original
+			double oppositeTheta = theta + Math.PI;
+			
+			// gets the x and y for that point relative to the enemy
+			this.flinchX = (float) Math.abs(this.flinchDistance * Math.cos(oppositeTheta));
+			this.flinchY = (float) Math.abs(this.flinchDistance * Math.sin(oppositeTheta));
+
+			// gets the x and y relative to the window
+			if (p.getX() > this.x) {
+				
+				this.flinchX *= -1;
+			}
+			
+			if (p.getY() > this.y) {
+				
+				this.flinchY *= -1;
+			}
+			
+		}
 	}
 	
 	/*
@@ -51,11 +104,22 @@ public abstract class EnemyEntity extends MovingEntity {
 	 * The enemy is hit away from the player and flashes
 	 * between its normal colors and inversed colors
 	 */
-	protected void flinch()  {
+	protected void flinch(long delta)  {
+		
+		long since = System.currentTimeMillis() - this.flinchTime;
 		
 		// checks if the enemy is done flinching
-		if (System.currentTimeMillis() - this.flinchTime >= this.flinchDuration) {
+		if (since >= this.flinchDuration) {
 			this.state = EnemyEntity.STATE_IDLE;
+			
+		} else if (since <= this.flinchDuration / 2f) {
+			
+			double percent = (since / (double)this.flinchDuration) * 2f;
+			
+			// sets position
+			this.x = (float) (this.flinchStartX + (this.flinchX * percent));
+			this.y = (float) (this.flinchStartY + (this.flinchY * percent));
+		
 		}
 	}
 }

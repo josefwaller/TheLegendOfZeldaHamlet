@@ -655,6 +655,7 @@ public class Game extends BasicGame {
 	public boolean isDebug() {
 		return true;
 	}
+	
 	/*
 	 * Get methods
 	 */
@@ -681,6 +682,11 @@ public class Game extends BasicGame {
 		return this.objects.toArray(new StaticEntity[this.objects.size()]);
 		
 	}
+	public EnemyEntity[] getEnemies() {
+		
+		return this.enemies.toArray(new EnemyEntity[this.enemies.size()]);
+	}
+	
 	/*
 	Starts the game
 	*/

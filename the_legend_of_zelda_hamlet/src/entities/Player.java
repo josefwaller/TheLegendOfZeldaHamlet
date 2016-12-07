@@ -7,6 +7,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Image;
 
 import entities.abstracts.AnimatedEntity;
+import entities.abstracts.EnemyEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
 import entities.abstracts.StaticEntity;
@@ -38,7 +39,7 @@ public class Player extends AnimatedEntity{
 	private long attackTime;
 	
 	// the range at which the player can attack enemies
-	private int attackRange = 10;
+	private int attackRange = 5;
 	
 	// the range at which the player can interact with objects
 	private int interactRange = 10;
@@ -168,6 +169,8 @@ public class Player extends AnimatedEntity{
 				if (System.currentTimeMillis() - this.attackTime >= this.attackDuration) {
 					this.state = Player.STATE_IDLE;
 				}
+				this.checkForAttack();
+				
 				this.animUpdate();
 				break;
 			
@@ -261,6 +264,30 @@ public class Player extends AnimatedEntity{
 			2,
 			2
 		);
+	}
+	
+	/*
+	 * Checks if the player can attack an enemy, and 
+	 * does so if it can. Should be called only if 
+	 * the player is attacking
+	 */
+	private void checkForAttack() {
+		
+		// gets the coordinates it attacks
+		int[] attackCoords = this.getCoordsInFront(this.attackRange);
+		
+		// gets all the enemies
+		EnemyEntity[] enemies = this.game.getEnemies();
+		
+		// checks if it hits any
+		for (int i = 0; i < enemies.length; i++) {
+			
+			if (enemies[i].collidesWithPoint(attackCoords[0], attackCoords[1])) {
+				
+				enemies[i].onHit();
+			}
+		}
+		
 	}
 	
 	/*

@@ -29,4 +29,8 @@ public abstract class EnemyEntity extends MovingEntity {
 	// enemies must be able to update
 	public abstract void update(int delta);
 	
+	// enemies must also be able to be hit
+	public  void onHit() {
+		System.out.println("I'm Hit!");
+	}
 }

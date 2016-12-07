@@ -129,7 +129,7 @@
   <object id="22" name="Section 3" type="section" x="0" y="160" width="480" height="320"/>
  </objectgroup>
  <objectgroup name="Entities" width="192" height="192">
-  <object id="30" name="Test Enemy" type="soldier" x="272" y="208" width="16" height="16">
+  <object id="30" name="Test Enemy" type="soldier" x="160" y="112" width="16" height="16">
    <properties>
     <property name="patrolx" type="int" value="3"/>
     <property name="patroly" type="int" value="3"/>

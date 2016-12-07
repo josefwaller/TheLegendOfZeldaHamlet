@@ -96,6 +96,8 @@ public class Soldier extends EnemyEntity {
 		// will vary with different colors of soldier
 		String imagePath = "assets/images/enemies/redsoldier";
 		
+		this.health = 3;
+		
 		// the string to the .sprites file
 		// should remain constant unless the file is moved
 		String spritesPath = "assets/images/enemies/soldier";
@@ -155,6 +157,10 @@ public class Soldier extends EnemyEntity {
 				
 			case Soldier.STATE_LOOKING:
 				this.lookAround();
+				break;
+				
+			case EnemyEntity.STATE_FLINCHING:
+				this.flinch();
 				break;
 		}
 	}

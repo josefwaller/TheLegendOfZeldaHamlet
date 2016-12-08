@@ -165,6 +165,10 @@ public class Soldier extends EnemyEntity {
 			case EnemyEntity.STATE_FLINCHING:
 				this.flinch(delta);
 				break;
+				
+			case EnemyEntity.STATE_DYING:
+				this.die();
+				break;
 		}
 	}
 	

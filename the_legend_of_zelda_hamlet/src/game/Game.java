@@ -568,6 +568,13 @@ public class Game extends BasicGame {
 	}
 	
 	/*
+	 * Removes an enemy when it dies
+	 */
+	public void removeEnemy(EnemyEntity e) {
+		
+	}
+	
+	/*
 	 * Returns the contents of a file
 	 */
 	public static String readFile(String filename) {

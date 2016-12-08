@@ -2,6 +2,8 @@ package entities.abstracts;
 
 import org.newdawn.slick.Graphics;
 
+import sprites.Animation;
+import sprites.AnimationStore;
 import entities.Player;
 import game.Game;
 
@@ -17,6 +19,7 @@ public abstract class EnemyEntity extends MovingEntity {
 	public static final int STATE_FLINCHING = 1;
 	public static final int STATE_STUNNED = 2;
 	public static final int STATE_CHASING = 3;
+	public static final int STATE_DYING = 4;
 	
 	// the current state of the enemy
 	protected int state = EnemyEntity.STATE_IDLE;
@@ -41,14 +44,34 @@ public abstract class EnemyEntity extends MovingEntity {
 	protected float flinchX;
 	protected float flinchY;
 	
+	// the enemy death animation
+	private Animation deathAnim;
+	
+	// when the enemy started dying
+	protected long deathTime;
+	
+	// how long the death animation plays
+	protected long deathDuration = 500;
+	
 	public EnemyEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
+		this.init();
 	}
 
 	public EnemyEntity(int x, int y, int s, Game g) {
 		super(x, y, s, g);
+		
+		this.init();
 	}
 
+	private void init() {
+		
+		String deathAnimSheet = "assets/images/enemies/death";
+		
+		this.deathAnim = AnimationStore.get()
+			.getAnimation(deathAnimSheet, "death");
+	}
+	
 	// enemies must be able to update
 	public abstract void update(int delta);
 	
@@ -61,46 +84,70 @@ public abstract class EnemyEntity extends MovingEntity {
 			// reduces health
 			this.health -= 1;
 			
-			// sets state to flinching
-			this.state = EnemyEntity.STATE_FLINCHING;
-			this.flinchTime = System.currentTimeMillis();
-			
-			/*    finds the point the enemy needs to move to    */
-			
-			// records the original point
-			this.flinchStartX = this.x;
-			this.flinchStartY = this.y;
-			
-			// gets the different in position between it an the player
-			Player p = this.game.getPlayer();
-			float diffX = p.getX() - this.x;
-			float diffY = p.getY() - this.y;
-			double totalDiff = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY,  2));
-			
-			// gets the angle between it and the player
-			double theta = Math.asin(diffY / totalDiff);
-			
-			// finds the opposite and by adding pi to the original
-			double oppositeTheta = theta + Math.PI;
-			
-			// gets the x and y for that point relative to the enemy
-			this.flinchX = (float) Math.abs(this.flinchDistance * Math.cos(oppositeTheta));
-			this.flinchY = (float) Math.abs(this.flinchDistance * Math.sin(oppositeTheta));
+			if (health <= 0) {
+				this.state = EnemyEntity.STATE_DYING;
+				this.deathTime = System.currentTimeMillis();
+				
+				super.setAnim(this.deathAnim, (int)this.deathDuration / this.deathAnim.getAnimLength());
+				this.loop = false;
+				
+			} else {
 
-			// gets the x and y relative to the window
-			if (p.getX() > this.x) {
+				// sets state to flinching
+				this.state = EnemyEntity.STATE_FLINCHING;
+				this.flinchTime = System.currentTimeMillis();
 				
-				this.flinchX *= -1;
-			}
-			
-			if (p.getY() > this.y) {
+				/*    finds the point the enemy needs to move to    */
 				
-				this.flinchY *= -1;
+				// records the original point
+				this.flinchStartX = this.x;
+				this.flinchStartY = this.y;
+				
+				// gets the different in position between it an the player
+				Player p = this.game.getPlayer();
+				float diffX = p.getX() - this.x;
+				float diffY = p.getY() - this.y;
+				double totalDiff = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY,  2));
+				
+				// gets the angle between it and the player
+				double theta = Math.asin(diffY / totalDiff);
+				
+				// finds the opposite and by adding pi to the original
+				double oppositeTheta = theta + Math.PI;
+				
+				// gets the x and y for that point relative to the enemy
+				this.flinchX = (float) Math.abs(this.flinchDistance * Math.cos(oppositeTheta));
+				this.flinchY = (float) Math.abs(this.flinchDistance * Math.sin(oppositeTheta));
+
+				// gets the x and y relative to the window
+				if (p.getX() > this.x) {
+					
+					this.flinchX *= -1;
+				}
+				
+				if (p.getY() > this.y) {
+					
+					this.flinchY *= -1;
+				}
 			}
 			
 		}
 	}
 	
+	/*
+	 * Default death procedure
+	 * Plays the death animation and then removes itself
+	 */
+	protected void die() {
+		
+		double percent = (System.currentTimeMillis() - this.deathTime) / this.deathDuration;
+		
+		if (percent >= 1) {
+			this.game.removeEnemy(this);
+		}
+		
+		this.animUpdate();
+	}
 	/*
 	 * Default flinch procedure
 	 * The enemy is hit away from the player and flashes

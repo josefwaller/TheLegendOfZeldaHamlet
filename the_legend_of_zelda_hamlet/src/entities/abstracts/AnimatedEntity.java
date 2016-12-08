@@ -17,19 +17,27 @@ import sprites.Animation;
 public abstract class AnimatedEntity extends Entity {
 	
 	// the current animation the entity is playing
-	private Animation currentAnim;
+	protected Animation currentAnim;
+	
+	// the current index of the frame
+	protected int index;
 	
 	// the duration between animation frame changes
 	private int currentDuration;
-	
-	// the current index of the frame
-	private int index;
 	
 	// the last time the frame changed
 	private long lastChangeTime;
 	
 	// whether to loop the animation or not
 	protected boolean loop;
+	
+	// the color to use as a filter with the sprite
+	// used by enemies to cause the flashing effect
+	// when they are hit
+	private float r;
+	private float g;
+	private float b;
+	
 	
 	/*
 	 * Constructors
@@ -39,18 +47,26 @@ public abstract class AnimatedEntity extends Entity {
 	public AnimatedEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
 		
-		this.index = 0;
-		this.lastChangeTime = System.currentTimeMillis();
-		this.currentDuration = 0;
-		this.loop = true;
+		this.init();
 	}
 	public AnimatedEntity(int x, int y, int s, Game g) {
 		super(x, y, s, g);
+		
+		this.init();
+	}
+	
+	// initializes the enemy
+	private void init() {
+
 		
 		this.index = 0;
 		this.lastChangeTime = System.currentTimeMillis();
 		this.currentDuration = 0;
 		this.loop = true;
+
+		this.r = 1f;
+		this.g = 1f;
+		this.b = 1f;
 	}
 	
 	/*
@@ -83,11 +99,19 @@ public abstract class AnimatedEntity extends Entity {
 	}
 	
 	/*
+	 * Sets the filter color
+	 */
+	protected void setFilter(float r, float g, float b) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
+	}
+	
+	/*
 	 * Renders the sprite on the screen
 	 */
 	public void render(Graphics g) {
 		
-		// gets the sprite to use now
 		Image sprite = this.currentAnim.getSprite(this.index);
 		
 		// gets the coordinates to draw the sprite
@@ -108,6 +132,9 @@ public abstract class AnimatedEntity extends Entity {
 		
 		// moves the sprite up
 		y += this.currentAnim.getOffY(this.index);
+
+		// sets the image color
+		sprite.setImageColor(this.r, this.b, this.g);
 		
 		// draws the sprite with the proper x and y offset
 		sprite.drawCentered(x, y);

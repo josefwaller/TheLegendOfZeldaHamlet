@@ -110,26 +110,26 @@ public class Soldier extends EnemyEntity {
 			palettePath,
 			spritesPath);
 		
-		// gest the animation for easy reference
+		// gets the animation for easy reference
 		AnimationStore a = AnimationStore.get();
 		
 		// loads its animations
 		AnimationStore.get().loadAnimations(
-				palettePath,
-				spritesPath);
+			palettePath,
+			spritesPath);
 
-		this.standUp = a.getAnimation(imagePath, "standup");
-		this.standSide = a.getAnimation(imagePath, "standside");
-		this.standDown = a.getAnimation(imagePath, "standdown");
-		this.runUp = a.getAnimation(imagePath, "runup");
-		this.runSide = a.getAnimation(imagePath, "runside");
-		this.runDown = a.getAnimation(imagePath, "rundown");
-		this.attackUp = a.getAnimation(imagePath, "attackup");
-		this.attackSide = a.getAnimation(imagePath, "attackside");
-		this.attackDown = a.getAnimation(imagePath, "attackdown");
-		this.lookUp = a.getAnimation(imagePath, "lookup");
-		this.lookSide = a.getAnimation(imagePath, "lookside");
-		this.lookDown = a.getAnimation(imagePath, "lookdown");
+		this.standUp = a.getAnimation(palettePath, "standup");
+		this.standSide = a.getAnimation(palettePath, "standside");
+		this.standDown = a.getAnimation(palettePath, "standdown");
+		this.runUp = a.getAnimation(palettePath, "runup");
+		this.runSide = a.getAnimation(palettePath, "runside");
+		this.runDown = a.getAnimation(palettePath, "rundown");
+		this.attackUp = a.getAnimation(palettePath, "attackup");
+		this.attackSide = a.getAnimation(palettePath, "attackside");
+		this.attackDown = a.getAnimation(palettePath, "attackdown");
+		this.lookUp = a.getAnimation(palettePath, "lookup");
+		this.lookSide = a.getAnimation(palettePath, "lookside");
+		this.lookDown = a.getAnimation(palettePath, "lookdown");
 		
 		this.setAnim(this.runSide, this.patrolDuration);
 

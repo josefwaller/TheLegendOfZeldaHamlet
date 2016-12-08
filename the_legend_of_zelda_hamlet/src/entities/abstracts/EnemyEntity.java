@@ -1,5 +1,7 @@
 package entities.abstracts;
 
+import org.newdawn.slick.Graphics;
+
 import entities.Player;
 import game.Game;
 
@@ -111,6 +113,7 @@ public abstract class EnemyEntity extends MovingEntity {
 		// checks if the enemy is done flinching
 		if (since >= this.flinchDuration) {
 			this.state = EnemyEntity.STATE_IDLE;
+			super.setFilter(1, 1, 1);
 			
 		} else if (since <= this.flinchDuration / 2f) {
 			
@@ -120,6 +123,23 @@ public abstract class EnemyEntity extends MovingEntity {
 			this.x = (float) (this.flinchStartX + (this.flinchX * percent));
 			this.y = (float) (this.flinchStartY + (this.flinchY * percent));
 		
+			// sets the color
+			int stage = (int) Math.floor(since / 10f);
+			
+			switch (stage % 3) {
+				case 0:
+					super.setFilter(1, 0, 0);
+					break;
+				case 1:
+					super.setFilter(0, 1, 0);
+					break;
+				case 2:
+					super.setFilter(0, 0, 1);
+					break;
+					
+			}
+		} else {
+			super.setFilter(1, 1, 1);
 		}
 	}
 }

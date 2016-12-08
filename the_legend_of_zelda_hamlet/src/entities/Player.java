@@ -32,6 +32,9 @@ public class Player extends AnimatedEntity{
 	// the speed at which the player runs
 	private int speed = 90;
 	
+	// the health the player has
+	private int health = 3;
+	
 	// how long the attack takes
 	private int attackDuration = 300;
 	
@@ -402,56 +405,6 @@ public class Player extends AnimatedEntity{
 		return false;
 		
 	}
-	
-	/*
-	 * Checks if the new position is valid.
-	 * If so, moves the player.
-	 * If not, doesn't move the player
-	 */
-	private void tryToMove(float newX, float newY) {
-		
-		if (!this.game.isBlocked(newX, newY, this.w, this.h)) {
-			
-			boolean blocked = false;
-			
-			StaticEntity[] objs = this.game.getObjects();
-			
-			for (int i = 0; i < objs.length; i++) {
-				
-				StaticEntity obj = objs[i];
-				
-				if (obj.getIsSolid()) {
-					
-					// records the old position in case it hits the entity
-					float oldX = this.x;
-					float oldY = this.y;
-					
-					// sets position
-					this.x = newX;
-					this.y = newY;
-					
-					// updates hitboxes
-					this.updateHitboxes();
-					
-					// checks if it collides
-					if (this.collidesWithEntity(obj)) {
-						
-						// reverts back to old position
-						blocked = true;
-						this.x = oldX;
-						this.y = oldY;
-						
-					}
-				}
-			}
-			
-			if (!blocked) {
 
-				this.x = newX;
-				this.y = newY;
-			}
-		}
-		
-	}
 	
 }

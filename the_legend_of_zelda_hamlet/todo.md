@@ -20,10 +20,10 @@ A list of things to do
 ## Bugs
 
 * Stop entities who are not in the current section from updating
-* Fix soldier from walking through walls
 
 ## Done
 
+* ~Fix soldier from walking through walls~
 * ~Remove or change AnimatedEntity~
 * ~Add Attacking~
 * ~Add enemies~

@@ -165,9 +165,13 @@ public abstract class EnemyEntity extends MovingEntity {
 			double percent = (since / (double)this.flinchDuration) * 2f;
 			
 			// sets position
-			this.x = (float) (this.flinchStartX + (this.flinchX * percent));
-			this.y = (float) (this.flinchStartY + (this.flinchY * percent));
+			float x = (float) (this.flinchStartX + (this.flinchX * percent));
+			float y = (float) (this.flinchStartY + (this.flinchY * percent));
 		
+			// tries to move
+			this.tryToMove(x, this.y);
+			this.tryToMove(this.x, y);
+			
 			// sets the color
 			int stage = (int) Math.floor(since / 10f);
 			

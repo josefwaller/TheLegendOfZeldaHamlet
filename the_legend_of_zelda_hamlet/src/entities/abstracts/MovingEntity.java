@@ -78,8 +78,9 @@ public abstract class MovingEntity extends AnimatedEntity {
 			}
 			
 			// changes the x and y to the new x and y
-			this.x += xMod * newX;
-			this.y += yMod * newY;
+			this.tryToMove(this.x + xMod * newX, this.y);
+			
+			this.tryToMove(this.x, this.y + yMod * newY);
 		}
 		
 	}

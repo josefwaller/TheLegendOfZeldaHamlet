@@ -14,7 +14,7 @@ import sprites.Animation;
  * so sprites with different positioning can be
  * easily used together.
  */
-public abstract class AnimatedEntity extends Entity {
+public abstract class AnimatedEntity extends DynamicEntity {
 	
 	// the current animation the entity is playing
 	protected Animation currentAnim;

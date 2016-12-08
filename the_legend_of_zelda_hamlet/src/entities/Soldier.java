@@ -98,7 +98,7 @@ public class Soldier extends EnemyEntity {
 		
 		String palettePath = "assets/images/enemies/redsoldierpalette";
 		
-		this.health = 3;
+		this.health = 2;
 		
 		// the string to the .sprites file
 		// should remain constant unless the file is moved

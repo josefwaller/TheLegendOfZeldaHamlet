@@ -95,6 +95,7 @@ public abstract class AnimatedEntity extends Entity {
 			this.currentAnim = newAnim;
 			this.currentDuration = duration;
 			this.index = 0;
+			this.lastChangeTime = System.currentTimeMillis();
 		}
 	}
 	
@@ -144,9 +145,5 @@ public abstract class AnimatedEntity extends Entity {
 			this.drawHitboxes(g);
 		}
 	}
-	
-	/*
-	 * Updates the current animation
-	 */
 	
 }

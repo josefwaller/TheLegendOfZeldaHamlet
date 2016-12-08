@@ -78,7 +78,7 @@ public abstract class EnemyEntity extends MovingEntity {
 	// enemies must also be able to be hit
 	public  void onHit() {
 		
-		if (this.state != EnemyEntity.STATE_FLINCHING) {
+		if (this.state != EnemyEntity.STATE_FLINCHING && this.state != EnemyEntity.STATE_DYING) {
 
 			
 			// reduces health
@@ -88,8 +88,8 @@ public abstract class EnemyEntity extends MovingEntity {
 				this.state = EnemyEntity.STATE_DYING;
 				this.deathTime = System.currentTimeMillis();
 				
-				super.setAnim(this.deathAnim, (int)this.deathDuration / this.deathAnim.getAnimLength());
-				this.loop = false;
+				this.setAnim(this.deathAnim, (int)(this.deathDuration / this.deathAnim.getAnimLength()));
+				this.loop = true;
 				
 			} else {
 
@@ -140,9 +140,7 @@ public abstract class EnemyEntity extends MovingEntity {
 	 */
 	protected void die() {
 		
-		double percent = (System.currentTimeMillis() - this.deathTime) / this.deathDuration;
-		
-		if (percent >= 1) {
+		if (System.currentTimeMillis() - this.deathTime >= this.deathDuration) {
 			this.game.removeEnemy(this);
 		}
 		

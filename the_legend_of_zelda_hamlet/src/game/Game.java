@@ -572,6 +572,8 @@ public class Game extends BasicGame {
 	 */
 	public void removeEnemy(EnemyEntity e) {
 		
+		this.enemies.remove(e);
+		
 	}
 	
 	/*

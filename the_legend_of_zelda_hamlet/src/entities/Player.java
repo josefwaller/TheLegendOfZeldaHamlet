@@ -19,12 +19,14 @@ import game.Game;
 /*
 The main player class.
 */
-public class Player extends AnimatedEntity{
+public class Player extends AnimatedEntity {
 
 	// the different things the player can do
 	public static final int STATE_IDLE = 0;
 	public static final int STATE_ATTACKING = 1;
 	public static final int STATE_CARRYING = 2;
+	public static final int STATE_FLINCHING = 3;
+	public static final int STATE_DYING = 4;
 	
 	// the current thing the player is doing
 	private int state;
@@ -270,6 +272,19 @@ public class Player extends AnimatedEntity{
 	}
 	
 	/*
+	 * Damages the player
+	 */
+	public void onHit() {
+		
+		if (this.state != Player.STATE_FLINCHING && this.state != Player.STATE_DYING) {
+			
+			this.state = Player.STATE_FLINCHING;
+			this.health -= 1;
+			
+		}
+		
+	}
+	/*
 	 * Checks if the player can attack an enemy, and 
 	 * does so if it can. Should be called only if 
 	 * the player is attacking
@@ -334,41 +349,7 @@ public class Player extends AnimatedEntity{
 				break;
 		}
 	}
-	
-	/*
-	 * Returns the x and y point that is directly in front of the player
-	 * Used for interacting, attacking, etc
-	 */
-	private int[] getCoordsInFront(int range) {
-		
-		// starts with the center position
-		int x = (int) this.x + this.w / 2;
-		int y = (int) this.y + this.h / 2;
-		
-		// changes depending on direction
-		switch (this.direction) {
-		
-			case Entity.DIR_UP:
-				y = (int) (this.y - range);
-				break;
-				
-			case Entity.DIR_DOWN:
-				y = (int) (this.y + this.h + range);
-				break;
-				
-			case Entity.DIR_LEFT:
-				x = (int) (this.x - range);
-				break;
-				
-			case Entity.DIR_RIGHT:
-				x = (int) (this.x + this.h + range);
-				break;
-		}
-		
-		int[] toReturn = {x, y};
-		
-		return toReturn;
-	}
+
 	
 	/*
 	 * Called when the player hits space. Returns

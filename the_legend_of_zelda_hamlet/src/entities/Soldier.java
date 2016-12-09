@@ -86,6 +86,9 @@ public class Soldier extends EnemyEntity {
 	// how long the delay should be between the soldier seeing the player and actually chasing it
 	private int realizeDelay = 200;
 	
+	// how far the soldier can reach with his sword
+	private int swordRange = 10;
+	
 	/*
 	 * Initializes solder enemy and loads sprites
 	 */
@@ -138,6 +141,8 @@ public class Soldier extends EnemyEntity {
 		
 		// sets to walk around to start
 		this.state = EnemyEntity.STATE_IDLE;
+		
+		this.addHitbox(0, 0, 15, 20);
 	}
 	
 	/*
@@ -169,6 +174,36 @@ public class Soldier extends EnemyEntity {
 			case EnemyEntity.STATE_DYING:
 				this.die();
 				break;
+		}
+		
+		this.checkForAttack();
+	}
+	
+	/*
+	 * Checks if the enemy can damage the player
+	 */
+	private void checkForAttack() {
+		
+		if (this.state != EnemyEntity.STATE_DYING) {
+			
+			Player p = this.game.getPlayer();
+			
+			// checks if the player collides with the enemy
+			if (this.collidesWithEntity(p)) {
+				
+				p.onHit();
+				
+			} else {
+
+				// checks if the soldier's sword hits the player
+				int[] swordCoords = super.getCoordsInFront(this.swordRange);
+				
+				if (p.collidesWithPoint(swordCoords[0], swordCoords[1])) {
+				
+					p.onHit();
+					
+				}
+			}
 		}
 	}
 	

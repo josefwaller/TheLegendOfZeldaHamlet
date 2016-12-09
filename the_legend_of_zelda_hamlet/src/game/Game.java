@@ -300,9 +300,6 @@ public class Game extends BasicGame {
 	 * 
 	 */
 	private void loadObjects() {
-
-		// creates a new player at 0, 0
-		this.player = new Player(50, 50, this);
 		
 		// initializes sections
 		this.sections = new ArrayList<int[]>();
@@ -385,6 +382,10 @@ public class Game extends BasicGame {
 					
 					case "pot":
 						this.objects.add(new Pot(objX, objY, this));
+						break;
+						
+					case "player":
+						this.player = new Player(objX, objY, this);
 						break;
 						
 					default : 

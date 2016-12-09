@@ -5,7 +5,6 @@ A list of things to do
 
 ## Not done
 
-* Add health/Death/Respawn
 * Add pots/picking up things (Quick/Easy/Helps game a lot) (Actually not)
 * Add certain doors that load a new map when entered
 * Add button functionality (Is it needed?)
@@ -20,9 +19,11 @@ A list of things to do
 ## Bugs
 
 * Stop entities who are not in the current section from updating
+* Stop enemies from hitting the player while flinching
 
 ## Done
 
+* Add health/Death/Respawn
 * ~Fix soldier from walking through walls~
 * ~Remove or change AnimatedEntity~
 * ~Add Attacking~

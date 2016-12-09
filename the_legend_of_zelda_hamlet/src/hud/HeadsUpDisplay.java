@@ -22,6 +22,11 @@ public class HeadsUpDisplay {
 	
 	private boolean showingDialog;
 	
+	private boolean showingGameOver = false;
+
+	private UnicodeFont gameOverFontBig;
+	private UnicodeFont gameOverFontSmall;
+	
 	/*
 	 * Constructor
 	 * 
@@ -35,7 +40,9 @@ public class HeadsUpDisplay {
 		
 		// initializes components of the hud
 		this.dialog = new DialogManager(this.w, this.h, this);
-		
+
+		this.gameOverFontBig = HeadsUpDisplay.loadFont("RetGanon.ttf", 70);
+		this.gameOverFontSmall = HeadsUpDisplay.loadFont("RetGanon.ttf", 45);
 	}
 	
 	/*
@@ -63,7 +70,43 @@ public class HeadsUpDisplay {
 		if (this.showingDialog) {
 			
 			this.dialog.render(g);
+		} else if (this.showingGameOver) {
+			
+			String gameOver = "Game Over";
+			String message = "Press SPACE to continue.";
+			
+			this.drawBorderedText(
+				this.gameOverFontBig, 
+				Color.white, 
+				Color.blue, 
+				(this.w - this.gameOverFontBig.getWidth(gameOver)) / 2,
+				this.h * 1/4, 
+				2, 
+				gameOver);
+			
+			this.drawBorderedText(
+				this.gameOverFontSmall, 
+				Color.white, 
+				Color.blue, 
+				(this.w - this.gameOverFontSmall.getWidth(message)) / 2,
+				this.h * 1/2, 
+				2, 
+				message);
 		}
+	}
+	
+	/*
+	 * Sets up to show the game over screen
+	 */
+	public void showGameOver() {
+		this.showingGameOver = true;
+	}
+	
+	/*
+	 * Hides the game over screen
+	 */
+	public void hideGameOver() {
+		this.showingGameOver = false;
 	}
 	
 	/*
@@ -91,10 +134,36 @@ public class HeadsUpDisplay {
 	}
 	
 	/*
+	 * Sets up to show dialog with the 
+	 */
+	public void startDialog(String dialog) {
+		
+		// sets show dialog
+		this.showingDialog = true;
+		
+		// processes dialog
+		this.dialog.startDialog(dialog);
+	}
+	
+	/*
+	 * Stops rendering the dialog box and text
+	 */
+	public void stopDialog() {
+		this.showingDialog = false;
+	}
+	
+	/*
+	 * Get/Set variables
+	 */
+	public DialogManager getDialog() {
+		return this.dialog;
+	}
+	
+	/*
 	 * Loads a .ttf file into a UnicodeFont Object with
 	 */
 	@SuppressWarnings("unchecked")
-	public static UnicodeFont loadFont(String url) {
+	public static UnicodeFont loadFont(String url, int size) {
 		
 		// loads the font
 		Font f;
@@ -107,7 +176,7 @@ public class HeadsUpDisplay {
 			f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, is);
 			
 			// sets basic style
-			f = f.deriveFont(java.awt.Font.PLAIN, 50);
+			f = f.deriveFont(java.awt.Font.PLAIN, size);
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,29 +202,11 @@ public class HeadsUpDisplay {
 	}
 	
 	/*
-	 * Sets up to show dialog with the 
+	 * Loads a font with the default size of 50
 	 */
-	public void startDialog(String dialog) {
-		
-		// sets show dialog
-		this.showingDialog = true;
-		
-		// processes dialog
-		this.dialog.startDialog(dialog);
+	public static UnicodeFont loadFont(String url) {
+		return HeadsUpDisplay.loadFont(url, 50);
 	}
-	
-	/*
-	 * Stops rendering the dialog box and text
-	 */
-	public void stopDialog() {
-		this.showingDialog = false;
-	}
-	
-	/*
-	 * Get/Set variables
-	 */
-	public DialogManager getDialog() {
-		return this.dialog;
-	}
+
 	
 }

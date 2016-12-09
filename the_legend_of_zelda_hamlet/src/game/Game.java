@@ -12,7 +12,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.tiled.TiledMap;
+
 
 
 
@@ -110,6 +112,10 @@ public class Game extends BasicGame {
 	
 	// whether the player is currently dead
 	private boolean playerIsDead = false;
+	
+	// the font to use when rendering the death screen
+	private UnicodeFont deathFont;
+	private int deathFontSize = 24;
 
 	// all objects on the current map
 	private ArrayList<StaticEntity> objects;
@@ -165,6 +171,9 @@ public class Game extends BasicGame {
 	
 		// loads the objects
 		loadObjects();
+		
+		// loads the font
+		this.deathFont = HeadsUpDisplay.loadFont("RetGanon.ttf");
 	}
 	
 	/*
@@ -181,6 +190,7 @@ public class Game extends BasicGame {
 				
 				this.playerIsDead = false;
 				this.playerIsDying = false;
+				this.hud.hideGameOver();
 				
 				this.loadMap("assets/maps/test.tmx");
 				this.loadObjects();
@@ -319,12 +329,14 @@ public class Game extends BasicGame {
 			this.hud.render(g);
 			
 		} else {
-			
+
 			g.setColor(Color.red);
 			
 			g.fillRect(this.cameraX, this.cameraY, this.w, this.h);
 			
 			this.player.render(g);
+			
+			this.hud.render(g);
 			
 		}
 
@@ -718,7 +730,7 @@ public class Game extends BasicGame {
 	public void onPlayerDeath() {
 		
 		this.playerIsDead = true;
-		
+		this.hud.showGameOver();
 		
 	}
 	/*

@@ -102,6 +102,19 @@ public class Player extends AnimatedEntity {
 	// the time the player was hit
 	private long hitTime;
 	
+	// whether the player is showing
+	// used to create the blink effect after being hit
+	private boolean isShowing = true;
+	
+	// whether the play is blinking after being hit by an enemy
+	private boolean isBlinking = false;
+	
+	// the time inbetween each blink when the player is invincible after being hit
+	private int blinkFrequency = 200;
+	
+	// the duration the player is blinking after being hit
+	private int blinkDuration = 1000;
+	
 	// the time the player spins before falling over
 	private int deathDuration = 1000;
 	
@@ -296,6 +309,37 @@ public class Player extends AnimatedEntity {
 				this.die();
 				break;
 		}
+		
+		// checks if the player is still invincible from being hit by an enemy
+		if (this.isBlinking) {
+
+			if (System.currentTimeMillis() - this.hitTime >= this.blinkDuration) {
+				
+				this.isShowing = true;
+				this.isBlinking = false;
+			} else {
+				
+				this.isShowing = Math.floor(System.currentTimeMillis() / this.blinkFrequency) % 2 == 0;
+			}
+		}
+	}
+
+	/*
+	 * Renders the player
+	 */
+	public void render(Graphics g) {
+		
+		if (this.isShowing) {
+
+			super.render(g);
+			
+			g.fillRect(
+				this.getCoordsInFront(this.interactRange)[0],
+				this.getCoordsInFront(this.interactRange)[1],
+				2,
+				2
+			);
+		}
 	}
 	
 	/*
@@ -315,20 +359,6 @@ public class Player extends AnimatedEntity {
 		}
 		
 		this.animUpdate();
-	}
-	
-	/*
-	 * Renders the player
-	 */
-	public void render(Graphics g) {
-		super.render(g);
-		
-		g.fillRect(
-			this.getCoordsInFront(this.interactRange)[0],
-			this.getCoordsInFront(this.interactRange)[1],
-			2,
-			2
-		);
 	}
 	
 	/*
@@ -383,20 +413,25 @@ public class Player extends AnimatedEntity {
 	 */
 	public void onHit() {
 		
-		if (this.state != Player.STATE_FLINCHING && this.state != Player.STATE_DYING) {
+		// checks that the player isn't still invincible
+		if (!this.isBlinking) {
 			
-			this.health -= 1;
-			this.hitTime = System.currentTimeMillis();
-			
-			if (this.health > 0) {
+			if (this.state != Player.STATE_FLINCHING && this.state != Player.STATE_DYING) {
 				
-				this.state = Player.STATE_FLINCHING;
-				this.flinchDirection = this.direction;
-			
-			} else {
+				this.health -= 1;
+				this.hitTime = System.currentTimeMillis();
 				
-				this.state = Player.STATE_DYING;
-				this.game.startPlayerDeath();
+				if (this.health > 0) {
+					
+					this.state = Player.STATE_FLINCHING;
+					this.flinchDirection = this.direction;
+					this.isBlinking = true;
+				
+				} else {
+					
+					this.state = Player.STATE_DYING;
+					this.game.startPlayerDeath();
+				}
 			}
 		}
 		

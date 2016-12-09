@@ -1,7 +1,5 @@
 package entities;
 
-import org.newdawn.slick.Graphics;
-
 import sprites.Animation;
 import sprites.AnimationStore;
 import sprites.SpriteStore;

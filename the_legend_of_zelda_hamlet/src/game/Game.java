@@ -107,6 +107,9 @@ public class Game extends BasicGame {
 	
 	// whether the player is currently dying
 	private boolean playerIsDying = false;
+	
+	// whether the player is currently dead
+	private boolean playerIsDead = false;
 
 	// all objects on the current map
 	private ArrayList<StaticEntity> objects;
@@ -145,7 +148,7 @@ public class Game extends BasicGame {
 	public void init(GameContainer container) {
 		
 		// loads the map
-		loadMap("assets/maps/test.tmx");
+		this.loadMap("assets/maps/test.tmx");
 		
 		// the width one tile should be
 		int finalTileWidth = (this.windowW / this.widthInTiles);
@@ -172,6 +175,19 @@ public class Game extends BasicGame {
 
 		// gets input
 		Input input = container.getInput();
+		
+		if (this.playerIsDead) {
+			if (input.isKeyPressed(Input.KEY_SPACE)) {
+				
+				this.playerIsDead = false;
+				this.playerIsDying = false;
+				
+				this.loadMap("assets/maps/test.tmx");
+				this.loadObjects();
+				
+			}
+		}
+		
 		if (!this.isPlayingTransition && !this.isShowingDialog) {
 			
 			// updates the player
@@ -695,6 +711,16 @@ public class Game extends BasicGame {
 		this.playerIsDying = true;
 	}
 	
+	/*
+	 * Called when the player's death animation has finished
+	 * and the user can press space to respawn
+	 */
+	public void onPlayerDeath() {
+		
+		this.playerIsDead = true;
+		
+		
+	}
 	/*
 	 * Get methods
 	 */

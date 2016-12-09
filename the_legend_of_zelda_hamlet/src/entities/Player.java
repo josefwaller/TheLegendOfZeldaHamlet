@@ -307,6 +307,8 @@ public class Player extends AnimatedEntity {
 			this.loop = false;
 			this.setAnim(this.death, 100);
 			
+			this.game.onPlayerDeath();
+			
 		} else {
 			
 			this.setAnim(this.spin, 100);

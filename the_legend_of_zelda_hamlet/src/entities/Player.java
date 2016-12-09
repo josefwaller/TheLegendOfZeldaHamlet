@@ -70,16 +70,37 @@ public class Player extends AnimatedEntity {
 	private Animation attackDown;
 	private Animation attackSide;
 	
-	// the picking up animation
+	// the picking up animations
 	private Animation pickUpUp;
 	private Animation pickUpSide;
 	private Animation pickUpDown;
+	
+	// the flinching animations
+	private Animation flinchUp;
+	private Animation flinchSide;
+	private Animation flinchDown;
+	
+	// the death animations
+	private Animation spin;
+	private Animation death;
 	
 	// the object the player is picking up
 	private ThrowableEntity carriedObject;
 	
 	// the time inbetween sprite changes while running
 	private int runDuration = 100;
+	
+	// the direction the player was facing when hit
+	private int flinchDirection;
+	
+	// the time the player flinches after being hit
+	private int flinchDuration = 200;
+	
+	// the speed at which the player moves when flinching
+	private int flinchSpeed = 150;
+	
+	// the time the player was hit
+	private long hitTime;
 	
 	/*
 	Creates a new player
@@ -125,6 +146,13 @@ public class Player extends AnimatedEntity {
 		this.pickUpUp = a.getAnimation(sheet, "pickupup");
 		this.pickUpSide = a.getAnimation(sheet, "pickupside");
 		this.pickUpDown = a.getAnimation(sheet, "pickupdown");
+		
+		// gets animations for flinching and dying
+		this.flinchUp = a.getAnimation(sheet, "damageup");
+		this.flinchSide = a.getAnimation(sheet, "damageside");
+		this.flinchDown = a.getAnimation(sheet, "damagedown");
+		this.spin = a.getAnimation(sheet, "spin");
+		this.death = a.getAnimation(sheet, "death");
 		
 		// adds hitbox
 		this.addHitbox(2, 2, 14, 20);
@@ -254,6 +282,11 @@ public class Player extends AnimatedEntity {
 					}
 				}
 				break;
+				
+			case Player.STATE_FLINCHING:
+				
+				this.flinch(delta);
+				break;
 		}
 	}
 	
@@ -272,6 +305,53 @@ public class Player extends AnimatedEntity {
 	}
 	
 	/*
+	 * Plays the flinching animation
+	 */
+	private void flinch(long delta) {
+	
+		if (System.currentTimeMillis() - this.hitTime > this.flinchDuration) {
+			this.state = Player.STATE_IDLE;
+			
+		} else {
+			
+			super.loop = false;
+			
+			// gets the distacne to move this frame
+			float distance = this.flinchSpeed * delta / 1000f;
+			
+			// sets animation and moves
+			switch(this.flinchDirection) {
+			
+				case Entity.DIR_UP:
+					
+					this.setAnim(this.flinchUp, 0);
+					this.tryToMove(this.x, this.y + distance);
+					break;
+
+				case Entity.DIR_LEFT:
+					
+					this.tryToMove(this.x + distance, this.y);
+					this.setAnim(this.flinchSide, 0);
+					break;
+					
+				case Entity.DIR_RIGHT:
+					
+					this.tryToMove(this.x - distance, this.y);
+					this.setAnim(this.flinchSide, 0);
+					break;
+					
+				case Entity.DIR_DOWN:
+					
+					this.setAnim(this.flinchDown, 0);
+					this.tryToMove(this.x, this.y - distance);
+					break;
+			}
+			
+		}
+		
+	}
+	
+	/*
 	 * Damages the player
 	 */
 	public void onHit() {
@@ -280,10 +360,12 @@ public class Player extends AnimatedEntity {
 			
 			this.state = Player.STATE_FLINCHING;
 			this.health -= 1;
-			
+			this.hitTime = System.currentTimeMillis();
+			this.flinchDirection = this.direction;
 		}
 		
 	}
+	
 	/*
 	 * Checks if the player can attack an enemy, and 
 	 * does so if it can. Should be called only if 

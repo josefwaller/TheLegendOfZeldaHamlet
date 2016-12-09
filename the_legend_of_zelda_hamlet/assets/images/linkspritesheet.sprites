@@ -114,6 +114,16 @@
           <spr name="2" x="228" y="48" w="16" h="22"/>
         </dir>
       </dir>
+      <dir name="Damage">
+        <spr name="Down" x="196" y="105" w="16" h="21"/>
+        <spr name="Up" x="223" y="107" w="20" h="19"/>
+        <spr name="Side" x="253" y="110" w="16" h="21"/>
+      </dir>
+      <dir name="Death">
+        <spr name="0" x="199" y="131" w="18" h="21"/>
+        <spr name="1" x="224" y="136" w="24" h="21"/>
+        <spr name="2" x="252" y="136" w="24" h="15"/>
+      </dir>
     </dir>
   </definitions>
 </img>

@@ -7,11 +7,13 @@ import java.util.Scanner;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
+
 
 
 
@@ -102,6 +104,9 @@ public class Game extends BasicGame {
 	
 	// the player entity
 	private Player player;
+	
+	// whether the player is currently dying
+	private boolean playerIsDying = false;
 
 	// all objects on the current map
 	private ArrayList<StaticEntity> objects;
@@ -264,34 +269,48 @@ public class Game extends BasicGame {
 			
 		}
 		
-		// draws the map
-		this.map.render(0, 0);
-		
-		if (!this.isPlayingTransition) {
+		if (!this.playerIsDying) {
 
-			// draws any objects
-			for (int i = 0; i < this.objects.size(); i++) {
-				this.objects.get(i).render(g);
+			
+			// draws the map
+			this.map.render(0, 0);
+			
+			if (!this.isPlayingTransition) {
+
+				
+				// draws any objects
+				for (int i = 0; i < this.objects.size(); i++) {
+					this.objects.get(i).render(g);
+				}
+				
+				// renders animations
+				
+				for (int i = 0; i < this.animations.size(); i++) {
+					
+					this.animations.get(i).render(g);
+				}
+
+				// renders the player
+				this.player.render(g);
+				
+				// renders enemies
+				for (int i = 0; i < this.enemies.size(); i++){
+					this.enemies.get(i).render(g);;
+				}
 			}
-
-			// renders the player
+			
+			// draws the hud
+			this.hud.render(g);
+			
+		} else {
+			
+			g.setColor(Color.red);
+			
+			g.fillRect(this.cameraX, this.cameraY, this.w, this.h);
+			
 			this.player.render(g);
 			
-			// renders animations
-			
-			for (int i = 0; i < this.animations.size(); i++) {
-				
-				this.animations.get(i).render(g);
-			}
-			
-			// renders enemies
-			for (int i = 0; i < this.enemies.size(); i++){
-				this.enemies.get(i).render(g);;
-			}
 		}
-		
-		// draws the hud
-		this.hud.render(g);
 
 	}
 
@@ -664,6 +683,16 @@ public class Game extends BasicGame {
 	 */
 	public boolean isDebug() {
 		return true;
+	}
+	
+	/*
+	 * Called when the player dies
+	 * Sets up to play the player's death animation
+	 * Ex: Sets up the background
+	 * 
+	 */
+	public void startPlayerDeath() {
+		this.playerIsDying = true;
 	}
 	
 	/*

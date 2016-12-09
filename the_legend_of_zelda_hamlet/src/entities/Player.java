@@ -102,6 +102,9 @@ public class Player extends AnimatedEntity {
 	// the time the player was hit
 	private long hitTime;
 	
+	// the time the player spins before falling over
+	private int deathDuration = 1000;
+	
 	/*
 	Creates a new player
 	*/
@@ -287,7 +290,29 @@ public class Player extends AnimatedEntity {
 				
 				this.flinch(delta);
 				break;
+				
+			case Player.STATE_DYING:
+				
+				this.die();
+				break;
 		}
+	}
+	
+	/*
+	 * Plays the death animation
+	 */
+	private void die() {
+		
+		if (System.currentTimeMillis() - this.hitTime > this.deathDuration) {
+			this.loop = false;
+			this.setAnim(this.death, 100);
+			
+		} else {
+			
+			this.setAnim(this.spin, 100);
+		}
+		
+		this.animUpdate();
 	}
 	
 	/*
@@ -358,10 +383,19 @@ public class Player extends AnimatedEntity {
 		
 		if (this.state != Player.STATE_FLINCHING && this.state != Player.STATE_DYING) {
 			
-			this.state = Player.STATE_FLINCHING;
 			this.health -= 1;
 			this.hitTime = System.currentTimeMillis();
-			this.flinchDirection = this.direction;
+			
+			if (this.health > 0) {
+				
+				this.state = Player.STATE_FLINCHING;
+				this.flinchDirection = this.direction;
+			
+			} else {
+				
+				this.state = Player.STATE_DYING;
+				this.game.startPlayerDeath();
+			}
 		}
 		
 	}

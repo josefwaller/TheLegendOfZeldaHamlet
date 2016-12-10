@@ -14,6 +14,12 @@ class
 public abstract class Entity
 {
 	
+	// the possible directions
+	static public final int DIR_UP = 0;
+	static public final int DIR_DOWN = 1;
+	static public final int DIR_LEFT = 2;
+	static public final int DIR_RIGHT = 3;
+	
 	// The game in which the Entity exists
 	protected Game game;
 
@@ -26,11 +32,9 @@ public abstract class Entity
 	// the direction the entity is facing
 	protected int direction;
 	
-	// the possible directions
-	static public final int DIR_UP = 0;
-	static public final int DIR_DOWN = 1;
-	static public final int DIR_LEFT = 2;
-	static public final int DIR_RIGHT = 3;
+	// the index of the section the entity is in
+	// -1 means the section is not set
+	protected int section = -1;
 	
 	// the entity's hitboxes
 	private ArrayList<Hitbox> hitboxes;
@@ -106,6 +110,21 @@ public abstract class Entity
 		for (int i = 0; i < this.hitboxes.size(); i++) {
 			this.hitboxes.get(i).update();
 		}
+	}
+	
+	/*
+	 * Returns the section the eneity is in
+	 * If the section is null, it first finds
+	 * its section
+	 */
+	public int getSection() {
+		if (this.section == -1) {
+			
+			this.section = this.game.getSectionForPoint((int)this.x, (int)this.y, this.w, this.h);
+			
+		}
+		
+		return this.section;
 	}
 	
 	/*

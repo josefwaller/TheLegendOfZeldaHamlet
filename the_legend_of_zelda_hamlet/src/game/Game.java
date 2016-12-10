@@ -205,7 +205,10 @@ public class Game extends BasicGame {
 			
 			// updates objects
 			for (int o = 0; o < this.objects.size(); o++) {
-				this.objects.get(o).update();
+				
+				if (this.objects.get(o).getSection() == this.currentSection) {
+					this.objects.get(o).update();
+				}
 			}
 			
 			// updates animations
@@ -215,7 +218,9 @@ public class Game extends BasicGame {
 			
 			// updates enemies
 			for (int i = 0; i < this.enemies.size(); i++) {
-				this.enemies.get(i).update(delta);
+				if (this.enemies.get(i).getSection() == this.currentSection) {
+					this.enemies.get(i).update(delta);
+				}
 			}
 			
 		} else if (this.isPlayingTransition){
@@ -733,6 +738,36 @@ public class Game extends BasicGame {
 		this.hud.showGameOver();
 		
 	}
+	
+	/*
+	 * Figures out which section a point is in
+	 */
+	public int getSectionForPoint(int x, int y, int w, int h) {
+		
+		for (int i = 0; i < this.sections.size(); i++) {
+		
+			int[] s = sections.get(i);
+			
+			if (s[0] <= x) {
+				if (s[0] + s[2] >= x + w) { 
+					if (s[1] <= y) {
+						if (s[1] + s[3] >= y + h) {
+							return i;
+						}
+					}
+				}
+			}
+			
+		}
+		
+		System.out.println("Entity did not belong to a section");
+		System.out.format("X: %d, Y: %d \n", x, y);
+		System.exit(0);
+		
+		return 0;
+		
+	}
+	
 	/*
 	 * Get methods
 	 */

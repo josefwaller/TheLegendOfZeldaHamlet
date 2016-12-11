@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import music.SoundStore;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
@@ -14,6 +16,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.tiled.TiledMap;
+
 
 
 
@@ -176,6 +179,8 @@ public class Game extends BasicGame {
 		
 		// loads the font
 		this.deathFont = HeadsUpDisplay.loadFont("RetGanon.ttf");
+		
+		SoundStore.get().setMusic("assets/music/wav/overworld.wav");
 	}
 	
 	/*

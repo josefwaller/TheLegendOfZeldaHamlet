@@ -2,6 +2,7 @@ package music;
 
 import java.util.HashMap;
 
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 /*
@@ -25,9 +26,17 @@ public class SoundStore {
 	}
 	
 	/*
-	 * Loads a .mp3 file and returns a reference to it
+	 * Returns a refernce to the sound in an mp3 file
+	 * Loads if only if not yet loaded
 	 */
-	public Sound loadMP3 (String path) {
+	public Sound getMP3 (String path) {
+		
+		try {
+			return new Sound(path);
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return null;
 	}
@@ -36,6 +45,10 @@ public class SoundStore {
 	 * Sets the music to a .mp3 file
 	 */
 	public void setMusic (String path) {
+		
+		Sound music = this.getMP3(path);
+		
+		music.loop();
 		
 	}
 	

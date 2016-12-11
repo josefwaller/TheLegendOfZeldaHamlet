@@ -2,6 +2,7 @@ package music;
 
 import java.util.HashMap;
 
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -16,8 +17,11 @@ public class SoundStore {
 	// the sounds that have been loaded so far
 	private HashMap<String, Sound> sounds;
 	
+	// musics that have been loaded so far
+	private HashMap<String, Music> musics;
+	
 	// the music currently playing
-	private Sound music;
+	private Music music;
 	
 	/*
 	 * Creates a new SoundStore
@@ -25,11 +29,11 @@ public class SoundStore {
 	public SoundStore() {
 		
 		this.sounds = new HashMap<String, Sound>();
-		
+		this.musics = new HashMap<String, Music>();
 	}
 	
 	/*
-	 * Returns a refernce to the sound in an mp3 file
+	 * Returns a refernce to the sound in an wav file
 	 * Loads if only if not yet loaded
 	 */
 	public Sound getSound (String path) {
@@ -49,14 +53,40 @@ public class SoundStore {
 	}
 	
 	/*
+	 * Loads a music .wav file
+	 */
+	public Music getMusic(String path) {
+		
+		if (!this.musics.containsKey(path)) {
+			
+			try {
+				this.musics.put(path, new Music(path));
+				
+			} catch (SlickException e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
+		
+		return this.musics.get(path);
+	}
+	
+	/*
 	 * Sets the music to a .mp3 file
 	 */
 	public void setMusic (String path) {
 		
-		this.music = this.getSound(path);
+		if (this.music != null) {
+			this.music.stop();
+		}
+		this.music = this.getMusic(path);
 		
 		this.music.loop();
 		
+	}
+	
+	public void fadeMusic(int duration, float volume, boolean stop) {
+		this.music.fade(duration, volume, stop);
 	}
 	
 	/*

@@ -188,8 +188,6 @@ public class Game extends BasicGame {
 		
 		// loads the font
 		this.deathFont = HeadsUpDisplay.loadFont("RetGanon.ttf");
-		
-		SoundStore.get().setMusic("assets/music/wav/overworld.wav");
 	}
 	
 	/*
@@ -501,6 +499,10 @@ public class Game extends BasicGame {
 			System.err.println("Couild not load test map");
 			System.exit(0);
 		}
+		
+		// loads the music
+		String musicPath = this.map.getMapProperty("music", "overworld.wav");
+		SoundStore.get().setMusic("assets/music/wav/" + musicPath + ".wav");
 		
 		blocked = new boolean[this.map.getWidth()][this.map.getHeight()];
 		

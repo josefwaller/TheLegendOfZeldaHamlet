@@ -5,6 +5,8 @@ import game.Game;
 import java.awt.Font;
 import java.io.InputStream;
 
+import music.SoundStore;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -102,7 +104,6 @@ public class HeadsUpDisplay {
 			} else {
 				
 				this.fadeAlpha = start + (end - start) * percent;
-				
 			}
 			
 		}
@@ -173,6 +174,9 @@ public class HeadsUpDisplay {
 	public void fadeOut() {
 		this.fadingOut = true;
 		this.fadeTime = System.currentTimeMillis();
+		
+		// sets the music volume to fade out with the sound
+		SoundStore.get().fadeMusic(this.fadeDuration, 0f, true);
 	}
 	
 	/*
@@ -181,6 +185,9 @@ public class HeadsUpDisplay {
 	public void fadeIn() {
 		this.fadingIn = true;
 		this.fadeTime = System.currentTimeMillis();
+		
+		// sets the music volume to fade in with the sound
+		SoundStore.get().fadeMusic(this.fadeDuration, 1f, false);
 	}
 	
 	/*

@@ -173,8 +173,8 @@ public abstract class EnemyEntity extends MovingEntity {
 		} else if (since <= this.flinchDuration / 2f) {
 			
 			// sets position
-			float x = this.x + (float) ((float)this.flinchX * (float)this.flinchSpeed * delta / 1000f *  Math.cos(this.flinchAngle));
-			float y = this.y + (float) ((float)this.flinchY * (float)this.flinchSpeed * delta / 1000f * Math.sin(this.flinchAngle));
+			float x = this.x + (float) (this.flinchX * Math.abs(this.flinchSpeed * delta / 1000f *  Math.cos(this.flinchAngle)));
+			float y = this.y + (float) (this.flinchY * - Math.abs(this.flinchSpeed * delta / 1000f * Math.sin(this.flinchAngle)));
 			
 			// tries to move
 			this.tryToMove(x, this.y);

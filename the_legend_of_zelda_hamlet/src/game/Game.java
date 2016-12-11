@@ -515,7 +515,7 @@ public class Game extends BasicGame {
 		} catch (SlickException e) {
 			// prints error message
 			e.printStackTrace();
-			System.err.println("Couild not load test map");
+			System.err.println("Couild not load map");
 			System.exit(0);
 		}
 		

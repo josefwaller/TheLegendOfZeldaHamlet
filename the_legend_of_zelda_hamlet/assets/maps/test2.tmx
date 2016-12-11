@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="16" tileheight="16" nextobjectid="5">
+ <tileset firstgid="1" name="Dungeon" tilewidth="16" tileheight="16" tilecount="144" columns="12">
+  <image source="../images/greendungeon.png" width="192" height="192"/>
+  <tile id="29">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC5NjYGCQJ4AVgFgLiJkIYJ1RdTjVmQGxORK2BWI7NDELIAYACkh2qZABAAA=
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="192" height="192">
+  <object id="1" name="Test New Map Door 2" type="door" x="64" y="144" width="32" height="16">
+   <properties>
+    <property name="direction" type="int" value="0"/>
+    <property name="newMap" value="test.tmx"/>
+    <property name="pathId" type="int" value="3"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Sections" visible="0" width="192" height="192">
+  <object id="3" name="Section 1" type="section" x="0" y="0" width="160" height="160"/>
+ </objectgroup>
+</map>

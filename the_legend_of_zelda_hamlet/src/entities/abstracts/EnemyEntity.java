@@ -129,13 +129,12 @@ public abstract class EnemyEntity extends MovingEntity {
 				this.flinchX = 1;
 				this.flinchY = 1;
 
-				// gets the x and y relative to the window
-				if (p.getX() < this.x) {
+				if (p.getX() > this.x) {
 					
 					this.flinchX = -1;
 				}
 				
-				if (p.getY() < this.y) {
+				if (p.getY() > this.y) {
 					
 					this.flinchY = -1;
 				}
@@ -173,8 +172,8 @@ public abstract class EnemyEntity extends MovingEntity {
 		} else if (since <= this.flinchDuration / 2f) {
 			
 			// sets position
-			float x = this.x + (float) (this.flinchX * Math.abs(this.flinchSpeed * delta / 1000f *  Math.cos(this.flinchAngle)));
-			float y = this.y + (float) (this.flinchY * - Math.abs(this.flinchSpeed * delta / 1000f * Math.sin(this.flinchAngle)));
+			float x = this.x + (float) (this.flinchX * Math.abs(this.flinchSpeed * delta / 1000f * Math.cos(this.flinchAngle)));
+			float y = this.y + (float) (this.flinchY * Math.abs(this.flinchSpeed * delta / 1000f * Math.sin(this.flinchAngle)));
 			
 			// tries to move
 			this.tryToMove(x, this.y);

@@ -388,12 +388,22 @@ public class Game extends BasicGame {
 						break;
 						
 					case "door": 
+						
+						boolean isNewMap = Boolean.parseBoolean(this.map.getObjectProperty(gi, oi, "toNewMap", "false"));
+						String mapName = "";
+						
+						if (isNewMap) {
+							mapName = this.map.getObjectProperty(gi, oi, "newMap", null);
+						}
+						
 						this.objects.add(
 							new Door(
 									objX, 
 									objY, 
 									Integer.parseInt(this.map.getObjectProperty(gi, oi, "pathId", null)), 
-									Integer.parseInt(this.map.getObjectProperty(gi, oi, "direction", null)), 
+									Integer.parseInt(this.map.getObjectProperty(gi, oi, "direction", null)),
+									isNewMap,
+									mapName,
 									this
 							)
 						); 
@@ -544,6 +554,35 @@ public class Game extends BasicGame {
 	}
 	
 	/*
+	 * Loads a new map after the player walks through a door leading to a new area
+	 */
+	public void moveToMap(String mapName, int pathId) {
+
+		// loads the map
+		this.loadMap("assets/maps/" + mapName);
+		this.loadObjects();
+		
+		// sets player position
+		for (int i = 0; i < this.objects.size(); i++) {
+			
+			if (this.objects.get(i) instanceof Door) {
+				
+				Door d = (Door) this.objects.get(i);
+				
+				if (d.getPathID() == pathId) {
+					
+					int[] exitPos = d.getExitPos(this.player.getW(), this.player.getH());
+					
+					this.player.setX(exitPos[0]);
+					this.player.setY(exitPos[1]);
+				}
+				
+			}
+			
+		}
+	}
+	
+	/*
 	 * Starts a dialog with the dialog lines provided
 	 */
 	public void startDialog(String dialog) {
@@ -684,8 +723,7 @@ public class Game extends BasicGame {
 		
 		// checks the coordinate is not off the map
 		if (x <= 0 || y <= 0) {
-			System.out.println("negative");
-			return false;
+			return true;
 		}
 		
 		// converts to integers, because pixel-specific is good enough

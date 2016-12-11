@@ -13,13 +13,23 @@ public class Door extends CollisionEntity {
 	// connects two doors with the same path ID
 	private int pathId;
 	
+	// whether the door leads to a new map
+	private boolean isNewMap = false;
+	private String newMapName;
+	
 	// the number of degrees to rotate the image
 	private int degrees;
 	
-	public Door(int x, int y, int pathId, int direction, Game g)
+	public Door(int x, int y, int pathId, int direction, boolean isNewMap, String mapName, Game g)
 	{
 		// sets position
 		super(x, y, 16, g);
+		
+		// records whether it leads to a new map
+		if (isNewMap) {
+			this.isNewMap = true;
+			this.newMapName = mapName;
+		}
 		
 		// changes width or height, depending on orientation
 		this.direction = direction;
@@ -49,7 +59,14 @@ public class Door extends CollisionEntity {
 	}
 	
 	public void onPlayerCollide() {
-		this.game.startTransition(this.pathId, this);
+		
+		if (!this.isNewMap) {
+			this.game.startTransition(this.pathId, this);
+			
+		} else {
+			
+			this.game.moveToMap(this.newMapName, this.pathId);
+		}
 	}
 	
 	public void render(Graphics g) {

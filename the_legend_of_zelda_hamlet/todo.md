@@ -5,16 +5,12 @@ A list of things to do
 
 ## Not done
 
-* Add pots/picking up things (Quick/Easy/Helps game a lot) (Actually not)
 * Add certain doors that load a new map when entered
-* Add button functionality (Is it needed?)
-* Add music
-* Add boss
 * Add a cutscene manager for cutscenes with many animated entities
     * Change AutomatedEntity
     * Rename AutomatedEntity
 * Add final map
-
+* Make music stop when the player dies
 
 ## Bugs
 
@@ -23,6 +19,8 @@ A list of things to do
 
 ## Done
 
+* ~Add music~
+* ~Add boss~
 * ~Stop entities who are not in the current section from updating~
 * ~Stop enemies from hitting the player while flinching~
 * ~Add health/Death/Respawn~

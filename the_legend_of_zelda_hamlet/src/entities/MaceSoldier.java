@@ -1,7 +1,11 @@
 package entities;
 
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+
 import sprites.Animation;
 import sprites.AnimationStore;
+import sprites.SpriteStore;
 import entities.abstracts.EnemyEntity;
 import entities.abstracts.Entity;
 import game.Game;
@@ -32,16 +36,29 @@ public class MaceSoldier extends EnemyEntity {
 	private Animation walkSide;
 	private Animation walkDown;
 	
+	// the ball images
+	private Image ballSprite;
+	private Image chainSprite;
+	
+	// where the ball is relative to the mace knight
+	private float ballX;
+	private float ballY;
+	
 	// the time between switching frames when walking
 	private int walkDuration = 300;
 	
 	public MaceSoldier (int x, int y, Game g) {
 		super(x, y, 16, 24, g);
 		
+		// sets ball x and y
+		this.ballX = 0;
+		this.ballY = 0;
+		
+		// records where the mace knight should return to
 		this.targetX = x;
 		this.targetY = y;
 		
-		// loads sprites
+		// loads animations
 		AnimationStore a = AnimationStore.get();
 		
 		String sprites = "assets/images/enemies/maceknight";
@@ -52,6 +69,12 @@ public class MaceSoldier extends EnemyEntity {
 		this.walkUp = a.getAnimation(sprites, "walkup");
 		this.walkSide = a.getAnimation(sprites, "walkside");
 		this.walkDown = a.getAnimation(sprites, "walkdown");
+		
+		// loads ball and chain sprites
+		this.ballSprite = SpriteStore.get().loadSpriteSheet(sprites).getSprite("/Misc/Ball");
+		this.chainSprite = SpriteStore.get().loadSpriteSheet(sprites).getSprite("/Misc/Chain");
+		
+		
 		
 		this.setAnim(walkUp, this.walkDuration);
 		
@@ -80,6 +103,19 @@ public class MaceSoldier extends EnemyEntity {
 		}
 		
 		this.animUpdate();
+	}
+	
+	/*
+	 * Renders the mace knight, ball and chain
+	 */
+	public void render(Graphics g) {
+		
+		// draws the knight
+		super.render(g);
+		
+		// draws the ball
+		this.ballSprite.draw(this.x + ballX, this.y + ballY);
+		
 	}
 	
 	/*

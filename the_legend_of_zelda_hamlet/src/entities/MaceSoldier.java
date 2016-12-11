@@ -56,7 +56,7 @@ public class MaceSoldier extends EnemyEntity {
 	private int ballS;
 	
 	// the radius of the ball's orbit around the knight
-	private int ballRadius = 50;
+	private int ballRadius = 20;
 	
 	// the current angle the ball is at
 	private double ballAngle;
@@ -65,12 +65,14 @@ public class MaceSoldier extends EnemyEntity {
 	private int ballSpeed = 150;
 	
 	// the number of chain links between the knight and the ball
-	private int chainLinks = 10;
+	private int chainLinks = 7;
 	
 	// the time between switching frames when walking
 	private int walkDuration = 300;
 	
 	public MaceSoldier (int x, int y, Game g) {
+		
+		
 		super(x, y, 16, 24, g);
 		
 		this.handX = 10;
@@ -146,11 +148,11 @@ public class MaceSoldier extends EnemyEntity {
 			this.chainSprite.draw(
 				this.x + this.handX + ((this.ballX + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getWidth() / 2,
 				this.y + this.handY + ((this.ballY + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getHeight() / 2);
-		
-		// draws the ball
-		this.ballSprite.draw(this.x + this.handX + this.ballX, this.y + this.handY + this.ballY);
 			
 		}
+
+		// draws the ball
+		this.ballSprite.draw(this.x + this.handX + this.ballX, this.y + this.handY + this.ballY);
 		
 		if (this.game.isDebug()) {
 
@@ -232,8 +234,8 @@ public class MaceSoldier extends EnemyEntity {
 		this.ballAngle += (2 * Math.PI) * percent;
 		
 		// finds the new x and y
-		this.ballX = (float) this.ballRadius *  (float)Math.cos(this.ballAngle);
-		this.ballY = (float) (this.ballRadius * Math.sin(this.ballAngle));
+		this.ballX = (float) (this.ballRadius * Math.cos(this.ballAngle) - (this.ballS / 2));
+		this.ballY = (float) (this.ballRadius * Math.sin(this.ballAngle) - (this.ballS / 2));
 	}
 
 	/*

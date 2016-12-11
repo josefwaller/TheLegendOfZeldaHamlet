@@ -18,12 +18,13 @@ A list of things to do
 
 ## Bugs
 
-* Stop entities who are not in the current section from updating
-* Stop enemies from hitting the player while flinching
+* Stop enemies from walking through doors
 
 ## Done
 
-* Add health/Death/Respawn
+* ~Stop entities who are not in the current section from updating~
+* ~Stop enemies from hitting the player while flinching~
+* ~Add health/Death/Respawn~
 * ~Fix soldier from walking through walls~
 * ~Remove or change AnimatedEntity~
 * ~Add Attacking~

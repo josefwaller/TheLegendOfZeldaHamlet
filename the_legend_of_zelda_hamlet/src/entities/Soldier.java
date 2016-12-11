@@ -253,7 +253,7 @@ public class Soldier extends EnemyEntity {
 	}
 	
 	/*
-	 * Makes the entity look left and right to see if it can see the player
+	 * Makes the soldier look left and right to see if it can see the player
 	 */
 	private void lookAround() {
 		

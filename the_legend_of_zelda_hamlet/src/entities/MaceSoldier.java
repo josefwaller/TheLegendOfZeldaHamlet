@@ -96,6 +96,9 @@ public class MaceSoldier extends EnemyEntity {
 	// to pull the mace back in
 	private long waitTime;
 	
+	// how long the soldier waits
+	private int waitDuration = 1000;
+	
 	public MaceSoldier (int x, int y, Game g) {
 		
 		super(x, y, 16, 24, g);
@@ -159,6 +162,20 @@ public class MaceSoldier extends EnemyEntity {
 				
 			case MaceSoldier.STATE_THROWING:
 				this.throwBall(delta);
+				break;
+				
+			case MaceSoldier.STATE_WAITING:
+				
+				if (System.currentTimeMillis() - this.waitTime >= this.waitDuration) {
+					this.state = MaceSoldier.STATE_PULLING;
+				}
+				break;
+				
+			case MaceSoldier.STATE_PULLING:
+				
+				this.pullBall(delta);
+				
+				break;
 		}
 		
 		this.animUpdate();
@@ -193,26 +210,84 @@ public class MaceSoldier extends EnemyEntity {
 	}
 	
 	/*
+	 * Pulls the ball back in after it has been thrown
+	 */
+	private void pullBall(int delta) {
+		
+		// it wants the ball to be set back to the top
+		float targetX = this.x + this.handX;
+		float targetY = this.y + this.handY - this.ballRadius;
+
+		if (this.ballIsAtPoint(targetX, targetY, 2)) {
+			
+			this.state = EnemyEntity.STATE_IDLE;
+			this.ballAngle = Math.PI * 3/2;
+			this.lastAttackTime = System.currentTimeMillis();
+		
+		} else {
+			
+			this.moveBallTowardsPoint(targetX, targetY, delta);
+		}
+		
+	}
+	
+	/*
+	 * Checks if the ball is at a point
+	 */
+	private boolean ballIsAtPoint(float x, float y, int error) {
+		
+		float ballX = this.x + this.handX + this.ballX;
+		float ballY = this.y + this.handY + this.ballY;
+		
+		if (ballX < x + error) {
+			if (ballX + error > x) {
+				if (ballY < y + error) {
+					if (ballY + error > y) {
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/*
+	 * Moves the ball towards a point
+	 */
+	private void moveBallTowardsPoint(float x, float y, int delta) {
+		
+		// gets the absolute ball coordinates
+		float ballX = this.x + this.handX + this.ballX;
+		float ballY = this.y + this.handY + this.ballY;
+		
+		float hyp = (float) Math.sqrt(Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2));
+
+		// gets the angle
+		double theta = Math.asin((ballY - y) / hyp);
+		
+		int factorX = 1;
+		int factorY = 1;
+		
+		if (ballX > x) {
+			factorX = -1;
+		}
+		if (ballY > y) {
+			factorY = -1;
+		}
+		
+		// moves the ball along the angle
+		this.ballX += factorX * Math.abs(this.ballSpeed * (delta / 1000f) * Math.cos(theta));
+		this.ballY += factorY * Math.abs(this.ballSpeed * (delta / 1000f) * Math.sin(theta));
+	}
+	
+	/*
 	 * Moves the ball towards where the player was when
 	 * the mace knight started attacking
 	 */
 	private void throwBall(int delta) {	
 			
-		Player p = this.game.getPlayer();
-		
-		int xFactor = 1;
-		int yFactor = 1;
-		
-		if (p.getX() < this.x) {
-			xFactor = -1;
-		}
-		
-		if (p.getY() < this.y) {
-			yFactor = -1;
-		}
-		this.ballX -= xFactor * (this.ballSpeed * delta / 1000f) * - Math.cos(this.playerAngle);
-		this.ballY -= yFactor * (this.ballSpeed * delta / 1000f) * Math.sin(this.playerAngle);
-		
+		this.moveBallTowardsPoint(this.playerX, this.playerY, delta);
 		
 		// checks if the ball has reached the player's coords
 		float ballX = this.x + this.handX + this.ballX;

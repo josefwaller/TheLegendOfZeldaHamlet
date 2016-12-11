@@ -19,6 +19,12 @@ import game.Game;
  * Used as a final boss
  */
 public class MaceSoldier extends EnemyEntity {
+	
+	// the different state the mace knight can be in
+	// in addition to the states in EnemtEntity
+	public static final int STATE_THROWING = 10;
+	public static final int STATE_WAITING = 11;
+	public static final int STATE_PULLING = 12;
 
 	// the initial spawning point of the MaceSoldier
 	// he should always hang around here
@@ -56,7 +62,7 @@ public class MaceSoldier extends EnemyEntity {
 	private int ballS;
 	
 	// the radius of the ball's orbit around the knight
-	private int ballRadius = 20;
+	private float ballRadius = 20;
 	
 	// the current angle the ball is at
 	private double ballAngle;
@@ -70,8 +76,27 @@ public class MaceSoldier extends EnemyEntity {
 	// the time between switching frames when walking
 	private int walkDuration = 300;
 	
+	// the time since the mace knight last attacked
+	private long lastAttackTime;
+	
+	// the last time the mace knight threw his ball
+	private long lastThrowTime;
+	
+	// the delay between attacks
+	private int attackDelay = 2000;
+	
+	// where the player was when the knight started its attack
+	private float playerX;
+	private float playerY;
+	
+	// the angle the ball needs to move to hit the player coords
+	private double playerAngle;
+	
+	// the time the soldier started waiting
+	// to pull the mace back in
+	private long waitTime;
+	
 	public MaceSoldier (int x, int y, Game g) {
-		
 		
 		super(x, y, 16, 24, g);
 		
@@ -112,6 +137,8 @@ public class MaceSoldier extends EnemyEntity {
 		
 		// sets health
 		this.health = 10;
+		
+		this.lastAttackTime = System.currentTimeMillis();
 	}
 	
 	public void update(int delta) {
@@ -129,6 +156,9 @@ public class MaceSoldier extends EnemyEntity {
 			case EnemyEntity.STATE_IDLE:
 				this.idle(delta);
 				break;
+				
+			case MaceSoldier.STATE_THROWING:
+				this.throwBall(delta);
 		}
 		
 		this.animUpdate();
@@ -163,6 +193,39 @@ public class MaceSoldier extends EnemyEntity {
 	}
 	
 	/*
+	 * Moves the ball towards where the player was when
+	 * the mace knight started attacking
+	 */
+	private void throwBall(int delta) {	
+			
+		Player p = this.game.getPlayer();
+		
+		int xFactor = 1;
+		int yFactor = 1;
+		
+		if (p.getX() < this.x) {
+			xFactor = -1;
+		}
+		
+		if (p.getY() < this.y) {
+			yFactor = -1;
+		}
+		this.ballX -= xFactor * (this.ballSpeed * delta / 1000f) * - Math.cos(this.playerAngle);
+		this.ballY -= yFactor * (this.ballSpeed * delta / 1000f) * Math.sin(this.playerAngle);
+		
+		
+		// checks if the ball has reached the player's coords
+		float ballX = this.x + this.handX + this.ballX;
+		
+		if ((ballX > this.playerX && this.x < this.playerX) || (ballX < this.playerX && this.x > this.playerX)) {
+			this.state = MaceSoldier.STATE_WAITING;
+			this.waitTime = System.currentTimeMillis();
+		}
+	
+		this.checkForBallCollision();
+	}
+	
+	/*
 	 * Moves the mace soldier back to its point if it's far enough away
 	 * Otherwise moves it to face the player.
 	 */
@@ -193,6 +256,27 @@ public class MaceSoldier extends EnemyEntity {
 			
 			this.setAnim(this.standSide, 0);
 			
+			// checks if it should attack
+			if (System.currentTimeMillis() - this.lastAttackTime >= this.attackDelay) {
+
+				if (this.ballAngle < Math.PI * 1/2) {
+
+					this.state = MaceSoldier.STATE_THROWING;
+					this.lastAttackTime = System.currentTimeMillis();
+					
+					this.playerX = p.getX();
+					this.playerY = p.getY();
+					
+					// gets the balls absolute coordinates
+					float ballX = this.x + this.handX + this.ballX;
+					float ballY = this.y + this.handY + this.ballY;
+					
+					float hyp = (float) Math.sqrt(Math.pow(ballX - this.playerX, 2) + Math.pow(ballY - this.playerY, 2));
+					
+					this.playerAngle = Math.asin((ballY - this.playerY) / hyp);
+				}
+			}
+			
 		} else {
 			
 			this.moveToPoint(this.targetX, this.targetY, 20 * delta / 1000f);
@@ -214,24 +298,26 @@ public class MaceSoldier extends EnemyEntity {
 			}
 		}
 		
-		this.spinBall(delta);
+		this.spinBall(delta, this.ballSpeed);
 		this.checkForBallCollision();
 	}
 	
 	/*
 	 * Changes the ball x and y to make it spin around the mace knight
 	 */
-	private void spinBall(int delta) {
+	private void spinBall(int delta, int speed) {
 		
 		// gets the circumference of the ball's orbit
 		int c = (int) (2 * Math.PI * this.ballRadius);
 		
 		// gets the percentage of the circumference the ball moves this frame
-		double percent = (this.ballSpeed * delta / 1000f) / (double)c;
+		double percent = (speed * delta / 1000f) / (double)c;
 		
 		// since we know it moves X% of the circumference this frame, we
 		// now also know the angle must add X% of 2PI this frame
 		this.ballAngle += (2 * Math.PI) * percent;
+		
+		this.ballAngle = this.ballAngle % (2 * Math.PI);
 		
 		// finds the new x and y
 		this.ballX = (float) (this.ballRadius * Math.cos(this.ballAngle) - (this.ballS / 2));

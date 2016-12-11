@@ -168,7 +168,7 @@ public class Game extends BasicGame {
 	 */
 	public void init(GameContainer container) {
 		
-		this.currentMap = "test.tmx";
+		this.currentMap = "castle.tmx";
 		
 		// loads the map
 		this.loadMap("assets/maps/" + this.currentMap);
@@ -427,6 +427,8 @@ public class Game extends BasicGame {
 							new Door(
 									objX, 
 									objY, 
+									this.map.getObjectWidth(gi, oi), 
+									this.map.getObjectHeight(gi, oi), 
 									Integer.parseInt(this.map.getObjectProperty(gi, oi, "pathId", null)), 
 									Integer.parseInt(this.map.getObjectProperty(gi, oi, "direction", null)),
 									isNewMap,
@@ -518,7 +520,7 @@ public class Game extends BasicGame {
 		}
 		
 		// loads the music
-		String musicPath = this.map.getMapProperty("music", "overworld.wav");
+		String musicPath = this.map.getMapProperty("music", "overworld");
 		SoundStore.get().setMusic("assets/music/wav/" + musicPath + ".wav");
 		
 		blocked = new boolean[this.map.getWidth()][this.map.getHeight()];

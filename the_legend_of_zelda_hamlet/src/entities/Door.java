@@ -1,5 +1,6 @@
 package entities;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import entities.abstracts.CollisionEntity;
@@ -17,27 +18,17 @@ public class Door extends CollisionEntity {
 	private boolean isNewMap = false;
 	private String newMapName;
 	
-	// the number of degrees to rotate the image
-	private int degrees;
-	
-	public Door(int x, int y, int pathId, int direction, boolean isNewMap, String mapName, Game g)
+	public Door(int x, int y, int w, int h, int pathId, int direction, boolean isNewMap, String mapName, Game g)
 	{
 		// sets position
-		super(x, y, 16, g);
+		super(x, y, w, h, g);
 		
 		// records whether it leads to a new map
 		if (isNewMap) {
 			this.isNewMap = true;
 			this.newMapName = mapName;
 		}
-		
-		// changes width or height, depending on orientation
 		this.direction = direction;
-		if (this.direction == Entity.DIR_DOWN || this.direction == Entity.DIR_UP) {
-			this.w = 32;
-		} else {
-			this.h = 32;
-		}
 		
 		// adds hitbox
 		this.addHitbox();
@@ -46,16 +37,16 @@ public class Door extends CollisionEntity {
 		// determines which door the player will come out of after going through this door
 		// ex: two doors with pathId = 1 will connect to each other
 		this.pathId = pathId;
+	}
+	
+	public void render (Graphics g) {
 		
-		// sets image
-		this.sprite = SpriteStore.get().loadSprite("assets/images/objects/door.png");
-		
-		switch(this.direction) {
-			case Entity.DIR_LEFT: this.degrees = 0; break;
-			case Entity.DIR_UP: this.degrees = 90; break;
-			case Entity.DIR_RIGHT: this.degrees = 180; break;
-			case Entity.DIR_DOWN: this.degrees = 270; break;
+		if (this.game.isDebug()) {
+
+			g.setColor(Color.green);
+			g.drawRect(this.x, this.y, this.w, this.h);
 		}
+		
 	}
 	
 	public void onPlayerCollide() {
@@ -66,26 +57,6 @@ public class Door extends CollisionEntity {
 		} else {
 			
 			this.game.moveToMap(this.newMapName, this.pathId);
-		}
-	}
-	
-	public void render(Graphics g) {
-		
-		// sets the center of rotation to he center of the sprite
-		this.sprite.setCenterOfRotation(this.sprite.getWidth() / 2, this.sprite.getHeight() / 2);
-		
-		// rotates the sprite the correct number of degrees
-		this.sprite.rotate(this.degrees);
-		
-		// draws the sprite
-		this.sprite.drawCentered((int) this.x + this.w / 2, (int) this.y + this.h / 2);
-		
-		// rotates the sprite back
-		this.sprite.rotate(- this.degrees);
-		
-		// draws hitboxes
-		if (this.game.isDebug()) {
-			this.drawHitboxes(g);
 		}
 	}
 	

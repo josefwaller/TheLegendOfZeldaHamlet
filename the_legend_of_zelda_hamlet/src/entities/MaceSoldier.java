@@ -146,6 +146,31 @@ public class MaceSoldier extends EnemyEntity {
 	
 	public void update(int delta) {
 		
+		// sets hand direction
+		switch (this.direction) {
+		
+			case Entity.DIR_DOWN:
+				this.handX = 16;
+				this.handY = 8;
+				break;
+				
+			case Entity.DIR_RIGHT:
+				
+				this.handX = 6;
+				this.handY = 10;
+				break;
+				
+			case Entity.DIR_LEFT:
+				
+				this.handX = 10;
+				this.handY = 10;
+				break;
+				
+			case Entity.DIR_UP:
+				this.handX = -1;
+				this.handY = 8;
+		}
+		
 		switch (this.state) {
 		
 			case EnemyEntity.STATE_FLINCHING:

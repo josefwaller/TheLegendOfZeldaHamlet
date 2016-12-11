@@ -16,12 +16,15 @@ public class SoundStore {
 	// the sounds that have been loaded so far
 	private HashMap<String, Sound> sounds;
 	
+	// the music currently playing
+	private Sound music;
+	
 	/*
 	 * Creates a new SoundStore
 	 */
 	public SoundStore() {
 		
-		
+		this.sounds = new HashMap<String, Sound>();
 		
 	}
 	
@@ -29,16 +32,20 @@ public class SoundStore {
 	 * Returns a refernce to the sound in an mp3 file
 	 * Loads if only if not yet loaded
 	 */
-	public Sound getMP3 (String path) {
+	public Sound getSound (String path) {
 		
-		try {
-			return new Sound(path);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (!this.sounds.containsKey(path)) {
+
+			
+			try {
+				this.sounds.put(path, new Sound(path));
+				
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		return null;
+		return this.sounds.get(path);
 	}
 	
 	/*
@@ -46,9 +53,9 @@ public class SoundStore {
 	 */
 	public void setMusic (String path) {
 		
-		Sound music = this.getMP3(path);
+		this.music = this.getSound(path);
 		
-		music.loop();
+		this.music.loop();
 		
 	}
 	
@@ -56,6 +63,8 @@ public class SoundStore {
 	 * Stops the music
 	 */
 	public void stopMusic() {
+	
+		this.music.stop();
 		
 	}
 	

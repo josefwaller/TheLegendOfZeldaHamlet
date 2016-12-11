@@ -211,6 +211,16 @@ public class MaceSoldier extends EnemyEntity {
 		}
 		
 		this.animUpdate();
+
+
+		// checks if it hits the player
+		Player p = this.game.getPlayer();
+		
+		if (this.collidesWithEntity(p)) {
+			p.onHit();
+		}
+		this.checkForBallCollision();
+		this.updateHitboxes();
 	}
 	
 	/*
@@ -353,8 +363,6 @@ public class MaceSoldier extends EnemyEntity {
 			this.ballHitSound.play();
 			this.waitTime = System.currentTimeMillis();
 		}
-	
-		this.checkForBallCollision();
 	}
 	
 	/*
@@ -369,11 +377,6 @@ public class MaceSoldier extends EnemyEntity {
 		}
 
 		Player p = this.game.getPlayer();
-
-		// checks if it hits the player
-		if (this.collidesWithEntity(p)) {
-			p.onHit();
-		}
 		
 		// checks if it is within range of its target coordinates
 		int disX = (int) (this.x - this.targetX);
@@ -429,7 +432,6 @@ public class MaceSoldier extends EnemyEntity {
 		}
 		
 		this.spinBall(delta, this.ballSpeed);
-		this.checkForBallCollision();
 	}
 	
 	/*

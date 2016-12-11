@@ -1,5 +1,6 @@
 package entities;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
@@ -44,15 +45,28 @@ public class MaceSoldier extends EnemyEntity {
 	private float ballX;
 	private float ballY;
 	
+	// the size of the ball
+	private int ballS;
+	
+	// the radius of the ball's orbit around the knight
+	private int ballRadius = 50;
+	
+	// the current angle the ball is at
+	private double ballAngle;
+	
+	// the speed at which the ball moves
+	private int ballSpeed = 150;
+	
 	// the time between switching frames when walking
 	private int walkDuration = 300;
 	
 	public MaceSoldier (int x, int y, Game g) {
 		super(x, y, 16, 24, g);
 		
-		// sets ball x and y
+		// sets ball values
 		this.ballX = 0;
-		this.ballY = 0;
+		this.ballY = this.ballRadius;
+		this.ballAngle = Math.PI / 2;
 		
 		// records where the mace knight should return to
 		this.targetX = x;
@@ -74,7 +88,7 @@ public class MaceSoldier extends EnemyEntity {
 		this.ballSprite = SpriteStore.get().loadSpriteSheet(sprites).getSprite("/Misc/Ball");
 		this.chainSprite = SpriteStore.get().loadSpriteSheet(sprites).getSprite("/Misc/Chain");
 		
-		
+		this.ballS = ballSprite.getWidth();
 		
 		this.setAnim(walkUp, this.walkDuration);
 		
@@ -116,11 +130,18 @@ public class MaceSoldier extends EnemyEntity {
 		// draws the ball
 		this.ballSprite.draw(this.x + ballX, this.y + ballY);
 		
+		
+		if (this.game.isDebug()) {
+
+			// draws a white rectangle around the ball
+			g.setColor(Color.white);
+			g.drawRect(this.x + this.ballX, this.y + this.ballY, this.ballS, this.ballS);
+		}
 	}
 	
 	/*
 	 * Moves the mace soldier back to its point if it's far enough away
-	 * And moves it to face the player
+	 * Otherwise moves it to face the player.
 	 */
 	private void idle (int delta) {
 		
@@ -168,5 +189,27 @@ public class MaceSoldier extends EnemyEntity {
 					break;
 			}
 		}
+		
+		this.spinBall(delta);
+	}
+	
+	/*
+	 * Changes the ball x and y to make it spin around the mace knight
+	 */
+	private void spinBall(int delta) {
+		
+		// gets the circumference of the ball's orbit
+		int c = (int) (2 * Math.PI * this.ballRadius);
+		
+		// gets the percentage of the circumference the ball moves this frame
+		double percent = (this.ballSpeed * delta / 1000f) / (double)c;
+		
+		// since we know it moves X% of the circumference this frame, we
+		// now also know the angle must add X% of 2PI this frame
+		this.ballAngle += (2 * Math.PI) * percent;
+		
+		// finds the new x and y
+		this.ballX = (float) this.ballRadius *  (float)Math.cos(this.ballAngle);
+		this.ballY = (float) (this.ballRadius * Math.sin(this.ballAngle));
 	}
 }

@@ -139,6 +139,15 @@ public class Game extends BasicGame {
 	// the Heads Up Display
 	private HeadsUpDisplay hud;
 	
+	// the new map the player is moving to
+	private String newMap;
+	
+	// the id of the door in the new map the player is going to
+	private int newPathId;
+	
+	// whether the game is paused or not
+	private boolean isPaused = false;
+	
 	/*
 	Returns a new Game
 	Sets up window and game
@@ -172,7 +181,7 @@ public class Game extends BasicGame {
 		this.h = (int) (this.windowH * conversion);
 		
 		// the hud
-		this.hud = new HeadsUpDisplay(this.windowW, this.windowH);
+		this.hud = new HeadsUpDisplay(this.windowW, this.windowH, this);
 	
 		// loads the objects
 		loadObjects();
@@ -192,55 +201,58 @@ public class Game extends BasicGame {
 		// gets input
 		Input input = container.getInput();
 		
-		if (this.playerIsDead) {
-			if (input.isKeyPressed(Input.KEY_SPACE)) {
-				
-				this.playerIsDead = false;
-				this.playerIsDying = false;
-				this.hud.hideGameOver();
-				
-				this.loadMap("assets/maps/test.tmx");
-				this.loadObjects();
-				
-			}
-		}
-		
-		if (!this.isPlayingTransition && !this.isShowingDialog) {
-			
-			// updates the player
-			this.player.update(input, delta, this.blocked);
-			
-			// updates objects
-			for (int o = 0; o < this.objects.size(); o++) {
-				
-				if (this.objects.get(o).getSection() == this.currentSection) {
-					this.objects.get(o).update();
+		if (!this.isPaused) {
+
+			if (this.playerIsDead) {
+				if (input.isKeyPressed(Input.KEY_SPACE)) {
+					
+					this.playerIsDead = false;
+					this.playerIsDying = false;
+					this.hud.hideGameOver();
+					
+					this.loadMap("assets/maps/test.tmx");
+					this.loadObjects();
+					
 				}
 			}
 			
-			// updates animations
-			for (int i = 0; i < this.animations.size(); i++) {
-				this.animations.get(i).update(delta);
-			}
-			
-			// updates enemies
-			for (int i = 0; i < this.enemies.size(); i++) {
-				if (this.enemies.get(i).getSection() == this.currentSection) {
-					this.enemies.get(i).update(delta);
+			if (!this.isPlayingTransition && !this.isShowingDialog) {
+				
+				// updates the player
+				this.player.update(input, delta);
+				
+				// updates objects
+				for (int o = 0; o < this.objects.size(); o++) {
+					
+					if (this.objects.get(o).getSection() == this.currentSection) {
+						this.objects.get(o).update();
+					}
 				}
-			}
-			
-		} else if (this.isPlayingTransition){
-			
-			if (System.currentTimeMillis() - this.transStartTime > this.transDuration) {
-				this.isPlayingTransition = false;
-				this.currentSection = this.newSection;
-			}
-			
-		} else if (this.isShowingDialog) {
-			if (this.hud.getDialog().isDone()) {
-				this.isShowingDialog = false;
-				this.hud.stopDialog();
+				
+				// updates animations
+				for (int i = 0; i < this.animations.size(); i++) {
+					this.animations.get(i).update(delta);
+				}
+				
+				// updates enemies
+				for (int i = 0; i < this.enemies.size(); i++) {
+					if (this.enemies.get(i).getSection() == this.currentSection) {
+						this.enemies.get(i).update(delta);
+					}
+				}
+				
+			} else if (this.isPlayingTransition){
+				
+				if (System.currentTimeMillis() - this.transStartTime > this.transDuration) {
+					this.isPlayingTransition = false;
+					this.currentSection = this.newSection;
+				}
+				
+			} else if (this.isShowingDialog) {
+				if (this.hud.getDialog().isDone()) {
+					this.isShowingDialog = false;
+					this.hud.stopDialog();
+				}
 			}
 		}
 		
@@ -557,9 +569,21 @@ public class Game extends BasicGame {
 	 * Loads a new map after the player walks through a door leading to a new area
 	 */
 	public void moveToMap(String mapName, int pathId) {
+	
+		this.newMap = mapName;
+		this.newPathId = pathId;
+		
+		this.hud.fadeOut();
+		this.isPaused = true;
+	}
+	
+	public void onFinishedFadeIn() {
+		this.isPaused = false;
+	}
+	public void onFinishedFadeOut() {
 
 		// loads the map
-		this.loadMap("assets/maps/" + mapName);
+		this.loadMap("assets/maps/" + this.newMap);
 		this.loadObjects();
 		
 		// sets player position
@@ -569,17 +593,20 @@ public class Game extends BasicGame {
 				
 				Door d = (Door) this.objects.get(i);
 				
-				if (d.getPathID() == pathId) {
+				if (d.getPathID() == this.newPathId) {
 					
 					int[] exitPos = d.getExitPos(this.player.getW(), this.player.getH());
 					
 					this.player.setX(exitPos[0]);
 					this.player.setY(exitPos[1]);
+					this.player.setDirection(d.getDirection());
+					this.player.update(new Input(0), 0);
 				}
 				
 			}
 			
 		}
+		this.hud.fadeIn();
 	}
 	
 	/*

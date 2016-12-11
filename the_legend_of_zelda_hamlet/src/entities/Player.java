@@ -196,7 +196,7 @@ public class Player extends AnimatedEntity {
 	 * Updates the player position
 	 * Moves, takes/deals damage, etc
 	 */
-	public void update(Input input, int delta, boolean[][] blocked)
+	public void update(Input input, int delta)
 	{
 		
 		if (this.health == 1 && !this.lowHealthSound.playing()) {

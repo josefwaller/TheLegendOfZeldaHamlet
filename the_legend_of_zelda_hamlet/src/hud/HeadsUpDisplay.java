@@ -1,5 +1,7 @@
 package hud;
 
+import game.Game;
+
 import java.awt.Font;
 import java.io.InputStream;
 
@@ -13,6 +15,9 @@ import org.newdawn.slick.util.ResourceLoader;
 
 public class HeadsUpDisplay {
 
+	// the game the HUD belongs to
+	private Game game;
+	
 	// the width and height of the window
 	private int w;
 	private int h;
@@ -23,6 +28,19 @@ public class HeadsUpDisplay {
 	private boolean showingDialog;
 	
 	private boolean showingGameOver = false;
+	
+	// whether it is fading out and/or fading in
+	private boolean fadingOut;
+	private boolean fadingIn;
+	
+	// the time it began fading in/out
+	private long fadeTime;
+	
+	// the time it takes to fade in/out
+	private int fadeDuration = 1000;
+	
+	// the current alpha of the black overlay
+	private double fadeAlpha = 0.0;
 
 	private UnicodeFont gameOverFontBig;
 	private UnicodeFont gameOverFontSmall;
@@ -32,11 +50,13 @@ public class HeadsUpDisplay {
 	 * 
 	 * Sets up Heads up display
 	 */
-	public HeadsUpDisplay(int w, int h) {
+	public HeadsUpDisplay(int w, int h, Game g) {
 		
 		// sets width and height
 		this.w = w;
 		this.h = h;
+		
+		this.game = g;
 		
 		// initializes components of the hud
 		this.dialog = new DialogManager(this.w, this.h, this);
@@ -53,6 +73,37 @@ public class HeadsUpDisplay {
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			
 			this.dialog.updateText();
+			
+		}
+		
+		if (this.fadingIn || this.fadingOut) {
+			
+			int start = 0;
+			int end = 0;
+			
+			if (this.fadingIn) {
+				start = 1;
+			} else if (this.fadingOut) {
+				end = 1;
+			}
+			
+			double percent = (System.currentTimeMillis() - this.fadeTime) / (double) this.fadeDuration;
+			if (percent >= 1){
+				this.fadeAlpha = end;
+				
+				if (this.fadingIn) {
+					this.fadingIn = false;
+					this.game.onFinishedFadeIn();
+				} else {
+					this.fadingOut = false;
+					this.game.onFinishedFadeOut();
+				}
+				
+			} else {
+				
+				this.fadeAlpha = start + (end - start) * percent;
+				
+			}
 			
 		}
 		
@@ -93,6 +144,13 @@ public class HeadsUpDisplay {
 				2, 
 				message);
 		}
+		
+		if (this.fadeAlpha >= 0) {
+			
+			g.setColor(new Color(0, 0, 0, (int)(this.fadeAlpha * 255)));
+			g.fillRect(0, 0, this.w, this.h);
+			
+		}
 	}
 	
 	/*
@@ -107,6 +165,22 @@ public class HeadsUpDisplay {
 	 */
 	public void hideGameOver() {
 		this.showingGameOver = false;
+	}
+	
+	/*
+	 * Slowly fades out
+	 */
+	public void fadeOut() {
+		this.fadingOut = true;
+		this.fadeTime = System.currentTimeMillis();
+	}
+	
+	/*
+	 * Slowly fades in
+	 */
+	public void fadeIn() {
+		this.fadingIn = true;
+		this.fadeTime = System.currentTimeMillis();
 	}
 	
 	/*

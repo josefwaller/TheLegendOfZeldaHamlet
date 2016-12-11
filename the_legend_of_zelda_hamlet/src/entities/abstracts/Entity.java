@@ -2,6 +2,7 @@ package entities.abstracts;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
 import util.Hitbox;
@@ -132,6 +133,7 @@ public abstract class Entity
 	 */
 	protected void drawHitboxes(Graphics g) {
 		
+		g.setColor(Color.pink);
 		for (int i = 0; i < this.hitboxes.size(); i++) {
 			
 			Hitbox h = this.hitboxes.get(i);
@@ -178,5 +180,8 @@ public abstract class Entity
 	}
 	public void setY(float y) {
 		this.y = y;
+	}
+	public void setDirection(int d) {
+		this.direction = d;
 	}
 }

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="16" tileheight="16" nextobjectid="17">
+ <tileset firstgid="1" name="Castle" tilewidth="16" tileheight="16" spacing="1" margin="1" tilecount="420" columns="21">
+  <image source="../images/tilesets/castle.png" width="358" height="341"/>
+  <tile id="147">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="148">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="149">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="150">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="151">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="152">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="168">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="169">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="172">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="173">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="189">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="190">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="193">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="194">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="210">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="211">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="214">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="215">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="231">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="232">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="233">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="234">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="235">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="236">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="252">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="253">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="254">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="255">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="256">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="257">
+   <properties>
+    <property name="blocked" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer" width="40" height="40">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2WwW3CQBBFl5ygCFJDkKCEIJEaoIhQREIBcECBBkCRwAUQEVoA0QJEoQRQfiRbGkb2ztprMBJzeJf11+zfb3t2lsaYpaIoiqLcCRvGrfiQKMJfHwwsDIk/SSvVyeJvJ2gOxN+/dgKmKfkM61za3wJ8ZdjnG6w8/Nk88vzW4fobeBfohdqtZ36u/mh+H2AkMC4wvzT+fPPL8v1dMz9Xf5pffvnNwDyE+4rWgwLzo1CvQcxzn/yO4GThoXSe3x78xFAGlYRnvx75pcF2lip4FM6Z1p/rfT900LZBJ4c6VOty30d3u6R9Bd0c6nBt9D8msXXQ0ru451HnUlraC8dX2jPiCdRAHTRM/NzC+1/cHMPr5OXvGTRBC7yY814n9WfaE3mde3m/6k/93bo/aX7x2TNpHuGzx07Q2eYXXsd1T2m2orOHpJXmF9c6VPsHRYeyAQAZAAA=
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="32" height="32">
+  <object id="3" name="Center-Right Door" type="door" x="432" y="480" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="2"/>
+    <property name="pathId" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="4" name="Right-Center Door" type="door" x="464" y="480" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="pathId" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="5" name="Center-Left Door" type="door" x="176" y="480" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="pathId" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="6" name="Left-Center Door" type="door" x="144" y="480" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="2"/>
+    <property name="pathId" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="14" name="Center-Up Door" type="door" x="304" y="416" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="pathId" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="15" name="Up-Center Door" type="door" x="304" y="384" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="0"/>
+    <property name="pathId" type="int" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities" width="32" height="32">
+  <object id="7" name="Player" type="player" x="304" y="560" width="16" height="16"/>
+  <object id="11" name="Horatio" type="npc" x="272" y="560" width="16" height="16">
+   <properties>
+    <property name="dialog" value="horatioone"/>
+    <property name="spritesheet" value="horatio"/>
+   </properties>
+  </object>
+  <object id="12" name="Cladius 1" type="npc" x="288" y="256" width="16" height="16">
+   <properties>
+    <property name="dialog" value="cladiusone"/>
+    <property name="spritesheet" value="cladius"/>
+   </properties>
+  </object>
+  <object id="13" name="Gertrude 1" type="npc" x="336" y="256" width="16" height="16">
+   <properties>
+    <property name="dialog" value="gertrudeone"/>
+    <property name="spritesheet" value="gertrude"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Sections" visible="0" width="32" height="32">
+  <object id="8" name="Center Hall" type="section" x="176" y="416" width="288" height="224"/>
+  <object id="9" name="Left Room" type="section" x="0" y="416" width="176" height="224"/>
+  <object id="10" name="Right Room" type="section" x="464" y="416" width="176" height="224"/>
+  <object id="16" name="Ballroom Section" type="section" x="192" y="208" width="256" height="208"/>
+ </objectgroup>
+</map>

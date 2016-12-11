@@ -13,7 +13,7 @@ public class NPC extends InteractiveEntity {
 		super(x, y, 16, g);
 		
 		// loads sprite
-		this.loadImageWithDimensions(String.format("assets/images/%s.png", spriteSheet));
+		this.loadImageWithDimensions(String.format("assets/images/npcs/%s.png", spriteSheet));
 		
 		// loads dialog
 		this.dialog = Game.readFile(String.format("assets/dialog/%s.txt", dialog));

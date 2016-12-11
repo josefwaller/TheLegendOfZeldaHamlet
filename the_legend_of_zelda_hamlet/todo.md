@@ -8,8 +8,7 @@ A list of things to do
 * Add a cutscene manager for cutscenes with many animated entities
     * Change AutomatedEntity
     * Rename AutomatedEntity
-* Add final map
-* Make music stop when the player dies
+* Add final maps
 
 ## Bugs
 
@@ -17,6 +16,7 @@ A list of things to do
 
 ## Done
 
+* ~Make music stop when the player dies~
 * ~reset current section when the player dies~
 * ~Add certain doors that load a new map when entered~
 * ~Add music~

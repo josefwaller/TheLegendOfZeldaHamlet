@@ -222,19 +222,7 @@ public class MaceSoldier extends EnemyEntity {
 		this.checkForBallCollision();
 		this.updateHitboxes();
 	}
-	
-	/*
-	 * Stops the chain sounds playing if the mace soldier is hit
-	 */
-	public void onHit() {
-		
-		super.onHit();
 
-		this.chainAttackSound.stop();
-		this.chainSpinSound.stop();
-		
-	}
-	
 	/*
 	 * Renders the mace knight, ball and chain
 	 */
@@ -261,6 +249,18 @@ public class MaceSoldier extends EnemyEntity {
 			g.setColor(Color.white);
 			g.drawRect(this.x + this.handX + this.ballX, this.y + this.handY + this.ballY, this.ballS, this.ballS);
 		}
+	}
+	
+	/*
+	 * Stops the chain sounds playing if the mace soldier is hit
+	 */
+	public void onHit() {
+		
+		super.onHit();
+
+		this.chainAttackSound.stop();
+		this.chainSpinSound.stop();
+		
 	}
 	
 	/*

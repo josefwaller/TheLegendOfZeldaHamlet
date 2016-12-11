@@ -202,6 +202,8 @@ public class Game extends BasicGame {
 		if (!this.isPaused) {
 
 			if (this.playerIsDead) {
+				
+				// checks for input
 				if (input.isKeyPressed(Input.KEY_SPACE)) {
 					
 					this.playerIsDead = false;
@@ -219,23 +221,26 @@ public class Game extends BasicGame {
 				// updates the player
 				this.player.update(input, delta);
 				
-				// updates objects
-				for (int o = 0; o < this.objects.size(); o++) {
-					
-					if (this.objects.get(o).getSection() == this.currentSection) {
-						this.objects.get(o).update();
+				if (!this.playerIsDying) {
+
+					// updates objects
+					for (int o = 0; o < this.objects.size(); o++) {
+						
+						if (this.objects.get(o).getSection() == this.currentSection) {
+							this.objects.get(o).update();
+						}
 					}
-				}
-				
-				// updates animations
-				for (int i = 0; i < this.animations.size(); i++) {
-					this.animations.get(i).update(delta);
-				}
-				
-				// updates enemies
-				for (int i = 0; i < this.enemies.size(); i++) {
-					if (this.enemies.get(i).getSection() == this.currentSection) {
-						this.enemies.get(i).update(delta);
+					
+					// updates animations
+					for (int i = 0; i < this.animations.size(); i++) {
+						this.animations.get(i).update(delta);
+					}
+					
+					// updates enemies
+					for (int i = 0; i < this.enemies.size(); i++) {
+						if (this.enemies.get(i).getSection() == this.currentSection) {
+							this.enemies.get(i).update(delta);
+						}
 					}
 				}
 				
@@ -821,6 +826,7 @@ public class Game extends BasicGame {
 	 */
 	public void startPlayerDeath() {
 		this.playerIsDying = true;
+		SoundStore.get().stopMusic();
 	}
 	
 	/*

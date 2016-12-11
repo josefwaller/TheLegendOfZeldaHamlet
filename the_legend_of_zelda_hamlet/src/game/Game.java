@@ -139,10 +139,11 @@ public class Game extends BasicGame {
 	// the Heads Up Display
 	private HeadsUpDisplay hud;
 	
-	// the new map the player is moving to
-	private String newMap;
+	// the map the player is in
+	private String currentMap;
 	
 	// the id of the door in the new map the player is going to
+	// if there was no new player spawned, it should spawn the player at this door
 	private int newPathId;
 	
 	// whether the game is paused or not
@@ -167,8 +168,10 @@ public class Game extends BasicGame {
 	 */
 	public void init(GameContainer container) {
 		
+		this.currentMap = "test.tmx";
+		
 		// loads the map
-		this.loadMap("assets/maps/test.tmx");
+		this.loadMap("assets/maps/" + this.currentMap);
 		
 		// the width one tile should be
 		int finalTileWidth = (this.windowW / this.widthInTiles);
@@ -184,7 +187,9 @@ public class Game extends BasicGame {
 		this.hud = new HeadsUpDisplay(this.windowW, this.windowH, this);
 	
 		// loads the objects
-		loadObjects();
+		this.loadObjects();
+		
+		this.currentSection = this.getNewSection();
 		
 		// loads the font
 		this.deathFont = HeadsUpDisplay.loadFont("RetGanon.ttf");
@@ -210,9 +215,16 @@ public class Game extends BasicGame {
 					this.playerIsDying = false;
 					this.hud.hideGameOver();
 					
-					this.loadMap("assets/maps/test.tmx");
+					this.player = null;
+					
+					this.loadMap("assets/maps/" + this.currentMap);
 					this.loadObjects();
 					
+					if (this.player == null) {
+						this.spawnPlayerAtDoor(this.newPathId);
+					}
+					
+					this.currentSection = this.getNewSection();
 				}
 			}
 			
@@ -577,21 +589,38 @@ public class Game extends BasicGame {
 	 */
 	public void moveToMap(String mapName, int pathId) {
 	
-		this.newMap = mapName;
+		this.currentMap = mapName;
 		this.newPathId = pathId;
 		
 		this.hud.fadeOut();
 		this.isPaused = true;
 	}
 	
+	/*
+	 * Fades the screen in or out
+	 */
 	public void onFinishedFadeIn() {
 		this.isPaused = false;
 	}
 	public void onFinishedFadeOut() {
 
 		// loads the map
-		this.loadMap("assets/maps/" + this.newMap);
+		this.loadMap("assets/maps/" + this.currentMap);
 		this.loadObjects();
+		
+		this.spawnPlayerAtDoor(this.newPathId);
+		
+		this.hud.fadeIn();
+	}
+	
+	/*
+	 * Spawns the player at a door with a certain path ID
+	 */
+	public void spawnPlayerAtDoor(int pathId) {
+
+		
+		// creates player with 0 position to start
+		this.player = new Player(0, 0, this);
 		
 		// sets player position
 		for (int i = 0; i < this.objects.size(); i++) {
@@ -600,7 +629,7 @@ public class Game extends BasicGame {
 				
 				Door d = (Door) this.objects.get(i);
 				
-				if (d.getPathID() == this.newPathId) {
+				if (d.getPathID() == pathId) {
 					
 					int[] exitPos = d.getExitPos(this.player.getW(), this.player.getH());
 					
@@ -613,7 +642,6 @@ public class Game extends BasicGame {
 			}
 			
 		}
-		this.hud.fadeIn();
 	}
 	
 	/*
@@ -825,6 +853,7 @@ public class Game extends BasicGame {
 	 * 
 	 */
 	public void startPlayerDeath() {
+		
 		this.playerIsDying = true;
 		SoundStore.get().stopMusic();
 	}

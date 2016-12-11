@@ -108,7 +108,7 @@
     <property name="direction" type="int" value="3"/>
     <property name="isLocked" type="bool" value="false"/>
     <property name="pathId" type="int" value="0"/>
-    <property name="toNewMap" type="bool" value="true"/>
+    <property name="toNewMap" type="bool" value="false"/>
    </properties>
   </object>
   <object id="23" name="Door 3" type="door" x="368" y="144" width="32" height="16">

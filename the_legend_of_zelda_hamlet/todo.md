@@ -5,7 +5,6 @@ A list of things to do
 
 ## Not done
 
-* Add certain doors that load a new map when entered
 * Add a cutscene manager for cutscenes with many animated entities
     * Change AutomatedEntity
     * Rename AutomatedEntity
@@ -15,10 +14,11 @@ A list of things to do
 ## Bugs
 
 * Stop enemies from walking through doors
-* reset current section when the player dies
 
 ## Done
 
+* ~reset current section when the player dies~
+* ~Add certain doors that load a new map when entered~
 * ~Add music~
 * ~Add boss~
 * ~Stop entities who are not in the current section from updating~

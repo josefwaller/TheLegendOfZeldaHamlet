@@ -2,6 +2,8 @@ package entities;
 
 import music.SoundStore;
 
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 
 import sprites.Animation;
@@ -92,7 +94,7 @@ public class Soldier extends EnemyEntity {
 	private int realizeDelay = 200;
 	
 	// how far the soldier can reach with his sword
-	private int swordRange = 10;
+	private int swordRange = 6;
 	
 	/*
 	 * Initializes solder enemy and loads sprites
@@ -183,7 +185,21 @@ public class Soldier extends EnemyEntity {
 				break;
 		}
 		
+		this.updateHitboxes();
 		this.checkForAttack();
+	}
+	
+	public void render(Graphics g) {
+		
+		super.render(g);
+		
+		if (this.game.isDebug()) {
+
+			int[] coords = super.getCoordsInFront(this.swordRange);
+			
+			g.setColor(Color.blue);
+			g.fillRect(coords[0], coords[1], 1, 1);
+		}
 	}
 	
 	/*

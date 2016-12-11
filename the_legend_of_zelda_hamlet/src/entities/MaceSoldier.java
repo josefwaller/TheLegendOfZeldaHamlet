@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -7,6 +9,7 @@ import org.newdawn.slick.Image;
 import sprites.Animation;
 import sprites.AnimationStore;
 import sprites.SpriteStore;
+import util.Hitbox;
 import entities.abstracts.EnemyEntity;
 import entities.abstracts.Entity;
 import game.Game;
@@ -146,7 +149,8 @@ public class MaceSoldier extends EnemyEntity {
 	private void idle (int delta) {
 		
 		Player p = this.game.getPlayer();
-		
+
+		// checks if it hits the player
 		if (this.collidesWithEntity(p)) {
 			p.onHit();
 		}
@@ -191,6 +195,7 @@ public class MaceSoldier extends EnemyEntity {
 		}
 		
 		this.spinBall(delta);
+		this.checkForBallCollision();
 	}
 	
 	/*
@@ -211,5 +216,32 @@ public class MaceSoldier extends EnemyEntity {
 		// finds the new x and y
 		this.ballX = (float) this.ballRadius *  (float)Math.cos(this.ballAngle);
 		this.ballY = (float) (this.ballRadius * Math.sin(this.ballAngle));
+	}
+
+	/*
+	 * Checks if the knight's ball hits the player
+	 */
+	private void checkForBallCollision() {
+		
+		// gets the player
+		Player p = this.game.getPlayer();
+		
+		// gets the player's hitboxes
+		ArrayList<Hitbox> pH = game.getPlayer().getHitboxes();
+	
+		// creates a new hitbox based on the ball's position
+		Hitbox h = new Hitbox((int)this.ballX, (int)this.ballY, this.ballS, this.ballS, this);
+		
+		for (int i = 0; i < pH.size(); i++) {
+		
+			if (pH.get(i).collidesWith(h)) {
+			
+				p.onHit();
+				break;
+				
+			}
+			
+		}
+		
 	}
 }

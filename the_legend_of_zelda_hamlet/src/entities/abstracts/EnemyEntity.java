@@ -1,6 +1,9 @@
 package entities.abstracts;
 
+import music.SoundStore;
+
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Sound;
 
 import sprites.Animation;
 import sprites.AnimationStore;
@@ -53,6 +56,10 @@ public abstract class EnemyEntity extends MovingEntity {
 	// how long the death animation plays
 	protected long deathDuration = 500;
 	
+	// the sounds
+	private Sound hitSound;
+	private Sound deathSound;
+	
 	public EnemyEntity(int x, int y, int w, int h, Game g) {
 		super(x, y, w, h, g);
 		this.init();
@@ -70,6 +77,9 @@ public abstract class EnemyEntity extends MovingEntity {
 		
 		this.deathAnim = AnimationStore.get()
 			.getAnimation(deathAnimSheet, "death");
+		
+		this.hitSound = SoundStore.get().getSound("assets/sfx/enemyhit.wav");
+		this.deathSound = SoundStore.get().getSound("assets/sfx/enemydeath.wav");
 	}
 	
 	// enemies must be able to update
@@ -79,12 +89,14 @@ public abstract class EnemyEntity extends MovingEntity {
 	public  void onHit() {
 		
 		if (this.state != EnemyEntity.STATE_FLINCHING && this.state != EnemyEntity.STATE_DYING) {
-
 			
 			// reduces health
 			this.health -= 1;
 			
 			if (health <= 0) {
+				
+				this.deathSound.play();
+				
 				this.state = EnemyEntity.STATE_DYING;
 				this.deathTime = System.currentTimeMillis();
 				
@@ -92,6 +104,8 @@ public abstract class EnemyEntity extends MovingEntity {
 				this.loop = true;
 				
 			} else {
+				
+				this.hitSound.play();
 
 				// sets state to flinching
 				this.state = EnemyEntity.STATE_FLINCHING;

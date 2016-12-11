@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 import sprites.Animation;
 import sprites.AnimationStore;
@@ -13,6 +14,7 @@ import util.Hitbox;
 import entities.abstracts.EnemyEntity;
 import entities.abstracts.Entity;
 import game.Game;
+import music.SoundStore;
 
 /*
  * A soldier who wields a mace
@@ -45,6 +47,11 @@ public class MaceSoldier extends EnemyEntity {
 	private Animation walkUp;
 	private Animation walkSide;
 	private Animation walkDown;
+	
+	// the sounds
+	private Sound chainSpinSound;
+	private Sound chainAttackSound;
+	private Sound ballHitSound;
 	
 	// the ball images
 	private Image ballSprite;
@@ -135,11 +142,18 @@ public class MaceSoldier extends EnemyEntity {
 		
 		this.setAnim(walkUp, this.walkDuration);
 		
+		/// loads sounds
+		this.chainSpinSound = SoundStore.get().getSound("assets/sfx/chainspin.wav");
+		this.chainAttackSound = SoundStore.get().getSound("assets/sfx/chainattack.wav");
+		this.ballHitSound = SoundStore.get().getSound("assets/sfx/ballHit.wav");
+		
 		// adds a hitbox
 		this.addHitbox(1,  0,  13,  22);
 		
 		// sets health
 		this.health = 10;
+		
+		this.chainSpinSound.loop();
 		
 		this.lastAttackTime = System.currentTimeMillis();
 	}
@@ -193,6 +207,7 @@ public class MaceSoldier extends EnemyEntity {
 				
 				if (System.currentTimeMillis() - this.waitTime >= this.waitDuration) {
 					this.state = MaceSoldier.STATE_PULLING;
+					this.chainAttackSound.loop();
 				}
 				break;
 				
@@ -204,6 +219,18 @@ public class MaceSoldier extends EnemyEntity {
 		}
 		
 		this.animUpdate();
+	}
+	
+	/*
+	 * Stops the chain sounds playing if the mace soldier is hit
+	 */
+	public void onHit() {
+		
+		super.onHit();
+
+		this.chainAttackSound.stop();
+		this.chainSpinSound.stop();
+		
 	}
 	
 	/*
@@ -238,6 +265,10 @@ public class MaceSoldier extends EnemyEntity {
 	 * Pulls the ball back in after it has been thrown
 	 */
 	private void pullBall(int delta) {
+
+		if (!this.chainAttackSound.playing()) {
+			this.chainAttackSound.play();
+		}
 		
 		// it wants the ball to be set back to the top
 		float targetX = this.x + this.handX;
@@ -245,6 +276,7 @@ public class MaceSoldier extends EnemyEntity {
 
 		if (this.ballIsAtPoint(targetX, targetY, 2)) {
 			
+			this.chainAttackSound.stop();
 			this.state = EnemyEntity.STATE_IDLE;
 			this.ballAngle = Math.PI * 3/2;
 			this.lastAttackTime = System.currentTimeMillis();
@@ -311,14 +343,22 @@ public class MaceSoldier extends EnemyEntity {
 	 * the mace knight started attacking
 	 */
 	private void throwBall(int delta) {	
-			
+	
+		if (!this.chainAttackSound.playing()) {
+			this.chainAttackSound.play();
+		}
+		
 		this.moveBallTowardsPoint(this.playerX, this.playerY, delta);
 		
 		// checks if the ball has reached the player's coords
 		float ballX = this.x + this.handX + this.ballX;
 		
 		if ((ballX > this.playerX && this.x < this.playerX) || (ballX < this.playerX && this.x > this.playerX)) {
+			
+			// sets up to wait a bit
+			this.chainAttackSound.stop();
 			this.state = MaceSoldier.STATE_WAITING;
+			this.ballHitSound.play();
 			this.waitTime = System.currentTimeMillis();
 		}
 	
@@ -330,7 +370,12 @@ public class MaceSoldier extends EnemyEntity {
 	 * Otherwise moves it to face the player.
 	 */
 	private void idle (int delta) {
-		
+
+		// checks the sound is playing
+		if (!this.chainSpinSound.playing()) {
+			this.chainSpinSound.play();
+		}
+
 		Player p = this.game.getPlayer();
 
 		// checks if it hits the player
@@ -363,6 +408,7 @@ public class MaceSoldier extends EnemyEntity {
 
 					this.state = MaceSoldier.STATE_THROWING;
 					this.lastAttackTime = System.currentTimeMillis();
+					this.chainSpinSound.stop();
 					
 					this.playerX = p.getX();
 					this.playerY = p.getY();

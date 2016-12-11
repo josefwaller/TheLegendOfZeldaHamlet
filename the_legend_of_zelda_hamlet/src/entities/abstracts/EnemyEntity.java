@@ -2,7 +2,6 @@ package entities.abstracts;
 
 import music.SoundStore;
 
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Sound;
 
 import sprites.Animation;

@@ -19,6 +19,7 @@ A list of things to do
 ## Bugs
 
 * Stop enemies from walking through doors
+* reset current section when the player dies
 
 ## Done
 

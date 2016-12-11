@@ -1,5 +1,9 @@
 package entities;
 
+import music.SoundStore;
+
+import org.newdawn.slick.Sound;
+
 import sprites.Animation;
 import sprites.AnimationStore;
 import sprites.SpriteStore;
@@ -45,6 +49,9 @@ public class Soldier extends EnemyEntity {
 	private Animation lookUp;
 	private Animation lookSide;
 	private Animation lookDown;
+	
+	// the sound to play when it sees the player
+	private Sound chaseSound;
 	
 	// the points which it patrols to
 	private int[][] patrols;
@@ -98,6 +105,8 @@ public class Soldier extends EnemyEntity {
 		String imagePath = "assets/images/enemies/soldier";
 		
 		String palettePath = "assets/images/enemies/redsoldierpalette";
+		
+		this.chaseSound = SoundStore.get().getSound("assets/sfx/enemychase.wav");
 		
 		this.health = 10;
 		
@@ -220,6 +229,11 @@ public class Soldier extends EnemyEntity {
 		} else {
 			
 			if (since >= this.realizeDelay / 2) {
+				
+				if (!this.chaseSound.playing()) {
+					this.chaseSound.play();
+				}
+				
 				this.setRunAnim(this.chaseDuration);
 				this.animUpdate();
 			}

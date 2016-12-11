@@ -89,6 +89,7 @@ public class Player extends AnimatedEntity {
 	
 	// the different sounds
 	private Sound hurtSound;
+	private Sound lowHealthSound;
 	private Sound deathSound;
 	private Sound swordSound;
 	
@@ -181,6 +182,7 @@ public class Player extends AnimatedEntity {
 		// loads sounds
 		this.hurtSound = SoundStore.get().getSound("assets/sfx/playerhit.wav");
 		this.deathSound = SoundStore.get().getSound("assets/sfx/playerdeath.wav");
+		this.lowHealthSound = SoundStore.get().getSound("assets/sfx/lowhealth.wav");
 		this.swordSound = SoundStore.get().getSound("assets/sfx/playerattack.wav");
 		
 		// adds hitbox
@@ -196,6 +198,10 @@ public class Player extends AnimatedEntity {
 	 */
 	public void update(Input input, int delta, boolean[][] blocked)
 	{
+		
+		if (this.health == 1 && !this.lowHealthSound.playing()) {
+			this.lowHealthSound.play();
+		}
 		
 		// updates hitboxes
 		this.updateHitboxes();

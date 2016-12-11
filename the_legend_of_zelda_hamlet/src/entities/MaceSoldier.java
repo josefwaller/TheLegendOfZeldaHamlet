@@ -86,18 +86,12 @@ public class MaceSoldier extends EnemyEntity {
 	// the time since the mace knight last attacked
 	private long lastAttackTime;
 	
-	// the last time the mace knight threw his ball
-	private long lastThrowTime;
-	
 	// the delay between attacks
 	private int attackDelay = 2000;
 	
 	// where the player was when the knight started its attack
 	private float playerX;
 	private float playerY;
-	
-	// the angle the ball needs to move to hit the player coords
-	private double playerAngle;
 	
 	// the time the soldier started waiting
 	// to pull the mace back in
@@ -152,8 +146,6 @@ public class MaceSoldier extends EnemyEntity {
 		
 		// sets health
 		this.health = 10;
-		
-		this.chainSpinSound.loop();
 		
 		this.lastAttackTime = System.currentTimeMillis();
 	}
@@ -412,20 +404,12 @@ public class MaceSoldier extends EnemyEntity {
 					
 					this.playerX = p.getX();
 					this.playerY = p.getY();
-					
-					// gets the balls absolute coordinates
-					float ballX = this.x + this.handX + this.ballX;
-					float ballY = this.y + this.handY + this.ballY;
-					
-					float hyp = (float) Math.sqrt(Math.pow(ballX - this.playerX, 2) + Math.pow(ballY - this.playerY, 2));
-					
-					this.playerAngle = Math.asin((ballY - this.playerY) / hyp);
 				}
 			}
 			
 		} else {
 			
-			this.moveToPoint(this.targetX, this.targetY, 20 * delta / 1000f);
+			this.moveToPoint(this.targetX, this.targetY, this.speed * delta / 1000f);
 			
 			switch (this.direction) {
 			

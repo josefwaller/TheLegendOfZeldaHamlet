@@ -21,10 +21,12 @@ import org.newdawn.slick.tiled.TiledMap;
 
 
 
+
 // different entities
 import entities.Button;
 import entities.AutomatedEntity;
 import entities.Door;
+import entities.MaceSoldier;
 import entities.NPC;
 
 // The player Entity
@@ -438,6 +440,10 @@ public class Game extends BasicGame {
 						
 					case "player":
 						this.player = new Player(objX, objY, this);
+						break;
+						
+					case "macesoldier":
+						this.enemies.add(new MaceSoldier(objX, objY, this));
 						break;
 						
 					default : 

@@ -680,11 +680,17 @@ public class Game extends BasicGame {
 	 * Checks whether a position is blocked based on a 2D array
 	 * 
 	 */
-	public boolean isBlocked(float x, float y, int w, int h)
-	{
+	public boolean isBlocked(float x, float y, int w, int h) {
+		
+		// checks the coordinate is not off the map
+		if (x <= 0 || y <= 0) {
+			System.out.println("negative");
+			return false;
+		}
+		
 		// converts to integers, because pixel-specific is good enough
-		int intX = Math.round(x);
-		int intY = Math.round(y);
+		int intX = (int) Math.ceil(x);
+		int intY = (int) Math.ceil(y);
 		
 		// the x, y coordinates of the corners of the entity
 		int[][] corners = {
@@ -714,8 +720,19 @@ public class Game extends BasicGame {
 			int indexY = (int) Math.floor(corners[i][1] / (double)(this.map.getTileHeight()));
 			
 			// checks if it hits anything
-			if (this.blocked[indexX][indexY]) {
-				return true;
+			try {
+
+				if (this.blocked[indexX][indexY]) {
+					return true;
+				}
+			} catch (Exception e) {
+				
+				System.out.println("Oh no!");
+				System.out.format("Index: %d \n", i);
+				System.out.format("indexX: %d, indexY: %d \n", indexX, indexY);
+				System.out.format("intX: %d, intY: %d \n", intX, intY);
+				System.out.format("X: %f, Y: %f, W: %d, h: %d \n", x, y, w, h);
+				System.exit(0);
 			}
 			
 		}

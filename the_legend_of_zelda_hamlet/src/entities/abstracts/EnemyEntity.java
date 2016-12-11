@@ -37,15 +37,15 @@ public abstract class EnemyEntity extends MovingEntity {
 	protected int flinchDuration = 800;
 	
 	// how far the enemy is hit back
-	protected int flinchDistance = 40;
+	protected int flinchSpeed = 40;
 	
-	// where the enemy was hit
-	private float flinchStartX;
-	private float flinchStartY;
+	// the angle at which the enemy should move back
+	private double flinchAngle;
 	
-	// where the enemy is hit to
-	protected float flinchX;
-	protected float flinchY;
+	// whether to move up or down
+	// 1 for down, -1 for up
+	private int flinchY;
+	private int flinchX;
 	
 	// the enemy death animation
 	private Animation deathAnim;
@@ -111,14 +111,11 @@ public abstract class EnemyEntity extends MovingEntity {
 				this.state = EnemyEntity.STATE_FLINCHING;
 				this.flinchTime = System.currentTimeMillis();
 				
-				/*    finds the point the enemy needs to move to    */
-				
-				// records the original point
-				this.flinchStartX = this.x;
-				this.flinchStartY = this.y;
+				/*    finds theangle the enemy needs to follow    */
 				
 				// gets the different in position between it an the player
 				Player p = this.game.getPlayer();
+				
 				float diffX = p.getX() - this.x;
 				float diffY = p.getY() - this.y;
 				double totalDiff = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY,  2));
@@ -127,21 +124,21 @@ public abstract class EnemyEntity extends MovingEntity {
 				double theta = Math.asin(diffY / totalDiff);
 				
 				// finds the opposite and by adding pi to the original
-				double oppositeTheta = theta + Math.PI;
+				this.flinchAngle = theta + Math.PI;
 				
-				// gets the x and y for that point relative to the enemy
-				this.flinchX = (float) Math.abs(this.flinchDistance * Math.cos(oppositeTheta));
-				this.flinchY = (float) Math.abs(this.flinchDistance * Math.sin(oppositeTheta));
+				// records whether to move left/right and up/down
+				this.flinchX = 1;
+				this.flinchY = 1;
 
 				// gets the x and y relative to the window
-				if (p.getX() > this.x) {
+				if (p.getX() < this.x) {
 					
-					this.flinchX *= -1;
+					this.flinchX = -1;
 				}
 				
-				if (p.getY() > this.y) {
+				if (p.getY() < this.y) {
 					
-					this.flinchY *= -1;
+					this.flinchY = -1;
 				}
 			}
 			
@@ -176,12 +173,10 @@ public abstract class EnemyEntity extends MovingEntity {
 			
 		} else if (since <= this.flinchDuration / 2f) {
 			
-			double percent = (since / (double)this.flinchDuration) * 2f;
-			
 			// sets position
-			float x = (float) (this.flinchStartX + (this.flinchX * percent));
-			float y = (float) (this.flinchStartY + (this.flinchY * percent));
-		
+			float x = this.x + (float) ((float)this.flinchX * (float)this.flinchSpeed * delta / 1000f *  Math.cos(this.flinchAngle));
+			float y = this.y + (float) ((float)this.flinchY * (float)this.flinchSpeed * delta / 1000f * Math.sin(this.flinchAngle));
+			
 			// tries to move
 			this.tryToMove(x, this.y);
 			this.tryToMove(this.x, y);

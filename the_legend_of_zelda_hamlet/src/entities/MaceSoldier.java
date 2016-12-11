@@ -60,6 +60,9 @@ public class MaceSoldier extends EnemyEntity {
 	// the speed at which the ball moves
 	private int ballSpeed = 150;
 	
+	// the number of chain links between the knight and the ball
+	private int chainLinks = 10;
+	
 	// the time between switching frames when walking
 	private int walkDuration = 300;
 	
@@ -130,9 +133,17 @@ public class MaceSoldier extends EnemyEntity {
 		// draws the knight
 		super.render(g);
 		
-		// draws the ball
-		this.ballSprite.draw(this.x + ballX, this.y + ballY);
+		// draws the chain
+		for (int i = 0; i < this.chainLinks; i++) {
+			
+			this.chainSprite.draw(
+				this.x + ((this.ballX + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getWidth() / 2,
+				this.y + ((this.ballY + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getHeight() / 2);
 		
+		// draws the ball
+		this.ballSprite.draw(this.x + this.ballX, this.y + this.ballY);
+			
+		}
 		
 		if (this.game.isDebug()) {
 

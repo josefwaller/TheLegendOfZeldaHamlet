@@ -2,9 +2,12 @@ package entities;
 
 import java.util.ArrayList;
 
+import music.SoundStore;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Sound;
 
 import entities.abstracts.AnimatedEntity;
 import entities.abstracts.EnemyEntity;
@@ -83,6 +86,11 @@ public class Player extends AnimatedEntity {
 	// the death animations
 	private Animation spin;
 	private Animation death;
+	
+	// the different sounds
+	private Sound hurtSound;
+	private Sound deathSound;
+	private Sound swordSound;
 	
 	// the object the player is picking up
 	private ThrowableEntity carriedObject;
@@ -169,6 +177,11 @@ public class Player extends AnimatedEntity {
 		this.flinchDown = a.getAnimation(sheet, "damagedown");
 		this.spin = a.getAnimation(sheet, "spin");
 		this.death = a.getAnimation(sheet, "death");
+		
+		// loads sounds
+		this.hurtSound = SoundStore.get().getSound("assets/sfx/playerhit.wav");
+		this.deathSound = SoundStore.get().getSound("assets/sfx/playerdeath.wav");
+		this.swordSound = SoundStore.get().getSound("assets/sfx/playerattack.wav");
 		
 		// adds hitbox
 		this.addHitbox(2, 2, 14, 20);
@@ -423,12 +436,14 @@ public class Player extends AnimatedEntity {
 				
 				if (this.health > 0) {
 					
+					this.hurtSound.play();
 					this.state = Player.STATE_FLINCHING;
 					this.flinchDirection = this.direction;
 					this.isBlinking = true;
 				
 				} else {
-					
+
+					this.deathSound.play();
 					this.state = Player.STATE_DYING;
 					this.game.startPlayerDeath();
 				}
@@ -481,6 +496,7 @@ public class Player extends AnimatedEntity {
 		this.state = Player.STATE_ATTACKING;
 		this.attackTime = System.currentTimeMillis();
 		this.loop = false;
+		this.swordSound.play();
 		
 		// sets animation to attack
 		switch (this.direction) {

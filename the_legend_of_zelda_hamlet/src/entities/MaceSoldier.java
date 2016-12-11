@@ -44,6 +44,10 @@ public class MaceSoldier extends EnemyEntity {
 	private Image ballSprite;
 	private Image chainSprite;
 	
+	// where the mace knight's hand is relative to the mace knight
+	private int handX;
+	private int handY;
+	
 	// where the ball is relative to the mace knight
 	private float ballX;
 	private float ballY;
@@ -68,6 +72,9 @@ public class MaceSoldier extends EnemyEntity {
 	
 	public MaceSoldier (int x, int y, Game g) {
 		super(x, y, 16, 24, g);
+		
+		this.handX = 10;
+		this.handY = 10;
 		
 		// sets ball values
 		this.ballX = 0;
@@ -137,11 +144,11 @@ public class MaceSoldier extends EnemyEntity {
 		for (int i = 0; i < this.chainLinks; i++) {
 			
 			this.chainSprite.draw(
-				this.x + ((this.ballX + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getWidth() / 2,
-				this.y + ((this.ballY + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getHeight() / 2);
+				this.x + this.handX + ((this.ballX + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getWidth() / 2,
+				this.y + this.handY + ((this.ballY + this.ballS / 2) * i / this.chainLinks) - this.chainSprite.getHeight() / 2);
 		
 		// draws the ball
-		this.ballSprite.draw(this.x + this.ballX, this.y + this.ballY);
+		this.ballSprite.draw(this.x + this.handX + this.ballX, this.y + this.handY + this.ballY);
 			
 		}
 		
@@ -149,7 +156,7 @@ public class MaceSoldier extends EnemyEntity {
 
 			// draws a white rectangle around the ball
 			g.setColor(Color.white);
-			g.drawRect(this.x + this.ballX, this.y + this.ballY, this.ballS, this.ballS);
+			g.drawRect(this.x + this.handX + this.ballX, this.y + this.handY + this.ballY, this.ballS, this.ballS);
 		}
 	}
 	
@@ -241,7 +248,7 @@ public class MaceSoldier extends EnemyEntity {
 		ArrayList<Hitbox> pH = game.getPlayer().getHitboxes();
 	
 		// creates a new hitbox based on the ball's position
-		Hitbox h = new Hitbox((int)this.ballX, (int)this.ballY, this.ballS, this.ballS, this);
+		Hitbox h = new Hitbox(this.handX + (int)this.ballX, this.handY + (int)this.ballY, this.ballS, this.ballS, this);
 		
 		for (int i = 0; i < pH.size(); i++) {
 		

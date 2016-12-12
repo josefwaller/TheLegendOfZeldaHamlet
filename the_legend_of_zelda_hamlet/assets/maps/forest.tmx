@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="8">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="9">
  <tileset firstgid="1" name="Outside" tilewidth="16" tileheight="16" tilecount="208" columns="16">
   <image source="../images/tilesets/outside.png" width="256" height="208"/>
   <tile id="20">
@@ -43,7 +43,7 @@
    H4sIAAAAAAAAC42WUXIcIQxE54MjkJwA5wQ4J5j7n8nrqunKy7OE/UEtA0JCLXWz+7qu8Rq/XuP3M1/43sV+5kvrU/v5vZ+9rbXP8fYafx5fC9+xy/eWbeb3s0dfPDN0Nvd8f42/iJPv2OV7YH5rvp+RNfvczdpULkPxjN/W/H7sbq0buwrPxNmy4506zFNf+uXdaeu11H/LP2vR4TwLW96d2C2tMU+fnQ3G8RGs2ePGc8pPVY91fe31CuNwYilWhaf5QR+xdW/twzzjvs7YmR+MZQzmYZ4eXorjvBw/tbnh59S37OuBmOlln3We7gHOjUGnFb5vpRnG3jjwrvERfxkD68mP+ljVosM99yDnBkbyWYjP2Kvwybp0uMevtSk5pF/29a+/c4ef5NBpdfxam7ZiM+8uXjDqMK60mn3AHk38eYhHfar4cNJq4kbdO+X3HUc7jM0J8zK5V/XbxTpzYK9bb63t1r3wqHofTv8VpmKHc+xl6pDf63n930/Gs+KP+4L9Ql0jztZDvjFVTxhn/ufYihXMh+aVbg/cb+FM9ZYQm1u+K/3yWxDf5AZzDi6s35Id8e7e2+90O/vxTw2hdlnHO+5VurUKO+4znjXNeFZaxvfE/9etW+7hCutTfn63OnzJaXK041AXj/zLoP6am/w/sbDfcajCM3hsnOc6a0VOuCbB5vS+0YaaYy6mTz4AHhUqPhAOAAA=
   </data>
  </layer>
- <objectgroup name="Doors">
+ <objectgroup name="Doors" width="1" height="1">
   <object id="1" name="From Castle One" type="door" x="288" y="0" width="48" height="16">
    <properties>
     <property name="direction" type="int" value="1"/>
@@ -62,7 +62,7 @@
   </object>
   <object id="7" name="Player Spawn" type="player" x="304" y="32" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="Entites">
+ <objectgroup name="Entites" width="1" height="1">
   <object id="3" name="Ghost" type="npc" x="368" y="320" width="16" height="16">
    <properties>
     <property name="dialog" value="ghostone"/>
@@ -80,8 +80,14 @@
     <property name="patroly" type="int" value="1"/>
    </properties>
   </object>
+  <object id="8" type="spritechanger" x="304" y="128" width="16" height="16">
+   <properties>
+    <property name="spriteOne" value="npcs/gertrude"/>
+    <property name="spriteTwo" value="npcs/ghost"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup name="Sections" visible="0">
+ <objectgroup name="Sections" visible="0" width="1" height="1">
   <object id="2" name="Section" type="section" x="0" y="0" width="480" height="480"/>
  </objectgroup>
 </map>

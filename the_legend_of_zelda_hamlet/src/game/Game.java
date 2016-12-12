@@ -30,6 +30,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 
 
+
 // different entities
 import entities.Button;
 import entities.AutomatedEntity;
@@ -41,6 +42,7 @@ import entities.NPC;
 import entities.Player;
 import entities.Pot;
 import entities.Soldier;
+import entities.SpriteChanger;
 import entities.abstracts.CollisionEntity;
 import entities.abstracts.EnemyEntity;
 // superclasses
@@ -513,6 +515,20 @@ public class Game extends BasicGame {
 						
 					case "macesoldier":
 						this.enemies.add(new MaceSoldier(objX, objY, this));
+						break;
+						
+					case "spritechanger":
+						
+						String spriteOne = this.map.getObjectProperty(gi, oi, "spriteOne", null);
+						String spriteTwo = this.map.getObjectProperty(gi, oi, "spriteTwo", null);
+						
+						this.objects.add(new SpriteChanger(
+							objX,
+							objY, 
+							spriteOne,
+							spriteTwo,
+							this));
+						
 						break;
 						
 					default : 

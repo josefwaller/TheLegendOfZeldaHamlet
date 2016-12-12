@@ -2,6 +2,8 @@ package game;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,6 +18,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.tiled.TiledMap;
+
+
 
 
 
@@ -168,7 +172,7 @@ public class Game extends BasicGame {
 	 */
 	public void init(GameContainer container) {
 		
-		this.currentMap = "castle.tmx";
+		this.currentMap = "castleone.tmx";
 		
 		// loads the map
 		this.loadMap("assets/maps/" + this.currentMap);
@@ -420,7 +424,7 @@ public class Game extends BasicGame {
 						String mapName = "";
 						
 						if (isNewMap) {
-							mapName = this.map.getObjectProperty(gi, oi, "newMap", null);
+							mapName = this.map.getObjectProperty(gi, oi, "newMap", null) + ".tmx";
 						}
 						
 						this.objects.add(
@@ -430,7 +434,7 @@ public class Game extends BasicGame {
 									this.map.getObjectWidth(gi, oi), 
 									this.map.getObjectHeight(gi, oi), 
 									Integer.parseInt(this.map.getObjectProperty(gi, oi, "pathId", null)), 
-									Integer.parseInt(this.map.getObjectProperty(gi, oi, "direction", null)),
+									Integer.parseInt(this.map.getObjectProperty(gi, oi, "direction", "0")),
 									isNewMap,
 									mapName,
 									this
@@ -943,6 +947,8 @@ public class Game extends BasicGame {
         	// sets width and height
         	int size = 800;
         	
+        	Game.fixMaps();
+        	
         	// creates the window
             AppGameContainer app = new AppGameContainer(new Game(size, size));
             
@@ -959,5 +965,35 @@ public class Game extends BasicGame {
         {
             e.printStackTrace();
         }
+	}
+	
+	public static void fixMaps() {
+		
+		File folder = new File("assets/maps");
+		
+		File[] maps = folder.listFiles();
+		
+		for (int i = 0; i < maps.length; i++) {
+			if (maps[i].isFile()) {
+				
+				String contents = Game.readFile("assets/maps/" + maps[i].getName());
+
+				
+				contents = contents.replaceAll("<objectgroup (.*?) (width=.+ height=.+)+>", "<objectgroup $1>");
+				contents = contents.replaceAll("<objectgroup (.*?)>", "<objectgroup $1 width=\"1\" height=\"1\">");
+				
+				Writer w = null;
+				try {
+					w = new PrintWriter(maps[i]);					
+					w.write(contents);
+					w.flush();
+					
+				} catch (Exception e) {
+
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 }

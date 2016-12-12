@@ -56,7 +56,7 @@
    H4sIAAAAAAAAC5NjYGCQJ4AVgFgLiJkIYJ1RdTjVmQGxORK2BWI7NDELIAYACkh2qZABAAA=
   </data>
  </layer>
- <objectgroup name="Doors" width="192" height="192">
+ <objectgroup name="Doors" width="1" height="1">
   <object id="1" name="Test New Map Door 2" type="door" x="64" y="144" width="32" height="16">
    <properties>
     <property name="direction" type="int" value="0"/>
@@ -71,7 +71,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Sections" visible="0" width="192" height="192">
+ <objectgroup name="Sections" visible="0" width="1" height="1">
   <object id="3" name="Section 1" type="section" x="0" y="0" width="160" height="160"/>
  </objectgroup>
 </map>

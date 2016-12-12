@@ -81,7 +81,7 @@
    H4sIAAAAAAAAC5NjYGCQJwMrALEcBXq1gJiJDKwzqpckvWFk6g2lQC/I3iQ88vp45BIJ6B2s4TzS9JoBsTkZ2IIIvbZAbIdDL7llDjHYE4i9sIgrUBBWlGBK4mjU3lF7R+0dtXfU3lF7R+0devaS276iBIPaVwDJ8YCBEA4AAA==
   </data>
  </layer>
- <objectgroup name="Objects" width="192" height="192">
+ <objectgroup name="Objects" width="1" height="1">
   <object id="7" name="Test Button" type="button" gid="18" x="80" y="64" width="16" height="16">
    <properties>
     <property name="onclick" value="nothing"/>
@@ -95,7 +95,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Doors" width="192" height="192">
+ <objectgroup name="Doors" width="1" height="1">
   <object id="17" name="Door 1" type="door" x="224" y="64" width="16" height="32">
    <properties>
     <property name="direction" type="int" value="2"/>
@@ -134,12 +134,12 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Sections" visible="0" width="192" height="192">
+ <objectgroup name="Sections" visible="0" width="1" height="1">
   <object id="20" name="Section 1" type="section" x="0" y="0" width="240" height="160"/>
   <object id="21" name="Section 2" type="section" x="240" y="0" width="240" height="160"/>
   <object id="22" name="Section 3" type="section" x="0" y="160" width="480" height="320"/>
  </objectgroup>
- <objectgroup name="Entities" width="192" height="192">
+ <objectgroup name="Entities" width="1" height="1">
   <object id="30" name="Test Enemy" type="soldier" x="288" y="48" width="16" height="16">
    <properties>
     <property name="patrolx" type="int" value="3"/>

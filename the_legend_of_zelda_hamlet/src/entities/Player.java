@@ -576,5 +576,10 @@ public class Player extends AnimatedEntity {
 		
 	}
 
-	
+	/*
+	 * Get/Set
+	 */
+	public int getHealth() {
+		return this.health;
+	}
 }

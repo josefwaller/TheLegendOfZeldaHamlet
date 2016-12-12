@@ -326,7 +326,7 @@
    H4sIAAAAAAAAC2NgGAXDGXwF4m9A/J1EOWLkiVUzCkbBKBieAAByCCo6QAYAAA==
   </data>
  </layer>
- <objectgroup name="Doors" width="288" height="224">
+ <objectgroup name="Doors" width="1" height="1">
   <object id="1" name="Door To Main Castle" type="door" x="304" y="16" width="64" height="32">
    <properties>
     <property name="direction" type="int" value="1"/>
@@ -352,10 +352,10 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Sections" visible="0" width="288" height="224">
+ <objectgroup name="Sections" visible="0" width="1" height="1">
   <object id="5" name="Section" type="section" x="0" y="0" width="640" height="160"/>
  </objectgroup>
- <objectgroup name="Entities" width="288" height="224">
+ <objectgroup name="Entities" width="1" height="1">
   <object id="6" name="Guard" type="npc" x="432" y="80" width="16" height="16">
    <properties>
     <property name="dialog" value="guardone"/>

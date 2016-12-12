@@ -168,7 +168,7 @@
    H4sIAAAAAAAAC+2WwW3CQBBFl5ygCFJDkKCEIJEaoIhQREIBcECBBkCRwAUQEVoA0QJEoQRQfiRbGkb2ztprMBJzeJf11+zfb3t2lsaYpaIoiqLcCRvGrfiQKMJfHwwsDIk/SSvVyeJvJ2gOxN+/dgKmKfkM61za3wJ8ZdjnG6w8/Nk88vzW4fobeBfohdqtZ36u/mh+H2AkMC4wvzT+fPPL8v1dMz9Xf5pffvnNwDyE+4rWgwLzo1CvQcxzn/yO4GThoXSe3x78xFAGlYRnvx75pcF2lip4FM6Z1p/rfT900LZBJ4c6VOty30d3u6R9Bd0c6nBt9D8msXXQ0ru451HnUlraC8dX2jPiCdRAHTRM/NzC+1/cHMPr5OXvGTRBC7yY814n9WfaE3mde3m/6k/93bo/aX7x2TNpHuGzx07Q2eYXXsd1T2m2orOHpJXmF9c6VPsHRYeyAQAZAAA=
   </data>
  </layer>
- <objectgroup name="Doors" width="288" height="224">
+ <objectgroup name="Doors" width="1" height="1">
   <object id="3" name="Center-Right Door" type="door" x="432" y="480" width="32" height="32">
    <properties>
     <property name="direction" type="int" value="2"/>
@@ -214,7 +214,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Entities" width="288" height="224">
+ <objectgroup name="Entities" width="1" height="1">
   <object id="7" name="Player" type="player" x="304" y="560" width="16" height="16"/>
   <object id="11" name="Horatio" type="npc" x="272" y="560" width="16" height="16">
    <properties>
@@ -235,7 +235,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Sections" visible="0" width="288" height="224">
+ <objectgroup name="Sections" visible="0" width="1" height="1">
   <object id="8" name="Center Hall" type="section" x="176" y="416" width="288" height="224"/>
   <object id="9" name="Left Room" type="section" x="0" y="416" width="176" height="224"/>
   <object id="10" name="Right Room" type="section" x="464" y="416" width="176" height="224"/>

@@ -9,11 +9,14 @@ import music.SoundStore;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.util.ResourceLoader;
+
+import sprites.SpriteStore;
 
 public class HeadsUpDisplay {
 
@@ -47,6 +50,16 @@ public class HeadsUpDisplay {
 	private UnicodeFont gameOverFontBig;
 	private UnicodeFont gameOverFontSmall;
 	
+	// the heart image to use
+	private Image heart;
+	
+	// the offsets with which to draw the hearts
+	private int heartX = 20;
+	private int heartY = 20;
+	
+	// the size of the hearts
+	private int heartS = 40;
+	
 	/*
 	 * Constructor
 	 * 
@@ -65,6 +78,8 @@ public class HeadsUpDisplay {
 
 		this.gameOverFontBig = HeadsUpDisplay.loadFont("RetGanon.ttf", 70);
 		this.gameOverFontSmall = HeadsUpDisplay.loadFont("RetGanon.ttf", 45);
+		
+		this.heart = SpriteStore.get().loadSprite("assets/images/heart.png");
 	}
 	
 	/*
@@ -144,6 +159,27 @@ public class HeadsUpDisplay {
 				this.h * 1/2, 
 				2, 
 				message);
+		} else {
+			
+			// draws the health
+			
+			g.setColor(Color.black);
+			g.fillRect(0, 0, this.w, 2 * this.heartY + this.heartS);
+			
+			// draws the hearts
+			int hearts = this.game.getPlayer().getHealth();
+			
+			for (int i = 0; i < hearts; i++) {
+				
+				this.heart.draw(
+					this.heartX + i * (this.heartS + this.heartX),
+					this.heartY,
+					this.heartS,
+					this.heartS);
+				
+			}
+			
+			
 		}
 		
 		if (this.fadeAlpha >= 0) {

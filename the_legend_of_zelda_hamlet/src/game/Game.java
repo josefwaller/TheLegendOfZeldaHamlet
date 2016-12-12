@@ -643,6 +643,8 @@ public class Game extends BasicGame {
 					this.player.setY(exitPos[1]);
 					this.player.setDirection(d.getDirection());
 					this.player.update(new Input(0), 0);
+					
+					this.currentSection = this.getNewSection();
 				}
 				
 			}

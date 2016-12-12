@@ -6,6 +6,7 @@ import org.newdawn.slick.Sound;
 
 import sprites.Animation;
 import sprites.AnimationStore;
+import entities.Heart;
 import entities.Player;
 import game.Game;
 
@@ -150,6 +151,12 @@ public abstract class EnemyEntity extends MovingEntity {
 	protected void die() {
 		
 		if (System.currentTimeMillis() - this.deathTime >= this.deathDuration) {
+			
+			this.game.addConsumable(new Heart(
+					(int)this.x + this.w / 2, 
+					(int)this.y + this.h / 2, 
+					this.game));
+			
 			this.game.removeEnemy(this);
 		}
 		

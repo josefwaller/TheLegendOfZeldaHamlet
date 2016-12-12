@@ -110,7 +110,7 @@ public class Soldier extends EnemyEntity {
 		
 		this.chaseSound = SoundStore.get().getSound("assets/sfx/enemychase.wav");
 		
-		this.health = 10;
+		this.health = 1;
 		
 		// the string to the .sprites file
 		// should remain constant unless the file is moved

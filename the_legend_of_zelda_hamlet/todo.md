@@ -9,6 +9,8 @@ A list of things to do
     * Change AutomatedEntity
     * Rename AutomatedEntity
 * Add final maps
+* ADD health in hud
+* Add different levels of soldiers
 
 ## Bugs
 

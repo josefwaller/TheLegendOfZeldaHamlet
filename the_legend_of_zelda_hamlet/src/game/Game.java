@@ -29,6 +29,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 
 
+
 // different entities
 import entities.Button;
 import entities.AutomatedEntity;
@@ -40,6 +41,7 @@ import entities.NPC;
 import entities.Player;
 import entities.Pot;
 import entities.Soldier;
+import entities.abstracts.CollisionEntity;
 import entities.abstracts.EnemyEntity;
 // superclasses
 import entities.abstracts.Entity;
@@ -135,7 +137,8 @@ public class Game extends BasicGame {
 	// all animations that will be played
 	private ArrayList<AutomatedEntity> animations;
 	
-	// the lines of dialog currently being drawn on the screen
+	// all consumables on the map
+	private ArrayList<CollisionEntity> consumables;
 	
 	// whether or not dialog is currently being shown on screen
 	private boolean isShowingDialog;	
@@ -172,7 +175,7 @@ public class Game extends BasicGame {
 	 */
 	public void init(GameContainer container) {
 		
-		this.currentMap = "castleone.tmx";
+		this.currentMap = "forest.tmx";
 		
 		// loads the map
 		this.loadMap("assets/maps/" + this.currentMap);
@@ -256,6 +259,12 @@ public class Game extends BasicGame {
 					for (int i = 0; i < this.enemies.size(); i++) {
 						if (this.enemies.get(i).getSection() == this.currentSection) {
 							this.enemies.get(i).update(delta);
+						}
+					}
+					
+					for (int i = 0; i < this.consumables.size(); i++) {
+						if (this.consumables.get(i).getSection() == this.currentSection) {
+							this.consumables.get(i).update();
 						}
 					}
 				}
@@ -358,6 +367,13 @@ public class Game extends BasicGame {
 					
 					this.animations.get(i).render(g);
 				}
+				
+				// renders consumables
+				for (int i = 0; i < this.consumables.size(); i++) {
+					
+					this.consumables.get(i).render(g);
+				
+				}
 
 				// renders the player
 				this.player.render(g);
@@ -402,6 +418,9 @@ public class Game extends BasicGame {
 		
 		// initializes animations
 		this.animations = new ArrayList<AutomatedEntity>();
+		
+		// initializes
+		this.consumables = new ArrayList<CollisionEntity>();
 		
 		for (int gi = 0; gi < this.map.getObjectGroupCount(); gi++) {
 			
@@ -903,6 +922,30 @@ public class Game extends BasicGame {
 		System.exit(0);
 		
 		return 0;
+		
+	}
+	
+	/*
+	 * Adds a consumable object
+	 */
+	public void addConsumable(CollisionEntity e) {
+		
+		this.consumables.add(e);
+	}
+	
+	/*
+	 * Removes a consumable object from the game
+	 */
+	public void removeConsumable(CollisionEntity e) {
+		
+		for (int i = 0; i < this.consumables.size(); i++) {
+			
+			if (consumables.get(i) == e) {
+				consumables.remove(i);
+				break;
+			}
+			
+		}
 		
 	}
 	

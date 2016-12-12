@@ -40,6 +40,9 @@ public class Player extends AnimatedEntity {
 	// the health the player has
 	private int health = 3;
 	
+	// the max number of hearts the player can have
+	private int maxHealth = 3;
+	
 	// how long the attack takes
 	private int attackDuration = 300;
 	
@@ -454,6 +457,17 @@ public class Player extends AnimatedEntity {
 					this.game.startPlayerDeath();
 				}
 			}
+		}
+		
+	}
+	
+	/*
+	 * When the player picks up a heart
+	 */
+	public void onHeart() {
+		
+		if (this.health < this.maxHealth) {
+			this.health++;
 		}
 		
 	}

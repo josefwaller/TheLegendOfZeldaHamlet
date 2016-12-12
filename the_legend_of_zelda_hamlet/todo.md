@@ -9,8 +9,6 @@ A list of things to do
     * Change AutomatedEntity
     * Rename AutomatedEntity
 * Add final maps
-* ADD health in hud
-* Add different levels of soldiers
 
 ## Bugs
 
@@ -18,6 +16,8 @@ A list of things to do
 
 ## Done
 
+* ~ADD health in hud~
+* ~Add different levels of soldiers~
 * ~Make music stop when the player dies~
 * ~reset current section when the player dies~
 * ~Add certain doors that load a new map when entered~

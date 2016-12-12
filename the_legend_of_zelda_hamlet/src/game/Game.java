@@ -497,6 +497,8 @@ public class Game extends BasicGame {
 							objY,
 							patrolX,
 							patrolY,
+							Integer.parseInt(
+								this.map.getObjectProperty(gi,  oi, "difficulty", "0")),
 							this
 						));
 						break;

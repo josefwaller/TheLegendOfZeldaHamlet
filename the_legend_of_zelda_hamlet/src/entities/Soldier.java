@@ -99,18 +99,32 @@ public class Soldier extends EnemyEntity {
 	/*
 	 * Initializes solder enemy and loads sprites
 	 */
-	public Soldier(int x, int y, int pX, int pY, Game g) {
+	public Soldier(int x, int y, int pX, int pY, int diff, Game g) {
 		super(x, y, 16, 20, g);
 		
 		// the path to the image
 		// will vary with different colors of soldier
 		String imagePath = "assets/images/enemies/soldier";
 		
-		String palettePath = "assets/images/enemies/redsoldierpalette";
+		String palettePath = "assets/images/enemies/";
 		
-		this.chaseSound = SoundStore.get().getSound("assets/sfx/enemychase.wav");
-		
-		this.health = 1;
+		// changes depending on difficulty
+		switch (diff) {
+			case 0:
+				this.health = 1;
+				palettePath += "greensoldier";
+				break;
+				
+			case 1:
+				this.health = 2;
+				palettePath += "bluesoldier";
+				break;
+				
+			case 2:
+				this.health = 3;
+				palettePath += "redsoldier";
+				break;
+		}
 		
 		// the string to the .sprites file
 		// should remain constant unless the file is moved
@@ -121,6 +135,9 @@ public class Soldier extends EnemyEntity {
 			imagePath,
 			palettePath,
 			spritesPath);
+
+		
+		this.chaseSound = SoundStore.get().getSound("assets/sfx/enemychase.wav");
 		
 		// gets the animation for easy reference
 		AnimationStore a = AnimationStore.get();

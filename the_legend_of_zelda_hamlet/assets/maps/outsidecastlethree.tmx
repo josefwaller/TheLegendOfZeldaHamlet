@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="16" tileheight="16" nextobjectid="11">
+ <tileset firstgid="1" source="../tilesets/Outside.tsx"/>
+ <tileset firstgid="209" source="../tilesets/Castle Outside.tsx"/>
+ <layer name="Below" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJytl1Fu3DAMRJlGF0jXF2ijCzTQBVLw/meqF1gCz8/0BijyIXhtS0NyZkgnKyK2feW+5mPdf4/Huv9ej9/bY9W+uh+PPdw3mndT9xWzzk3EZA4D5ybOFEZ3rdwWsCpeXTfFXnGseYtj7oXDPIzBvMlP3V/F3nBl/bWPtST2jwaHZ7in7l/29QPrVTXWlXySH9ZlTipO5fmCGDOOfBCT8d/29RPr84t86UtijYt4G85VrFscfUaO6bn79de+fj/Wh3ItLHokhVucUhPzXjm+CZO+r9pYF/VZyJV53uLMA71D3Mq389F8wh/rZn0Lsag/Nb8pl6uetT/JhXFvcewV60tvc2bUsy6/qzlGPpkX+Vlx9l82ezkLKmd6pbQqnD/7eo9rf3FOUF/PnY6/pTPkiM/sz3Whw9SZ0sIcpn4zX+J2vcqa3WfENU7l0OlhPPLFfcblHO/w6KOlOIXziffWkTPgSmf6lbicL/b+1JVzZgjnvl4bjIxjXalYrnmLc37Fqft+xrEu8lh49zn4Ef18HsKu+JV/8brpnfOjnqzXcezFet55mVzT94xhjai39aXnOZ+oxdV3z/l57pJ/zx76JqPXl33mfnJvJXA6LcgVazb+pudDe80ftbCuvBrHMzCxZ+kM5ydz6zjs5otrpxeZD3vR/Nkr1Ixe83yhhubP/h2Kn3o2hNv9rfHMX0NX9mNxYkxrmzjL967hqj86nVPvUzEn3nfzpcuNvUy96JvOy0MY9Acxu9w6TbiHXHqGzjhr8ow/zmZrTv/Z2918Wdpj7ugr1sRv8Gv0vjD3KUxes9FkxbnWilHvM468mT/Xa3+Rpy2OXNMD9szUGX9DHIu9cv/tbzA5qhrpC/LLfpuI6flCbzyrlz3JmF2PVA28X3HW095zfpzl5IU+odas1z3s/4n/d/2N/ptEHVlz5WEO6pz/d/+OVf/TVH70P/Oh1p5pxSf/d/+u9R5n7/L7yf6i1lNnOj9knHuTtRf/nmn+1owGw77u5vPUu9Q95xB73jl6FtSZVFzODvZoKk7Xg+TOPc84xiWHnDXeQ27YI+SzesEzvJ4xHmOR267X+Mz3V74fcax3NmesG73U6WJtObeNTd0822Zzn8IvXGqaOMs91MCe6epwHuTe+llnxrUPrfEWvbe6mnlvTZyv49m3Q/vouTo3hW99l2Lbq8zV8ewj49o31I57O/1LC3Kbca3/0Bk+/wdCrdDk
+  </data>
+ </layer>
+ <layer name="Tile Layer 1" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztl01KBDEQhXMJvYHeQG/iuJOZheNOvITj+fwBFXUcUPFvQMXfpa/pDhRFVSqdTmfVD76FnZTvUdWJ7cg5tw2OwQk4BefgAlyCa7Z2lhHqc9V4Vc+3wIhQ5bsBc3AL7sA9eABPbG2REerz2HgtlHzP4AW8gjfwDj7AF1tbZoT6fDZeSyXfN/gBv+CPEVpbAavC89C6VSPlS9UaWCc/TwjSuvaMKme+DbDJnk2Edd8zraavfI55095R0Z7R/Va+KdgD+wF2jHzWvCrRnmn7x40fzTcDR8bvHivPfR9C86K9svZ7H5ovRlq+mJnRPVafvc+uq+c67ZgvZmZ0j3RWJJ9DV8911jGfc3Ez5ntD71+KQnUxZ4Pvtd6/tgrVWTOT9qb4hCTV8TxWH6VzHOMTI6mO57F6E3OOJZ8YSXXaXLXeSOe4z3xevBdab0rP14v3UetN6fla54Ovl56vdj6sO7itT2qddj6sOzh0T+bMx/No71+be7KPfD6P9v61uSf7yKf5SnO2/gbG+HSt43OmmWK//9qqTV3ovi75faCJZ4j5LkzxyVFXyie1rpRPal0pnwMX/v84J4MGDRo0qNY/mvrLBw==
+  </data>
+ </layer>
+ <objectgroup name="Doors">
+  <object id="2" name="Door" type="door" x="96" y="16" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="newMap" value="hallway"/>
+    <property name="pathId" type="int" value="3"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="3" name="Door" type="door" x="512" y="16" width="48" height="32">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="newMap" value="boss"/>
+    <property name="pathId" type="int" value="0"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities">
+  <object id="5" name="Claudius" type="npc" x="144" y="64" width="16" height="16">
+   <properties>
+    <property name="dialog" value="claudiusfour"/>
+    <property name="spritesheet" value="claudius"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="6" name="Rosencratz" type="npc" x="352" y="448" width="16" height="16">
+   <properties>
+    <property name="dialog" value="rosancratz"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="7" name="Guildenstern" type="npc" x="384" y="448" width="16" height="16">
+   <properties>
+    <property name="dialog" value="guildenstern"/>
+    <property name="spritesheet" value="guildenstern"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="8" name="Claudius" type="npc" x="528" y="80" width="16" height="16">
+   <properties>
+    <property name="dialog" value="claudiusfive"/>
+    <property name="spritesheet" value="claudius"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Section">
+  <object id="10" name="Section" type="section" x="0" y="0" width="640" height="640"/>
+ </objectgroup>
+</map>

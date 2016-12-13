@@ -6,12 +6,12 @@
  <tileset firstgid="1" source="../tilesets/Castle.tsx"/>
  <layer name="Tile Layer" width="30" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC5vCwMAwFYqP0Ik9E4hfAPEqIF4NxDehNC3Za4H4LRDrArEeEB+kE2YGYhYgdgJiZzraKwHEkkBsAsSmdLT3OjScPYHYawDspXf8GgCx4QDErysQuzFA8tFLIH5FJ/wGGs5/gfgfnTETI8QNCoz0CWN5RoS/K4H4Cp3iFpSWK6B+pmf+haXlqwz0zb+wtAyy9wWdw/ntqL10txdUXh1lQC1XaMF/g2QvrLy6xYBaptCKDyqrQPYCAD1Q+WtgCQAA
+   H4sIAAAAAAAAC5vCwMAwFYqP0Ik9E4hfAPEqIF4NxDehNC3Za4H4LdTeK0B8kE6YGYhZBsBeCSCWHAB7rw9QOA+UvQZAbDgA9roCsRvU3pdA/AqIHRkZGJwYIWxa4TfQcP4LxP+gOAxoZzgjgk8rzAT1mwIjfcJYHiksK+kYv6C0XAH1Mz3TFSwtX6WzvbC0TG97YWXGqL30tRdUXh1lQC1XaMF/g2QvrLy6xYBaptCKDyqrQPYCAAWm49pgCQAA
   </data>
  </layer>
  <layer name="Above" width="30" height="20">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgGAWjYBSMAvJAAhAn0hAn0c0no2AUjIJRQF0AABJLEJlgCQAA
+   H4sIAAAAAAAAC2NgGAWjYBSMAtJBAhAnofETqYyRzR8Fo2AUjIKhBAA678jcYAkAAA==
   </data>
  </layer>
  <objectgroup name="Doors" width="1" height="1">
@@ -20,22 +20,6 @@
     <property name="direction" type="int" value="2"/>
     <property name="newMap" value="closet"/>
     <property name="pathId" type="int" value="1"/>
-    <property name="toNewMap" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="2" name="Door ot Outer Balcony" type="door" x="0" y="64" width="32" height="32">
-   <properties>
-    <property name="direction" type="int" value="3"/>
-    <property name="newMap" value="balcony"/>
-    <property name="pathId" type="int" value="0"/>
-    <property name="toNewMap" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="3" name="Door from Outer Balcony" type="door" x="0" y="192" width="32" height="32">
-   <properties>
-    <property name="direction" type="int" value="3"/>
-    <property name="newMap" value="balcony"/>
-    <property name="pathId" type="int" value="2"/>
     <property name="toNewMap" type="bool" value="true"/>
    </properties>
   </object>
@@ -65,9 +49,9 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="8" name="Easy Soldier 3" type="soldier" x="96" y="48" width="16" height="16">
+  <object id="8" name="Medium Soldier" type="soldier" x="96" y="48" width="16" height="16">
    <properties>
-    <property name="difficulty" type="int" value="0"/>
+    <property name="difficulty" type="int" value="1"/>
     <property name="patrolx" type="int" value="2"/>
     <property name="patroly" type="int" value="3"/>
    </properties>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
+ <properties>
+  <property name="music" value="castle"/>
+ </properties>
+ <tileset firstgid="1" source="../tilesets/Castle.tsx"/>
+ <layer name="Tile Layer 1" width="10" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBTgAgDjoo9oIAMAAA==
+  </data>
+ </layer>
+</map>

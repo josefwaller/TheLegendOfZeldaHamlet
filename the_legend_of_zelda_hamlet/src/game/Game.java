@@ -177,7 +177,7 @@ public class Game extends BasicGame {
 	 */
 	public void init(GameContainer container) {
 		
-		this.currentMap = "forest.tmx";
+		this.currentMap = "closet.tmx";
 		
 		// loads the map
 		this.loadMap("assets/maps/" + this.currentMap);

@@ -86,7 +86,11 @@ public class SoundStore {
 	}
 	
 	public void fadeMusic(int duration, float volume, boolean stop) {
-		this.music.fade(duration, volume, stop);
+		
+		if (this.music != null) {
+
+			this.music.fade(duration, volume, stop);
+		}
 	}
 	
 	/*
@@ -94,7 +98,10 @@ public class SoundStore {
 	 */
 	public void stopMusic() {
 	
-		this.music.stop();
+		if (this.music != null) {
+			this.music.stop();
+			
+		}
 		
 	}
 	

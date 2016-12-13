@@ -192,7 +192,7 @@ public class Game extends BasicGame {
 		
 		// loads the font
 		this.deathFont = HeadsUpDisplay.loadFont("RetGanon.ttf");
-		
+		this.currentMap = "castleone.tmx";
 		this.hud.showMainMenu();
 	}
 	

@@ -238,6 +238,12 @@ public class MainMenu {
 		
 	}
 	
+	public void stop() {
+		
+		this.s.stop();
+		
+	}
+	
 	private void drawTriforce() {
 		
 		Image tri = this.triforces.getSprite("/170").getScaledCopy(3f);

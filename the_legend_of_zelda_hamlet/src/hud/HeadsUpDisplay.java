@@ -101,7 +101,7 @@ public class HeadsUpDisplay {
 			}
 			
 			if (this.showingMainMenu) {
-				this.showingMainMenu = false;
+				this.fadeOut();
 				this.game.startGame();
 			}
 			
@@ -249,6 +249,11 @@ public class HeadsUpDisplay {
 	public void fadeIn() {
 		this.fadingIn = true;
 		this.fadeTime = System.currentTimeMillis();
+		
+		if (this.showingMainMenu) {
+			this.showingMainMenu = false;
+			this.mainMenu.stop();
+		}
 		
 		// sets the music volume to fade in with the sound
 		SoundStore.get().fadeMusic(this.fadeDuration, 1f, false);

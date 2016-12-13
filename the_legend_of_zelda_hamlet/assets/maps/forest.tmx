@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="9">
- <tileset firstgid="1" name="Outside" tilewidth="16" tileheight="16" tilecount="208" columns="16">
-  <image source="../images/tilesets/outside.png" width="256" height="208"/>
-  <tile id="20">
-   <properties>
-    <property name="blocked" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="21">
-   <properties>
-    <property name="blocked" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="36">
-   <properties>
-    <property name="blocked" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="37">
-   <properties>
-    <property name="blocked" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="52">
-   <properties>
-    <property name="blocked" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="53">
-   <properties>
-    <property name="blocked" type="bool" value="true"/>
-   </properties>
-  </tile>
- </tileset>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="16" tileheight="16" nextobjectid="10">
+ <tileset firstgid="1" source="../tilesets/Outside.tsx"/>
  <layer name="Lower Tile Layer" width="30" height="30">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC32UwY0EIQwEeTgEQnAIDoH8Y9o7aS0VtZ55IGYAt9vuhlxr7b9RmPu7/4/2Uus9/v/jO5fm+I56yFfCSmAlsIgb2GPujk/FpvIkOITq7b0DzIO9BMYRbqy7J1sxzTXX3ZsezMOeuUZ+u48d1zU3trVKxbF+5iNP68uc1oQ6sdf0Q+9RE/a5gNc8eJacat3+cc95lvqx36yv85N/vcSx9z2aB7G6hqOZvIgVyuv7RN72kYd9UVq3dvQ0a3RdPM911+kat/YS56lRrFt/9j7xz3t41s2Z71oN68Sm36i79Z7Wj86wXnMm/sZerbtm5mMfYt08at01sy/8LuXiHWJvyYG1Ukv22d63Dk919czaWdd0L8i78ch7evu87nzkzBh6i/7oePaR+egNe4S9tt89yO/Nc9Y9FOO+EYe9Zs1+g+wL6nuAWZp5hj6gn+wV/jM3h+8Pv53D9VAX38Fen7Qhru+Wa44Bl94il6M48mPcfsCth1h6vuP8Bmxh5PrVJ3SG743X7UX2fVrbWjfGdG/pWfYkh1w5YLP2UvzUC/IMfbPv1mTrzAFu82Qd1mTS/WhODfOgh+mBqX76qIQTwqLXPZNbKJ7/ofN8m8iDPeAZ4vqNe/MsMcn56Dx1mrCtL/PxTArLnmVuv0dTf6iVdSLO9Ob5TnwA41BvkRAOAAA=
@@ -55,7 +23,7 @@
   <object id="6" name="To Castle Two" type="door" x="464" y="320" width="16" height="32">
    <properties>
     <property name="direction" type="int" value="3"/>
-    <property name="newMap" value="castletwo"/>
+    <property name="newMap" value="outsidecastletwo"/>
     <property name="pathId" type="int" value="0"/>
     <property name="toNewMap" type="bool" value="true"/>
    </properties>
@@ -78,12 +46,6 @@
   <object id="5" name="Soldier 2" type="soldier" x="176" y="368" width="16" height="16">
    <properties>
     <property name="patroly" type="int" value="1"/>
-   </properties>
-  </object>
-  <object id="8" type="spritechanger" x="304" y="128" width="16" height="16">
-   <properties>
-    <property name="spriteOne" value="npcs/gertrude"/>
-    <property name="spriteTwo" value="npcs/ghost"/>
    </properties>
   </object>
  </objectgroup>

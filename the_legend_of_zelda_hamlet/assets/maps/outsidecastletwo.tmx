@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="16" tileheight="16" nextobjectid="9">
+ <tileset firstgid="1" source="../tilesets/Castle Outside.tsx"/>
+ <tileset firstgid="49" source="../tilesets/Outside.tsx"/>
+ <layer name="Tiles Under" width="30" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC32Ty40FMQgECeqFQAiEQAjkr52Dkcolaw9obL7tbiYjoj+rz+azPPeEzYn3OQ/O9qXudXy/Y3tufAuz9l7IKfTcGsY2XpjRmsP5xMS+qVzWjvz9qCf2zfWsUl4i328f9SKmzem43714qB95cm/mbR/P7bi5M37OMcfULuPmmfviuf/tQKOm4tbGWLx3xGHeqNdLV2JM9OK/wF2kri+d/P5EHTUc1bd6Lh7j9C5wn+mbR9y8cueogbF6B4m9Hj7yu3xYO2r/BwLCevewBAAA
+  </data>
+ </layer>
+ <layer name="Tile Layer" width="30" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC93SWwrCMBCF4VEDteCloAUvBS14WaHuoH11BequXI9/QLDGTNqHFsED39NkZkiIERHz0kMfA0QYIsbIqRkPrTdWZiQVY0wwxQxzpFg4tcRD602VGVnFEiusscEWOXZOLfPQenNlxkXe2eOAo3wnVGtSd8/cA+e6yukHO22KP9tr3/Ec8JDPf9VW7H3KGlfcWtZk7xNWnkeasAQAAA==
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="1" height="1">
+  <object id="1" name="Door To Forest" type="door" x="0" y="80" width="16" height="48">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="newMap" value="forest"/>
+    <property name="pathId" type="int" value="0"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="2" name="Door to Nunnery" type="door" x="96" y="0" width="64" height="48">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="newMap" value="castletwo"/>
+    <property name="pathId" type="int" value="1"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="3" name="Door to Play" type="door" x="336" y="0" width="96" height="48">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="newMap" value="castletwo"/>
+    <property name="pathId" type="int" value="2"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities" width="1" height="1">
+  <object id="5" name="Horatio" type="npc" x="128" y="80" width="16" height="16">
+   <properties>
+    <property name="dialog" value="horatioone"/>
+    <property name="spritesheet" value="horatio"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Sections" visible="0" width="1" height="1">
+  <object id="8" name="Section" type="section" x="0" y="0" width="480" height="160"/>
+ </objectgroup>
+</map>

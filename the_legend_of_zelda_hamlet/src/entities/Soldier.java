@@ -119,12 +119,14 @@ public class Soldier extends EnemyEntity {
 				this.health = 2;
 				palettePath += "bluesoldier";
 				break;
-				
+//				
 			case 2:
 				this.health = 3;
 				palettePath += "redsoldier";
 				break;
 		}
+		
+		System.out.println(palettePath);
 		
 		// the string to the .sprites file
 		// should remain constant unless the file is moved

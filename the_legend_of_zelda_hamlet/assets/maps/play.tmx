@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="16" tileheight="16" nextobjectid="7">
+ <tileset firstgid="1" source="../tilesets/Castle.tsx"/>
+ <layer name="Tile Layer" width="16" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC7XR3w0BQRDH8XVPNMATDVAEfVAERaAAHgQNEAkKIGhBogWEEojvJSOZTO7cbi4ePsn+udlfbmbknBv/UEcDbXTUPr6b4IoFlimaaKGLntqv8JT6Mw6BLlK/w97c9TEwhuabI04p+VPMjHlA/hobYxuQn/f/ffw7X8/A9t4nX8/A9t4nP6s+K1/P0M5O5+ftX1x/w10UEMm6iFLCeewh9S+8lTIqsq6ilnD+FfHoB8ue/HwABAAA
+  </data>
+ </layer>
+ <layer name="Above" width="16" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgQABZRgYGOUYGsoERUK8xBfpHwSgYBfQFAFdazUsABAAA
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="1" height="1">
+  <object id="1" name="Door to Outside" type="door" x="112" y="224" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="0"/>
+    <property name="newMap" value="outsidecastletwo"/>
+    <property name="pathId" type="int" value="2"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="2" name="Door To Closet" type="door" x="160" y="0" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="newMap" value="closet"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities" width="1" height="1">
+  <object id="3" name="Claudius" type="npc" x="96" y="48" width="16" height="16">
+   <properties>
+    <property name="dialog" value="cladiustwo"/>
+    <property name="spritesheet" value="claudius"/>
+   </properties>
+  </object>
+  <object id="4" name="Gertrude" type="npc" x="144" y="64" width="16" height="16">
+   <properties>
+    <property name="dialog" value="gertrudetwo"/>
+    <property name="spritesheet" value="gertrude"/>
+   </properties>
+  </object>
+  <object id="5" name="King Player" type="npc" x="96" y="176" width="16" height="16">
+   <properties>
+    <property name="dialog" value="actorone"/>
+    <property name="spritesheet" value="actorone"/>
+   </properties>
+  </object>
+  <object id="6" name="Queen Player" type="npc" x="144" y="176" width="16" height="16">
+   <properties>
+    <property name="dialog" value="actortwo"/>
+    <property name="spritesheet" value="actortwo"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

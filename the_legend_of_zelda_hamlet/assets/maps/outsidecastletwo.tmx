@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="16" tileheight="16" nextobjectid="9">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="16" tileheight="16" nextobjectid="10">
+ <properties>
+  <property name="music" value="overworld"/>
+ </properties>
  <tileset firstgid="1" source="../tilesets/Castle Outside.tsx"/>
  <tileset firstgid="49" source="../tilesets/Outside.tsx"/>
  <layer name="Tiles Under" width="30" height="10">
@@ -24,7 +27,7 @@
   <object id="2" name="Door to Nunnery" type="door" x="96" y="0" width="64" height="48">
    <properties>
     <property name="direction" type="int" value="1"/>
-    <property name="newMap" value="castletwo"/>
+    <property name="newMap" value="nunnery"/>
     <property name="pathId" type="int" value="1"/>
     <property name="toNewMap" type="bool" value="true"/>
    </properties>
@@ -32,7 +35,7 @@
   <object id="3" name="Door to Play" type="door" x="336" y="0" width="96" height="48">
    <properties>
     <property name="direction" type="int" value="1"/>
-    <property name="newMap" value="castletwo"/>
+    <property name="newMap" value="nunnery"/>
     <property name="pathId" type="int" value="2"/>
     <property name="toNewMap" type="bool" value="true"/>
    </properties>
@@ -45,6 +48,7 @@
     <property name="spritesheet" value="horatio"/>
    </properties>
   </object>
+  <object id="9" name="Player Spawn" type="player" x="32" y="96" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="Sections" visible="0" width="1" height="1">
   <object id="8" name="Section" type="section" x="0" y="0" width="480" height="160"/>

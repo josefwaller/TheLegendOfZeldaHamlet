@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="26" height="16" tilewidth="16" tileheight="16" nextobjectid="14">
+ <properties>
+  <property name="music" value="castle"/>
+ </properties>
+ <tileset firstgid="1" source="../tilesets/Castle.tsx"/>
+ <layer name="Tile Layer" width="26" height="16">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC7XSyW0CQRAF0JoxB5wAywHurDGw3CEBc4IETBBAAHBAthPAsmQTAAiTgkekAAhCwOK3cItS0T2LBh+eRr1N9VeXR0ReCGOY+ChBGZ6gw8ZqbRqyhrKFGbxb1KAOz9Bn4w84RqzzA6uINhHrLGAp/jGAoTASe75hHTPPC7wKb/+Q5xO+hLklT1Af6X6J+z5BfaT7xZQnDJ1H37MFbSg4REXnOub3iZtHne9Cjy41VC091vtseXjPyV7jeSpQZTnk9wFrCZ88vOdkr/E8DWiSuYb6ZrCW9ckTVEe+jy1P0Pvw3pY9bXofW5579sEO9n+S8MjGB8s+XIFcwxk+z8+f4JfJQV7Muc7tvhSkDWf4PD9/Bvm+R4GABgAA
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="1" height="1">
+  <object id="1" name="Door To Outside" type="door" x="64" y="224" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="0"/>
+    <property name="newMap" value="outsidecastletwo"/>
+    <property name="pathId" type="int" value="1"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="4" name="Door To outside" type="door" x="272" y="224" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="0"/>
+    <property name="newMap" value="outsidecastletwo"/>
+    <property name="pathId" type="int" value="2"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="5" name="Door To Closet" type="door" x="320" y="0" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="1"/>
+    <property name="newMap" value="closet"/>
+    <property name="pathId" type="int" value="0"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities" width="1" height="1">
+  <object id="2" name="Ophelia" type="npc" x="64" y="176" width="16" height="16">
+   <properties>
+    <property name="dialog" value="ophelia"/>
+    <property name="spritesheet" value="zelda"/>
+   </properties>
+  </object>
+  <object id="8" name="Gertrude" type="npc" x="288" y="64" width="16" height="16">
+   <properties>
+    <property name="dialog" value="gertrudetwo"/>
+    <property name="spritesheet" value="gertrude"/>
+   </properties>
+  </object>
+  <object id="9" name="Claudius" type="npc" x="256" y="48" width="16" height="16">
+   <properties>
+    <property name="dialog" value="claudiustwo"/>
+    <property name="spritesheet" value="cladius"/>
+   </properties>
+  </object>
+  <object id="12" name="King Player" type="npc" x="256" y="176" width="16" height="16">
+   <properties>
+    <property name="dialog" value="actorone"/>
+    <property name="spritesheet" value="actorone"/>
+   </properties>
+  </object>
+  <object id="13" name="Queen Player" type="npc" x="304" y="176" width="16" height="16">
+   <properties>
+    <property name="dialog" value="actortwo"/>
+    <property name="spritesheet" value="actortwo"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Sections" visible="0" width="1" height="1">
+  <object id="3" name="Nunnery Section" type="section" x="0" y="96" width="160" height="160"/>
+  <object id="10" name="Play Section" type="section" x="160" y="0" width="256" height="256"/>
+ </objectgroup>
+</map>

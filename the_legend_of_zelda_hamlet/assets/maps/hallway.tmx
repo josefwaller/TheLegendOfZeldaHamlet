@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="11">
+ <properties>
+  <property name="music" value="castle"/>
+ </properties>
+ <tileset firstgid="1" source="../tilesets/Castle.tsx"/>
+ <layer name="Tile Layer" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC5vCwMAwFYqP0Ik9E4hfAPEqIF4NxDehNC3Za4H4LRDrArEeEB+kE2YGYhYgdgJiZzraKwHEkkBsAsSmdLT3OjScPYHYawDspXf8GgCx4QDErysQuzFA8tFLIH5FJ/wGGs5/gfgfnTETI8QNCoz0CWN5RoS/K4H4Cp3iFpSWK6B+pmf+haXlqwz0zb+wtAyy9wWdw/ntqL10txdUXh1lQC1XaMF/g2QvrLy6xYBaptCKDyqrQPYCAD1Q+WtgCQAA
+  </data>
+ </layer>
+ <layer name="Above" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGAWjYBSMAvJAAhAn0hAn0c0no2AUjIJRQF0AABJLEJlgCQAA
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="1" height="1">
+  <object id="1" name="Door to Closet" type="door" x="448" y="96" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="2"/>
+    <property name="newMap" value="closet"/>
+    <property name="pathId" type="int" value="1"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="2" name="Door ot Outer Balcony" type="door" x="0" y="64" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="newMap" value="balcony"/>
+    <property name="pathId" type="int" value="0"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="3" name="Door from Outer Balcony" type="door" x="0" y="192" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="newMap" value="balcony"/>
+    <property name="pathId" type="int" value="2"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="4" name="Door To Outside 3" type="door" x="432" y="192" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="2"/>
+    <property name="newMap" value="outsidecastlethree"/>
+    <property name="pathId" type="int" value="3"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities" width="1" height="1">
+  <object id="5" name="Easy Soldier 1" type="soldier" x="336" y="48" width="16" height="16">
+   <properties>
+    <property name="difficulty" type="int" value="1"/>
+    <property name="patrolx" type="int" value="1"/>
+    <property name="patroly" type="int" value="3"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="7" name="Easy Soldier 2" type="soldier" x="224" y="96" width="16" height="16">
+   <properties>
+    <property name="difficulty" type="int" value="0"/>
+    <property name="patrolx" type="int" value="5"/>
+    <property name="patroly" type="int" value="1"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="8" name="Easy Soldier 3" type="soldier" x="96" y="48" width="16" height="16">
+   <properties>
+    <property name="difficulty" type="int" value="0"/>
+    <property name="patrolx" type="int" value="2"/>
+    <property name="patroly" type="int" value="3"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="9" name="Hard Soldier" type="soldier" x="224" y="176" width="16" height="16">
+   <properties>
+    <property name="difficulty" type="int" value="2"/>
+    <property name="patroly" type="int" value="4"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Section" visible="0" width="1" height="1">
+  <object id="10" name="Section" type="section" x="0" y="0" width="480" height="320"/>
+ </objectgroup>
+</map>

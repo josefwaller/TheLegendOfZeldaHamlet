@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="16" tileheight="16" nextobjectid="9">
+ <tileset firstgid="1" source="../tilesets/Castle.tsx"/>
+ <layer name="Tile Layer" width="10" height="10">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC5vCwMAwlQCeCcQvgHgVEK/GgdcC8Vsg1gViPSDWZMSOr0PVOQGxMxHqTIDYlAh1nkDsRYQ6arsPFC4vgRgoxMAExBxAzInEfwNV9xeI/wGxGBCLA7EsEMsh8UFyTEBNAK/sSjKQAQAA
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="1" height="1">
+  <object id="1" name="Door To Play" type="door" x="64" y="128" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="0"/>
+    <property name="newMap" value="nunnery"/>
+    <property name="pathId" type="int" value="0"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="2" name="Door To Run Away" type="door" x="0" y="64" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="newMap" value="hallway"/>
+    <property name="pathId" type="int" value="1"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities" width="1" height="1">
+  <properties>
+   <property name="music" value="castle"/>
+  </properties>
+  <object id="5" name="Polonius" type="spritechanger" x="64" y="16" width="16" height="16">
+   <properties>
+    <property name="spriteOne" value="poloniusone"/>
+    <property name="spriteTwo" value="poloniustwo"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="6" name="Gertrude" type="npc" x="112" y="32" width="16" height="16">
+   <properties>
+    <property name="dialog" value="gertrudethree"/>
+    <property name="spritesheet" value="gertrude"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="8" name="Spawn" type="player" x="64" y="96" width="16" height="16">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Sections" visible="0" width="1" height="1">
+  <object id="7" name="Section" type="section" x="0" y="0" width="160" height="160"/>
+ </objectgroup>
+</map>

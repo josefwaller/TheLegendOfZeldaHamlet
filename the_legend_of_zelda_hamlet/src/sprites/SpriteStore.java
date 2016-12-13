@@ -103,57 +103,63 @@ public class SpriteStore {
 			String palettePath,
 			String spritesPath) {
 		
-		/*    Fills a 2D array with the colors that need to be replaced    */
+		if (!this.spriteSheets.containsKey(palettePath)) {
 		
-		// loads the image
-		Image palette = null;
-		try {
-			palette = new Image(palettePath + ".png", false, Image.FILTER_NEAREST);
+			/*    Fills a 2D array with the colors that need to be replaced    */
 			
-		} catch (SlickException e1) {
-			e1.printStackTrace();
-		}
-		
-		// creates an array
-		Color[][] swapColors = new Color[palette.getWidth()][2];
-		
-		// cycles through and copies the colors
-		for (int x = 0; x < swapColors.length; x++) {
-			swapColors[x][0] = palette.getColor(x, 0);
-			swapColors[x][1] = palette.getColor(x, 1);
-			
-		}
-		
-		// gets a copy of the original image
-		Image copy = this.loadSpriteSheet(imagePath, spritesPath).getImage();
-		
-		Graphics g = null;
-		
-		try {
-			g = copy.getGraphics();
-		} catch (SlickException e) {
-			
-		}
-		
-		// cycles through and replaces the colors
-		for (int x = 0; x < copy.getWidth(); x++) {
-			for (int y = 0; y < copy.getHeight(); y++) {
+			// loads the image
+			Image palette = null;
+			try {
+				palette = new Image(palettePath + ".png", false, Image.FILTER_NEAREST);
 				
-				for (int i = 0; i < swapColors.length; i++) {
-
-					if (copy.getColor(x, y).equals(swapColors[i][0])) {
-						g.setColor(swapColors[i][1]);
-						g.fillRect(x, y, 1, 1);
-					}
-				}
+			} catch (SlickException e1) {
+				e1.printStackTrace();
+			}
+			
+			// creates an array
+			Color[][] swapColors = new Color[palette.getWidth()][2];
+			
+			// cycles through and copies the colors
+			for (int x = 0; x < swapColors.length; x++) {
+				swapColors[x][0] = palette.getColor(x, 0);
+				swapColors[x][1] = palette.getColor(x, 1);
 				
 			}
+			
+			// gets a copy of the original image
+			Image org = this.loadSpriteSheet(imagePath, spritesPath).getImage();
+			Image copy = org.copy();
+			copy.setFilter(Image.FILTER_NEAREST);
+			
+			Graphics g = null;
+			
+			try {
+				g = copy.getGraphics();
+			} catch (SlickException e) {
+				
+			}
+			
+			// cycles through and replaces the colors
+			for (int x = 0; x < copy.getWidth(); x++) {
+				for (int y = 0; y < copy.getHeight(); y++) {
+					
+					for (int i = 0; i < swapColors.length; i++) {
+	
+						if (copy.getColor(x, y).equals(swapColors[i][0])) {
+							g.setColor(swapColors[i][1]);
+							g.fillRect(x, y, 1, 1);
+						}
+					}
+					
+				}
+			}
+			g.flush();
+			
+			// creates a new spritesheet object
+			this.spriteSheets.put(palettePath, new SpriteSheet(copy, spritesPath));
+		
 		}
-		g.flush();
-		
-		// creates a new spritesheet object
-		this.spriteSheets.put(palettePath, new SpriteSheet(copy, spritesPath));
-		
+			
 		return this.spriteSheets.get(palettePath);
 	}
 	

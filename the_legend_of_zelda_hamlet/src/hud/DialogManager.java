@@ -149,7 +149,7 @@ public class DialogManager {
 	 * Returns whether the NPC or sign or whatever is done talking
 	 */
 	public boolean isDone() {
-		return (this.dialogIndex > this.dialogLines.size());
+		return (this.dialogIndex >= this.dialogLines.size());
 	}
 	
 	/*

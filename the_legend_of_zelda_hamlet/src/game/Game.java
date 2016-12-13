@@ -177,16 +177,11 @@ public class Game extends BasicGame {
 	 */
 	public void init(GameContainer container) {
 		
-		this.currentMap = "castleone.tmx";
-		
-		// loads the map
-		this.loadMap("assets/maps/" + this.currentMap);
-		
 		// the width one tile should be
 		int finalTileWidth = (this.windowW / this.widthInTiles);
 		
 		// the conversion factor between the tiledmap tile width (16) and the final width
-		double conversion = this.map.getTileWidth() / (double)finalTileWidth;
+		double conversion = 16.0 / (double)finalTileWidth;
 		
 		// the width and height used for positioning
 		this.w = (int) (this.windowW * conversion);
@@ -194,14 +189,11 @@ public class Game extends BasicGame {
 		
 		// the hud
 		this.hud = new HeadsUpDisplay(this.windowW, this.windowH, this);
-	
-		// loads the objects
-		this.loadObjects();
-		
-		this.currentSection = this.getNewSection();
 		
 		// loads the font
 		this.deathFont = HeadsUpDisplay.loadFont("RetGanon.ttf");
+		
+		this.hud.showMainMenu();
 	}
 	
 	/*
@@ -213,7 +205,7 @@ public class Game extends BasicGame {
 		// gets input
 		Input input = container.getInput();
 		
-		if (!this.isPaused) {
+		if (!this.isPaused && !this.hud.showingMainMenu()) {
 
 			if (this.playerIsDead) {
 				
@@ -295,110 +287,116 @@ public class Game extends BasicGame {
 	*/
 	public void render (GameContainer container, Graphics g) {
 		
-		// the factor to scale the map to
-		int factor = (int) (this.windowW / (double)this.w);
-		g.scale(factor, factor);
-		
-		if (!isPlayingTransition) {
+		if (!this.hud.showingMainMenu()) {
+
+			// the factor to scale the map to
+			int factor = (int) (this.windowW / (double)this.w);
+			g.scale(factor, factor);
 			
-			// the current section
-			int[] section = this.sections.get(this.currentSection);
-			
-			// the x, y, w, and h or the section
-			int sectionX = section[0];
-			int sectionY = section[1];
-			int sectionW = section[2];
-			int sectionH = section[3];
-			
-			// gets the amount to move the screen over to center on the player
-			this.cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (this.w / 2));
-			this.cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (this.w / 2));
-			
-			// checks that the camera has not gone too far left/right
-			if (this.cameraX < sectionX) {
-				this.cameraX = sectionX;
+			if (!isPlayingTransition) {
 				
-			} else if (this.cameraX - sectionX + this.w > sectionW) {
-				this.cameraX = sectionX + (sectionW - this.w);
+				// the current section
+				int[] section = this.sections.get(this.currentSection);
+				
+				// the x, y, w, and h or the section
+				int sectionX = section[0];
+				int sectionY = section[1];
+				int sectionW = section[2];
+				int sectionH = section[3];
+				
+				// gets the amount to move the screen over to center on the player
+				this.cameraX = (int)((this.player.getX() + this.player.getW() / 2) - (this.w / 2));
+				this.cameraY = (int)((this.player.getY() + this.player.getH() / 2) - (this.w / 2));
+				
+				// checks that the camera has not gone too far left/right
+				if (this.cameraX < sectionX) {
+					this.cameraX = sectionX;
+					
+				} else if (this.cameraX - sectionX + this.w > sectionW) {
+					this.cameraX = sectionX + (sectionW - this.w);
+				}
+				
+				// checks the camera has not gone too far up/down
+				if (this.cameraY < sectionY) {
+					this.cameraY = sectionY;
+				} else if (this.cameraY + this.h - sectionY > sectionH) {
+					this.cameraY = sectionY + sectionH - this.h;
+				}
+				
+				// moves the camera over to center the player
+				g.translate(
+					- this.cameraX, 
+					- this.cameraY
+				);
+				
+			} else {
+				
+				// the percentage of the transition that is done
+				double percent = (System.currentTimeMillis() - this.transStartTime) / (double)this.transDuration;
+				
+				// gets the camera position
+				int camX = (int) (this.camStartX + (this.camEndX - this.camStartX) * percent);
+				int camY = (int) (this.camStartY + (this.camEndY - this.camStartY) * percent);
+				
+				// moves the camera
+				g.translate(-camX, -camY);
+				
 			}
 			
-			// checks the camera has not gone too far up/down
-			if (this.cameraY < sectionY) {
-				this.cameraY = sectionY;
-			} else if (this.cameraY + this.h - sectionY > sectionH) {
-				this.cameraY = sectionY + sectionH - this.h;
-			}
-			
-			// moves the camera over to center the player
-			g.translate(
-				- this.cameraX, 
-				- this.cameraY
-			);
-			
-		} else {
-			
-			// the percentage of the transition that is done
-			double percent = (System.currentTimeMillis() - this.transStartTime) / (double)this.transDuration;
-			
-			// gets the camera position
-			int camX = (int) (this.camStartX + (this.camEndX - this.camStartX) * percent);
-			int camY = (int) (this.camStartY + (this.camEndY - this.camStartY) * percent);
-			
-			// moves the camera
-			g.translate(-camX, -camY);
-			
-		}
-		
-		if (!this.playerIsDying) {
-
-			
-			// draws the map
-			this.map.render(0, 0);
-			
-			if (!this.isPlayingTransition) {
+			if (!this.playerIsDying) {
 
 				
-				// draws any objects
-				for (int i = 0; i < this.objects.size(); i++) {
-					this.objects.get(i).render(g);
-				}
+				// draws the map
+				this.map.render(0, 0);
 				
-				// renders animations
-				
-				for (int i = 0; i < this.animations.size(); i++) {
+				if (!this.isPlayingTransition) {
+
 					
-					this.animations.get(i).render(g);
-				}
-				
-				// renders consumables
-				for (int i = 0; i < this.consumables.size(); i++) {
+					// draws any objects
+					for (int i = 0; i < this.objects.size(); i++) {
+						this.objects.get(i).render(g);
+					}
 					
-					this.consumables.get(i).render(g);
-				
-				}
+					// renders animations
+					
+					for (int i = 0; i < this.animations.size(); i++) {
+						
+						this.animations.get(i).render(g);
+					}
+					
+					// renders consumables
+					for (int i = 0; i < this.consumables.size(); i++) {
+						
+						this.consumables.get(i).render(g);
+					
+					}
 
-				// renders the player
+					// renders the player
+					this.player.render(g);
+					
+					// renders enemies
+					for (int i = 0; i < this.enemies.size(); i++){
+						this.enemies.get(i).render(g);;
+					}
+				}
+				
+				// draws the hud
+				this.hud.render(g);
+				
+			} else {
+
+				g.setColor(Color.red);
+				
+				g.fillRect(this.cameraX, this.cameraY, this.w, this.h);
+				
 				this.player.render(g);
 				
-				// renders enemies
-				for (int i = 0; i < this.enemies.size(); i++){
-					this.enemies.get(i).render(g);;
-				}
+				this.hud.render(g);
+				
 			}
-			
-			// draws the hud
-			this.hud.render(g);
-			
 		} else {
-
-			g.setColor(Color.red);
-			
-			g.fillRect(this.cameraX, this.cameraY, this.w, this.h);
-			
-			this.player.render(g);
 			
 			this.hud.render(g);
-			
 		}
 
 	}
@@ -583,6 +581,22 @@ public class Game extends BasicGame {
 		
 	}
 
+	/*
+	 * Starts a new game
+	 */
+	public void startGame() {
+
+		this.currentMap = "castleone.tmx";
+		
+		// loads the map
+		this.loadMap("assets/maps/" + this.currentMap);
+	
+		// loads the objects
+		this.loadObjects();
+		
+		this.currentSection = this.getNewSection();
+	}
+	
 	/*
 	 * Starts a transition to the next section
 	 */

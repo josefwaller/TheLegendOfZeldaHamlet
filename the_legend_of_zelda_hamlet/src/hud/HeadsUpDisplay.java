@@ -34,6 +34,8 @@ public class HeadsUpDisplay {
 	
 	private boolean showingGameOver = false;
 	
+	private boolean showingMainMenu = true;
+	
 	// whether it is fading out and/or fading in
 	private boolean fadingOut;
 	private boolean fadingIn;
@@ -60,6 +62,9 @@ public class HeadsUpDisplay {
 	// the size of the hearts
 	private int heartS = 40;
 	
+	// the main menu
+	private MainMenu mainMenu;
+	
 	/*
 	 * Constructor
 	 * 
@@ -70,6 +75,8 @@ public class HeadsUpDisplay {
 		// sets width and height
 		this.w = w;
 		this.h = h;
+		
+		this.mainMenu = new MainMenu(this.w, this.h);
 		
 		this.game = g;
 		
@@ -89,7 +96,14 @@ public class HeadsUpDisplay {
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			
-			this.dialog.updateText();
+			if (this.showingDialog) {
+				this.dialog.updateText();
+			}
+			
+			if (this.showingMainMenu) {
+				this.showingMainMenu = false;
+				this.game.startGame();
+			}
 			
 		}
 		
@@ -133,53 +147,60 @@ public class HeadsUpDisplay {
 		// resets scale to stop the font being blurry
 		g.resetTransform();
 
-		// draws dialog if there is any
-		if (this.showingDialog) {
+		if (this.showingMainMenu) {
 			
-			this.dialog.render(g);
-		} else if (this.showingGameOver) {
+			this.mainMenu.render(g);
 			
-			String gameOver = "Game Over";
-			String message = "Press SPACE to continue.";
-			
-			this.drawBorderedText(
-				this.gameOverFontBig, 
-				Color.white, 
-				Color.blue, 
-				(this.w - this.gameOverFontBig.getWidth(gameOver)) / 2,
-				this.h * 1/4, 
-				2, 
-				gameOver);
-			
-			this.drawBorderedText(
-				this.gameOverFontSmall, 
-				Color.white, 
-				Color.blue, 
-				(this.w - this.gameOverFontSmall.getWidth(message)) / 2,
-				this.h * 1/2, 
-				2, 
-				message);
 		} else {
-			
-			// draws the health
-			
-			g.setColor(Color.black);
-			g.fillRect(0, 0, this.w, 2 * this.heartY + this.heartS);
-			
-			// draws the hearts
-			int hearts = this.game.getPlayer().getHealth();
-			
-			for (int i = 0; i < hearts; i++) {
+
+			// draws dialog if there is any
+			if (this.showingDialog) {
 				
-				this.heart.draw(
-					this.heartX + i * (this.heartS + this.heartX),
-					this.heartY,
-					this.heartS,
-					this.heartS);
+				this.dialog.render(g);
+			} else if (this.showingGameOver) {
+				
+				String gameOver = "Game Over";
+				String message = "Press SPACE to continue.";
+				
+				this.drawBorderedText(
+					this.gameOverFontBig, 
+					Color.white, 
+					Color.blue, 
+					(this.w - this.gameOverFontBig.getWidth(gameOver)) / 2,
+					this.h * 1/4, 
+					2, 
+					gameOver);
+				
+				this.drawBorderedText(
+					this.gameOverFontSmall, 
+					Color.white, 
+					Color.blue, 
+					(this.w - this.gameOverFontSmall.getWidth(message)) / 2,
+					this.h * 1/2, 
+					2, 
+					message);
+			} else {
+				
+				// draws the health
+				
+				g.setColor(Color.black);
+				g.fillRect(0, 0, this.w, 2 * this.heartY + this.heartS);
+				
+				// draws the hearts
+				int hearts = this.game.getPlayer().getHealth();
+				
+				for (int i = 0; i < hearts; i++) {
+					
+					this.heart.draw(
+						this.heartX + i * (this.heartS + this.heartX),
+						this.heartY,
+						this.heartS,
+						this.heartS);
+					
+				}
+				
 				
 			}
-			
-			
 		}
 		
 		if (this.fadeAlpha >= 0) {
@@ -204,6 +225,13 @@ public class HeadsUpDisplay {
 		this.showingGameOver = false;
 	}
 	
+	public void showMainMenu() {
+		this.showingMainMenu = true;
+	}
+	
+	public boolean showingMainMenu() {
+		return this.showingMainMenu;
+	}
 	/*
 	 * Slowly fades out
 	 */

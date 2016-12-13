@@ -55,7 +55,7 @@ public abstract class DynamicEntity extends Entity {
 				break;
 				
 			case Entity.DIR_RIGHT:
-				x = (int) (this.x + this.h + range);
+				x = (int) (this.x + this.w + range);
 				break;
 		}
 		

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="7">
+ <properties>
+  <property name="music" value="boss"/>
+ </properties>
+ <tileset firstgid="1" source="../tilesets/Castle.tsx"/>
+ <layer name="Tile Layer" width="30" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC7vKwMBwdQTjKUA8FYq1gViHCmwQnknA3hdAvAqIVwOxAxA7UoG9FojfErDXBIhNgViTkXr4OhH2egKx1wDYqwvEekj2tgHZ7WTgDiQzmIFsFgL2OgGxM5Ke2UD2HDLwXCQzJIBsSSLS1RUq20tMOKOnK3rZi56u6GXvQIUzenqmhr3kpOcNQPZGMvAmBsrSM73KjYG09yUQvwJioBYGJiqw3xBh718g/gfFYkAsTgU2CDMx0rb+HuwYAM026N9gCQAA
+  </data>
+ </layer>
+ <objectgroup name="Doors" width="1" height="1">
+  <object id="1" name="Door Outside" type="door" x="64" y="144" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="newMap" value="outsidecastlethree"/>
+    <property name="pathId" type="int" value="0"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="6" name="Shortcut Door" type="door" x="64" y="64" width="32" height="32">
+   <properties>
+    <property name="direction" type="int" value="3"/>
+    <property name="newMap" value="outsidecastleone"/>
+    <property name="pathId" type="int" value="1"/>
+    <property name="toNewMap" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Entities" width="1" height="1">
+  <object id="3" name="Laertes" type="macesoldier" x="256" y="144" width="16" height="16">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Section" visible="0" width="1" height="1">
+  <object id="5" name="Section" type="section" x="64" y="32" width="368" height="256"/>
+ </objectgroup>
+</map>

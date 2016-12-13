@@ -50,7 +50,7 @@ public class Player extends AnimatedEntity {
 	private long attackTime;
 	
 	// the range at which the player can attack enemies
-	private int attackRange = 5;
+	private int attackRange = 8;
 	
 	// the range at which the player can interact with objects
 	private int interactRange = 10;
@@ -356,8 +356,8 @@ public class Player extends AnimatedEntity {
 			super.render(g);
 			
 			g.fillRect(
-				this.getCoordsInFront(this.interactRange)[0],
-				this.getCoordsInFront(this.interactRange)[1],
+				this.getCoordsInFront(this.attackRange)[0],
+				this.getCoordsInFront(this.attackRange)[1],
 				2,
 				2
 			);

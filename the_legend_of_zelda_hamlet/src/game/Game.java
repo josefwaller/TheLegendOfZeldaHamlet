@@ -608,6 +608,10 @@ public class Game extends BasicGame {
 	 */
 	public void startGame() {
 
+		// prevents anything from happening while the game is loading
+		this.isPaused = true;
+		
+		// sets the current map to the first one
 		this.currentMap = "castleone.tmx";
 		
 		// loads the map
@@ -616,7 +620,11 @@ public class Game extends BasicGame {
 		// loads the objects
 		this.loadObjects();
 		
+		// gets the current section
 		this.currentSection = this.getNewSection();
+		
+		// unpauses
+		this.isPaused = false;
 	}
 	
 	/*

@@ -23,4 +23,6 @@ Shakespeare's *Hamlet* using *The Legend of Zelda: A Link to the Past* assets. M
 	
 ### Production
 
-Currently has no production .jar or .exe. Is currently planned for release.
+`game.jar`
+
+Run in the current directory.

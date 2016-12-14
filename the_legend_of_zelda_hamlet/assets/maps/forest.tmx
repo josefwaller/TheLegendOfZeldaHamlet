@@ -22,7 +22,7 @@
   </object>
   <object id="6" name="To Castle Two" type="door" x="464" y="320" width="16" height="32">
    <properties>
-    <property name="direction" type="int" value="3"/>
+    <property name="direction" type="int" value="2"/>
     <property name="newMap" value="outsidecastletwo"/>
     <property name="pathId" type="int" value="0"/>
     <property name="toNewMap" type="bool" value="true"/>

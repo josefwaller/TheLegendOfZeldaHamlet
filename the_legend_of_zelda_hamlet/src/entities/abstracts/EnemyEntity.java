@@ -184,6 +184,7 @@ public abstract class EnemyEntity extends MovingEntity {
 		
 		// checks if the enemy is done flinching
 		if (since >= this.flinchDuration) {
+			
 			this.state = EnemyEntity.STATE_IDLE;
 			super.setFilter(1, 1, 1);
 			

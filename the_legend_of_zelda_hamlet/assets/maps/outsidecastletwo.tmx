@@ -44,7 +44,7 @@
  <objectgroup name="Entities" width="1" height="1">
   <object id="5" name="Horatio" type="npc" x="128" y="80" width="16" height="16">
    <properties>
-    <property name="dialog" value="horatioone"/>
+    <property name="dialog" value="horatiotwo"/>
     <property name="spritesheet" value="horatio"/>
    </properties>
   </object>

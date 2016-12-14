@@ -958,7 +958,7 @@ public class Game extends BasicGame {
 	 * Returns whether to draw hitboxes and such when in debug mode
 	 */
 	public boolean isDebug() {
-		return true;
+		return false;
 	}
 	
 	/*

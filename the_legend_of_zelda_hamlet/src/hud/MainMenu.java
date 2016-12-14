@@ -47,7 +47,7 @@ public class MainMenu {
 	private int logoDuration = 500;
 	
 	private int swordDelay = 1000;
-	private int swordDuration = 200;
+	private int swordDuration = 100;
 	
 	private int flashDuration = 300;
 	
@@ -58,6 +58,8 @@ public class MainMenu {
 	// the logo
 	private Image logo;
 	private Image logoWithSword;
+	
+	private Sound swordSound;
 	
 	// the sword
 	private Image sword;
@@ -86,7 +88,8 @@ public class MainMenu {
 		this.sword = SpriteStore.get().loadSprite("assets/images/mainmenusword.png")
 				.getScaledCopy(3f);
 		
-		s = SoundStore.get().getSound("assets/music/wav/intro.wav");
+		this.swordSound = SoundStore.get().getSound("assets/sfx/menusword.wav");
+		this.s = SoundStore.get().getSound("assets/music/wav/intro.wav");
 		
 		this.start();
 	}
@@ -173,12 +176,13 @@ public class MainMenu {
 					percent = (since - this.swordDelay) / (double)this.swordDuration;
 					
 					this.sword.drawCentered(
-						this.w * 7 / 22f - 10,
-						(this.h / 2) * (float)percent);
+						this.w * 7 / 22f - 20,
+						(this.h / 2 - this.sword.getHeight() / 2) * (float)percent);
 					
 					if (percent >= 1) {
 						this.stageTime = System.currentTimeMillis();
 						this.stage = MainMenu.STAGE_FLASH;
+						this.swordSound.play();
 					}
 				}
 				

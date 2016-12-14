@@ -145,7 +145,7 @@ public class MaceSoldier extends EnemyEntity {
 		this.addHitbox(1,  0,  13,  22);
 		
 		// sets health
-		this.health = 1;
+		this.health = 10;
 		
 		this.lastAttackTime = System.currentTimeMillis();
 	}

@@ -44,7 +44,7 @@ public class HeadsUpDisplay {
 	private long fadeTime;
 	
 	// the time it takes to fade in/out
-	private int fadeDuration = 1000;
+	private int fadeDuration = 400;
 	
 	// the current alpha of the black overlay
 	private double fadeAlpha = 0.0;

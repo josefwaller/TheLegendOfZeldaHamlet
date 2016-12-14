@@ -86,6 +86,8 @@ public class Player extends AnimatedEntity {
 	private Animation flinchSide;
 	private Animation flinchDown;
 	
+	private Animation win;
+	
 	// the death animations
 	private Animation spin;
 	private Animation death;
@@ -181,6 +183,8 @@ public class Player extends AnimatedEntity {
 		this.flinchDown = a.getAnimation(sheet, "damagedown");
 		this.spin = a.getAnimation(sheet, "spin");
 		this.death = a.getAnimation(sheet, "death");
+		
+		this.win = a.getAnimation(sheet, "win");
 		
 		// loads sounds
 		this.hurtSound = SoundStore.get().getSound("assets/sfx/playerhit.wav");
@@ -362,6 +366,15 @@ public class Player extends AnimatedEntity {
 				2
 			);
 		}
+	}
+	
+	/*
+	 * Plays the winning animation
+	 */
+	public void onWin() {
+		this.setAnim(this.win, 0);
+		this.loop = false;
+		this.animUpdate();
 	}
 	
 	/*

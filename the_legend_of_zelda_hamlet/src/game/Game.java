@@ -158,6 +158,20 @@ public class Game extends BasicGame {
 	// whether the game is paused or not
 	private boolean isPaused = false;
 	
+	// whether the player has won
+	private boolean hasWon = false;
+	
+	// the time that the player won
+	private long winTime;
+	
+	// the time it takes before fading to credits after winning
+	private int winDuration = 10000;
+	
+	// whether the game is starting to the credits
+	private boolean startingCredits = false;
+	
+	// whether the game is currently laying the credits
+	private boolean playingCredits = false;
 	/*
 	Returns a new Game
 	Sets up window and game
@@ -205,7 +219,7 @@ public class Game extends BasicGame {
 		// gets input
 		Input input = container.getInput();
 		
-		if (!this.isPaused && !this.hud.showingMainMenu()) {
+		if (!this.isPaused && !this.hud.showingMainMenu() && !this.hasWon) {
 
 			if (this.playerIsDead) {
 				
@@ -276,6 +290,14 @@ public class Game extends BasicGame {
 					this.hud.stopDialog();
 				}
 			}
+		} else if (this.hasWon) {
+			
+			if (System.currentTimeMillis() - this.winTime >= this.winDuration) {
+				this.hud.fadeOut();
+				this.hasWon = false;
+				this.startingCredits = true;
+			}
+			
 		}
 		
 		this.hud.update(input);
@@ -598,6 +620,20 @@ public class Game extends BasicGame {
 	}
 	
 	/*
+	 * Shows the end credits
+	 */
+	public void onWin() {
+		
+		this.isPaused = true;
+		SoundStore.get().stopMusic();
+		SoundStore.get().getSound("assets/music/wav/victory.wav").play();
+		this.player.onWin();
+		
+		this.winTime = System.currentTimeMillis();
+		this.hasWon = true;
+		
+	}
+	/*
 	 * Starts a transition to the next section
 	 */
 	public void startTransition(int pathId, Door startingDoor) {
@@ -657,17 +693,37 @@ public class Game extends BasicGame {
 	 * Fades the screen in or out
 	 */
 	public void onFinishedFadeIn() {
-		this.isPaused = false;
+		if (!this.startingCredits) {
+			this.isPaused = false;
+		}
 	}
 	public void onFinishedFadeOut() {
+		
+		if (this.playingCredits) {
+			
+			this.playingCredits = false;
+			this.startingCredits = false;
 
-		// loads the map
-		this.loadMap("assets/maps/" + this.currentMap);
-		this.loadObjects();
-		
-		this.spawnPlayerAtDoor(this.newPathId);
-		
-		this.hud.fadeIn();
+			this.startGame();
+			this.hud.fadeIn();
+			
+		} else if (this.startingCredits) {
+			
+			this.isPaused = true;
+			this.playingCredits = true;
+			this.hud.startCredits();
+			this.hud.fadeIn();
+			
+		} else {
+
+			// loads the map
+			this.loadMap("assets/maps/" + this.currentMap);
+			this.loadObjects();
+			
+			this.spawnPlayerAtDoor(this.newPathId);
+			
+			this.hud.fadeIn();
+		}
 	}
 	
 	/*

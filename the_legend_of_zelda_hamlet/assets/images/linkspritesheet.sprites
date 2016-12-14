@@ -124,6 +124,7 @@
         <spr name="1" x="224" y="136" w="24" h="21"/>
         <spr name="2" x="252" y="136" w="24" h="15"/>
       </dir>
+      <spr name="Victory" x="205" y="161" w="20" h="27"/>
     </dir>
   </definitions>
 </img>

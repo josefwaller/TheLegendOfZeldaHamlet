@@ -65,13 +65,22 @@ public class HeadsUpDisplay {
 	// the main menu
 	private MainMenu mainMenu;
 	
+	// whether the HuD is showing credits
+	private boolean isShowingCredits = false;
+	
+	private UnicodeFont creditFont;
+	private String creditText = "The End";
+	private long creditTime;
+	private int creditDuration = 2000;
+	
+	
 	/*
 	 * Constructor
 	 * 
 	 * Sets up Heads up display
 	 */
 	public HeadsUpDisplay(int w, int h, Game g) {
-		
+
 		// sets width and height
 		this.w = w;
 		this.h = h;
@@ -85,6 +94,7 @@ public class HeadsUpDisplay {
 
 		this.gameOverFontBig = HeadsUpDisplay.loadFont("RetGanon.ttf", 70);
 		this.gameOverFontSmall = HeadsUpDisplay.loadFont("RetGanon.ttf", 45);
+		this.creditFont = HeadsUpDisplay.loadFont("RetGanon.ttf", 60);
 		
 		this.heart = SpriteStore.get().loadSprite("assets/images/heart.png");
 	}
@@ -93,6 +103,15 @@ public class HeadsUpDisplay {
 	 * Checks for input that effects the HUD
 	 */
 	public void update(Input input ) {
+		
+		if (this.isShowingCredits) {
+			if (System.currentTimeMillis() - this.creditTime >= this.creditDuration) {
+				this.isShowingCredits = false;
+				
+				this.showingMainMenu = true;
+				this.mainMenu.start();
+			}
+		}
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			
@@ -150,6 +169,19 @@ public class HeadsUpDisplay {
 		if (this.showingMainMenu) {
 			
 			this.mainMenu.render(g);
+			
+		} else if (this.isShowingCredits) {
+			
+			g.setColor(Color.black);
+			g.fillRect(0, 0, this.w, this.h);
+			
+			
+			g.setFont(this.creditFont);
+			g.setColor(Color.white);
+			
+			g.drawString(this.creditText, 
+					(this.w - this.creditFont.getWidth(this.creditText)) / 2,
+					(this.h - this.creditFont.getHeight(this.creditText)) / 2);
 			
 		} else {
 
@@ -223,6 +255,15 @@ public class HeadsUpDisplay {
 	 */
 	public void hideGameOver() {
 		this.showingGameOver = false;
+	}
+	
+	/*
+	 * Starts the credits
+	 */
+	public void startCredits() {
+		
+		this.isShowingCredits = true;
+		this.creditTime = System.currentTimeMillis();
 	}
 	
 	public void showMainMenu() {

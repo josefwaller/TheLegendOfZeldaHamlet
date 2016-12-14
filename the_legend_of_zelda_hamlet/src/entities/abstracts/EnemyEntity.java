@@ -151,17 +151,28 @@ public abstract class EnemyEntity extends MovingEntity {
 	protected void die() {
 		
 		if (System.currentTimeMillis() - this.deathTime >= this.deathDuration) {
-			
-			this.game.addConsumable(new Heart(
-					(int)this.x + this.w / 2, 
-					(int)this.y + this.h / 2, 
-					this.game));
-			
-			this.game.removeEnemy(this);
+		
+			this.onDeath();
 		}
 		
 		this.animUpdate();
 	}
+	
+	/*
+	 * Code to execute on death
+	 */
+	protected void onDeath() {
+
+		// spawns a heart
+		this.game.addConsumable(new Heart(
+				(int)this.x + this.w / 2, 
+				(int)this.y + this.h / 2, 
+				this.game));
+		
+		// removes self
+		this.game.removeEnemy(this);
+	}
+	
 	/*
 	 * Default flinch procedure
 	 * The enemy is hit away from the player and flashes

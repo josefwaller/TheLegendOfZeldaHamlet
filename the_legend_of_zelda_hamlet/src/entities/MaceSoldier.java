@@ -145,7 +145,7 @@ public class MaceSoldier extends EnemyEntity {
 		this.addHitbox(1,  0,  13,  22);
 		
 		// sets health
-		this.health = 10;
+		this.health = 1;
 		
 		this.lastAttackTime = System.currentTimeMillis();
 	}
@@ -249,6 +249,16 @@ public class MaceSoldier extends EnemyEntity {
 			g.setColor(Color.white);
 			g.drawRect(this.x + this.handX + this.ballX, this.y + this.handY + this.ballY, this.ballS, this.ballS);
 		}
+	}
+	
+	/*
+	 * Tells Game to end the game if the boss dies
+	 */
+	public void onDeath() {
+		
+		super.onDeath();
+		this.game.onWin();
+		
 	}
 	
 	/*

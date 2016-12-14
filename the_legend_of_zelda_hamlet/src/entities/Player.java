@@ -359,12 +359,15 @@ public class Player extends AnimatedEntity {
 
 			super.render(g);
 			
-			g.fillRect(
-				this.getCoordsInFront(this.attackRange)[0],
-				this.getCoordsInFront(this.attackRange)[1],
-				2,
-				2
-			);
+			if (this.game.isDebug()) {
+
+				g.fillRect(
+					this.getCoordsInFront(this.attackRange)[0],
+					this.getCoordsInFront(this.attackRange)[1],
+					2,
+					2
+				);
+			}
 		}
 	}
 	

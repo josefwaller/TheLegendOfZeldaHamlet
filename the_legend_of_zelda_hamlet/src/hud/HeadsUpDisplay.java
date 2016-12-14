@@ -121,7 +121,6 @@ public class HeadsUpDisplay {
 			
 			if (this.showingMainMenu) {
 				this.fadeOut();
-				this.game.startGame();
 			}
 			
 		}

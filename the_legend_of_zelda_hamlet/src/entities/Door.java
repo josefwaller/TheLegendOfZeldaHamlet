@@ -5,9 +5,13 @@ import org.newdawn.slick.Graphics;
 
 import entities.abstracts.CollisionEntity;
 import entities.abstracts.Entity;
-import sprites.SpriteStore;
 import game.Game;
 
+/*
+ * A door the player can walk through
+ * It will either take him to a new area 
+ * Or a different room in the .tmx file
+ */
 public class Door extends CollisionEntity {
 	
 	// the path ID for the door

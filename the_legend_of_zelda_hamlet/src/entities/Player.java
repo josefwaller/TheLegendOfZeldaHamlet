@@ -6,14 +6,12 @@ import music.SoundStore;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Sound;
 
 import entities.abstracts.AnimatedEntity;
 import entities.abstracts.EnemyEntity;
 import entities.abstracts.Entity;
 import entities.abstracts.InteractiveEntity;
-import entities.abstracts.StaticEntity;
 import entities.abstracts.ThrowableEntity;
 import sprites.AnimationStore;
 import sprites.Animation;
@@ -241,9 +239,11 @@ public class Player extends AnimatedEntity {
 			
 			case Player.STATE_ATTACKING:
 				
+				// checks if the player is done attacking
 				if (System.currentTimeMillis() - this.attackTime >= this.attackDuration) {
 					this.state = Player.STATE_IDLE;
 				}
+				// checks if it hits anything
 				this.checkForAttack();
 				
 				this.animUpdate();
@@ -310,6 +310,7 @@ public class Player extends AnimatedEntity {
 					
 				} else {
 					
+					// sets standing animation
 					switch (this.direction) {
 						case Entity.DIR_DOWN:
 							this.setAnim(this.standDownShield, this.runDuration);
@@ -375,6 +376,8 @@ public class Player extends AnimatedEntity {
 	 * Plays the winning animation
 	 */
 	public void onWin() {
+		
+		// sets animation
 		this.setAnim(this.win, 0);
 		this.loop = false;
 		this.animUpdate();
@@ -385,14 +388,19 @@ public class Player extends AnimatedEntity {
 	 */
 	private void die() {
 		
+		// checks if the player is done spinning
 		if (System.currentTimeMillis() - this.hitTime > this.deathDuration) {
+			
+			/// plays death animation
 			this.loop = false;
 			this.setAnim(this.death, 100);
 			
+			// notifies game
 			this.game.onPlayerDeath();
 			
 		} else {
 			
+			// sets spin animation
 			this.setAnim(this.spin, 100);
 		}
 		
@@ -404,6 +412,7 @@ public class Player extends AnimatedEntity {
 	 */
 	private void flinch(long delta) {
 	
+		// checks if the player is done flinching
 		if (System.currentTimeMillis() - this.hitTime > this.flinchDuration) {
 			this.state = Player.STATE_IDLE;
 			

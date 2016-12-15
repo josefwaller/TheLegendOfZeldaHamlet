@@ -3,10 +3,17 @@ package entities;
 import entities.abstracts.InteractiveEntity;
 import game.Game;
 
+/*
+ * An NPC the player can talk to
+ */
 public class NPC extends InteractiveEntity {
 	
+	// the dialog the NPC will say
 	String dialog;
 
+	/*
+	 * Constructor
+	 */
 	public NPC (int x, int y, String spriteSheet, String dialog, Game g) {
 		
 		// sets position
@@ -20,11 +27,21 @@ public class NPC extends InteractiveEntity {
 
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see entities.abstracts.StaticEntity#update()
+	 */
 	public void update() {
 		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see entities.abstracts.InteractiveEntity#onPlayerInteract()
+	 */
 	public void onPlayerInteract() {
+		
+		// starts new dialog
 		this.game.startDialog(this.dialog);
 	}
 	

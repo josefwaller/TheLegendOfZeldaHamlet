@@ -41,11 +41,6 @@ public class Soldier extends EnemyEntity {
 	private Animation runUp;
 	private Animation runSide;
 	private Animation runDown;
-
-	// its attacking animations
-	private Animation attackUp;
-	private Animation attackSide;
-	private Animation attackDown;
 	
 	// its looking animations
 	private Animation lookUp;
@@ -155,9 +150,6 @@ public class Soldier extends EnemyEntity {
 		this.runUp = a.getAnimation(palettePath, "runup");
 		this.runSide = a.getAnimation(palettePath, "runside");
 		this.runDown = a.getAnimation(palettePath, "rundown");
-		this.attackUp = a.getAnimation(palettePath, "attackup");
-		this.attackSide = a.getAnimation(palettePath, "attackside");
-		this.attackDown = a.getAnimation(palettePath, "attackdown");
 		this.lookUp = a.getAnimation(palettePath, "lookup");
 		this.lookSide = a.getAnimation(palettePath, "lookside");
 		this.lookDown = a.getAnimation(palettePath, "lookdown");

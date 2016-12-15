@@ -9,6 +9,9 @@ import game.Game;
  */
 public class Heart extends CollisionEntity {
 
+	/*
+	 * Constructors
+	 */
 	public Heart(int x, int y, Game g) {
 		
 		super(x, y, 10, g);
@@ -16,6 +19,9 @@ public class Heart extends CollisionEntity {
 		this.addHitbox(0, 0, this.w, this.h);
 	}
 
+	/*
+	 * Causes the player to gain a heart
+	 */
 	public void onPlayerCollide() {
 		
 		this.game.getPlayer().onHeart();

@@ -1,10 +1,6 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
 import sprites.Animation;
 import sprites.AnimationStore;

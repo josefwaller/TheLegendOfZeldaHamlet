@@ -150,6 +150,10 @@ public class MaceSoldier extends EnemyEntity {
 		this.lastAttackTime = System.currentTimeMillis();
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see entities.abstracts.EnemyEntity#update(int)
+	 */
 	public void update(int delta) {
 		
 		// sets hand direction
@@ -177,6 +181,7 @@ public class MaceSoldier extends EnemyEntity {
 				this.handY = 8;
 		}
 		
+		// behaves differently depending on which state it is in
 		switch (this.state) {
 		
 			case EnemyEntity.STATE_FLINCHING:
@@ -210,6 +215,7 @@ public class MaceSoldier extends EnemyEntity {
 				break;
 		}
 		
+		// updates animation
 		this.animUpdate();
 
 
@@ -220,6 +226,8 @@ public class MaceSoldier extends EnemyEntity {
 			p.onHit();
 		}
 		this.checkForBallCollision();
+		
+		// updates hitboxesa
 		this.updateHitboxes();
 	}
 
